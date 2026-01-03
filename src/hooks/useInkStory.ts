@@ -40,17 +40,6 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
   const [tags, setTags] = useState<ParsedTags>({});
   const [isEnded, setIsEnded] = useState(false);
 
-  const syncState = useCallback(() => {
-    setTags(parseTags(story.currentTags ?? []));
-    setChoices(
-      story.currentChoices.map((choice) => ({
-        text: choice.text,
-        index: choice.index,
-      }))
-    );
-    setIsEnded(!story.canContinue && story.currentChoices.length === 0);
-  }, [story]);
-
   const continueStory = useCallback(() => {
     if (!story.canContinue) return;
 

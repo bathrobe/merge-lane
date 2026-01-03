@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AxisValues } from "../lib/seedPhrase";
 import { encode } from "../lib/seedPhrase";
 import { generateConstellation, type ConstellationResult } from "../lib/constellation";
-import { copyElementAsImage } from "../lib/copyCard";
+import { copyElementAsImage, downloadElementAsImage } from "../lib/copyCard";
 import ConstellationChart from "./ConstellationChart";
 import AllAxesDisplay from "./AllAxesDisplay";
 import SeedPhraseDisplay from "./SeedPhraseDisplay";
@@ -18,11 +18,13 @@ interface ResultsScreenProps {
  * Shows constellation, axes, and seed phrase.
  */
 type CopyStatus = "idle" | "copying" | "copied" | "error";
+type DownloadStatus = "idle" | "downloading";
 
 function ResultsScreen({ values, onReset }: ResultsScreenProps) {
   const [constellation, setConstellation] = useState<ConstellationResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
+  const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>("idle");
   const cardRef = useRef<HTMLDivElement>(null);
 
   const seedPhrase = encode(values);
@@ -36,6 +38,14 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
 
     // Reset after 2 seconds
     setTimeout(() => setCopyStatus("idle"), 2000);
+  }
+
+  async function handleDownloadCard() {
+    if (!cardRef.current) return;
+    setDownloadStatus("downloading");
+    const filename = `scholastic-fair-${seedPhrase.replace(/ /g, "-")}.png`;
+    await downloadElementAsImage(cardRef.current, filename);
+    setDownloadStatus("idle");
   }
 
   useEffect(() => {
@@ -67,7 +77,12 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8 flex flex-col items-center">
       {/* Card area - this gets captured as PNG */}
-      <div ref={cardRef} className="max-w-md w-full space-y-8 bg-gray-900 p-4">
+      {/* Using inline styles with RGB colors for html2canvas compatibility (oklch not supported) */}
+      <div
+        ref={cardRef}
+        className="max-w-md w-full space-y-8 p-4"
+        style={{ backgroundColor: "#111827", color: "#ffffff" }}
+      >
         {/* Constellation visualization */}
         <div className="flex flex-col items-center">
           <ConstellationChart values={values} size={200} />
@@ -102,6 +117,15 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
           className="px-6 py-2 border border-white/30 rounded hover:bg-white/10 disabled:opacity-50"
         >
           {copyButtonLabel}
+        </button>
+
+        {/* Debug/Fallback: Download to isolate clipboard vs screenshot issues */}
+        <button
+          onClick={handleDownloadCard}
+          disabled={downloadStatus === "downloading"}
+          className="text-xs text-gray-400 hover:text-white underline"
+        >
+          {downloadStatus === "downloading" ? "Generating..." : "Download as Image"}
         </button>
 
         <SubstackSignup />

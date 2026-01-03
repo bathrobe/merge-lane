@@ -48,8 +48,7 @@ Derived from `docs/tech-spec.md` and `docs/PLAN.md`. Work through in order.
 - [x] 25. Add Substack email signup embed
 - [x] 26. Add "Start over" button (reset story state)
 - [x] 27. Add placeholder background images to assets/backgrounds/
-- [ ] 28. End-to-end test: play through stub story → see results → copy card
-  - ⚠️ **BUG**: Copy Card hangs — `html-to-image` `toPng()` never resolves
+- [x] 28. End-to-end test: play through stub story → see results → copy card
 
 ---
 

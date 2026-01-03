@@ -7,6 +7,7 @@ import ConstellationChart from "./ConstellationChart";
 import AllAxesDisplay from "./AllAxesDisplay";
 import SeedPhraseDisplay from "./SeedPhraseDisplay";
 import SubstackSignup from "./SubstackSignup";
+import ShareModal from "./ShareModal";
 
 interface ResultsScreenProps {
   values: AxisValues;
@@ -25,6 +26,7 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
   const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>("idle");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const seedPhrase = encode(values);
@@ -35,6 +37,10 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
     setCopyStatus("copying");
     const success = await copyElementAsImage(cardRef.current);
     setCopyStatus(success ? "copied" : "error");
+
+    if (success) {
+      setIsModalOpen(true);
+    }
 
     // Reset after 2 seconds
     setTimeout(() => setCopyStatus("idle"), 2000);
@@ -119,17 +125,6 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
           {copyButtonLabel}
         </button>
 
-        {/* Debug/Fallback: Download to isolate clipboard vs screenshot issues */}
-        <button
-          onClick={handleDownloadCard}
-          disabled={downloadStatus === "downloading"}
-          className="text-xs text-gray-400 hover:text-white underline"
-        >
-          {downloadStatus === "downloading" ? "Generating..." : "Download as Image"}
-        </button>
-
-        <SubstackSignup />
-
         <button
           onClick={onReset}
           className="text-sm opacity-70 hover:opacity-100 underline"
@@ -137,6 +132,16 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
           Start over
         </button>
       </div>
+
+      {/* Share modal - opens after successful copy */}
+      <ShareModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onDownload={handleDownloadCard}
+        downloadStatus={downloadStatus}
+      >
+        <SubstackSignup />
+      </ShareModal>
     </div>
   );
 }

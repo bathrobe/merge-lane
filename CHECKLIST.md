@@ -1,60 +1,63 @@
-# Implementation Checklist
+# Share Modal Implementation
 
-Derived from `docs/tech-spec.md` and `docs/PLAN.md`. Work through in order.
+Move sharing options (Download, Substack signup) into a modal that opens after copying the card.
+
+## Behavior Spec
+
+**Trigger**: Click "Copy Card" button
+**Action**:
+1. Immediately copy card image to clipboard
+2. Open modal showing success + additional options
+
+**Modal contents**:
+- Success message ("Copied to clipboard!")
+- "Download as Image" link
+- Substack signup embed
+
+**Outside modal** (stays on main ResultsScreen):
+- "Start over" button
+
+**Close modal**: X button OR click outside (standard modal behavior)
+
+---
+
+## Checklist
+
+- [x] 1. Create `src/components/ShareModal.tsx`
+  - Props: `isOpen: boolean`, `onClose: () => void`, `onDownload: () => void`, `downloadStatus: "idle" | "downloading"`
+  - Render a modal overlay (fixed position, dark backdrop)
+  - Modal content box centered on screen
+  - X button in top-right corner
+  - Click on backdrop calls `onClose`
+  - Contains: success message, download button, `<SubstackSignup />` component
+
+- [x] 2. Update `src/components/ResultsScreen.tsx`
+  - Add `isModalOpen` state (boolean, default false)
+  - Modify `handleCopyCard`: after successful copy, set `isModalOpen` to true
+  - Remove `<SubstackSignup />` from main render (moves to modal)
+  - Remove "Download as Image" button from main render (moves to modal)
+  - Keep "Start over" button in main render
+  - Render `<ShareModal />` with appropriate props
+  - Pass `handleDownloadCard` to modal's `onDownload` prop
+
+- [x] 3. Test in browser
+  - Click "Copy Card" → image copies → modal opens
+  - Modal shows success message, download link, Substack embed
+  - Click X → modal closes
+  - Click backdrop → modal closes
+  - "Start over" visible on main screen (not in modal)
+
+- [x] 4. Commit changes
 
 ---
 
-## Phase 1: Foundation
+## Files to modify
 
-- [x] 1. Scaffold Vite + React + TypeScript project with pnpm
-- [x] 2. Install dependencies: inkjs, tailwindcss, shadcn/ui
-- [x] 3. Create folder structure per PLAN.md (components/, hooks/, lib/, story/, assets/)
-- [x] 4. Create `lib/tags.ts` — parse `["background: lab"]` → `{ background: "lab" }`
-
-## Phase 2: Ink Integration
-
-- [x] 5. Create `hooks/useInkStory.ts` — wrap inkjs, expose `{ text, choices, tags, variables, continue, choose, isEnded }`
-- [x] 6. Create stub `story/episode1.ink` with placeholder narrative + one background tag
-- [x] 7. Set up ink compilation script (`pnpm run ink:compile`)
-- [x] 8. Wire up `useInkStory` in App.tsx, verify story loads
-
-## Phase 3: Game Layout
-
-- [x] 9. Create `components/SceneBackground.tsx` — full-bleed image from `tags.background`
-- [x] 10. Create `components/StoryText.tsx` — render narrative prose
-- [x] 11. Create `components/ChoiceList.tsx` — render choice buttons, call `choose(index)`
-- [x] 12. Create `components/TextPanel.tsx` — right-side panel containing StoryText + ChoiceList
-- [x] 13. Create `components/GameView.tsx` — layout combining SceneBackground + TextPanel
-- [x] 14. Integrate GameView in App.tsx, test full game loop
-
-## Phase 4: Seed Phrase System
-
-- [x] 15. Create `lib/wordlists/seedWords.ts` — 2048 BIP-39 style words
-- [x] 16. Create `lib/seedPhrase.ts` — `encode()` and `decode()` functions (32 bits → 3 words)
-
-## Phase 5: Results Screen
-
-- [x] 17. Create `components/AxisDisplay.tsx` — single axis with dot position
-- [x] 18. Create `components/AllAxesDisplay.tsx` — all 8 axes rendered
-- [x] 19. Create `components/ConstellationChart.tsx` — 8 dots plotted circularly
-- [x] 20. Create `lib/constellation.ts` — call LLM for constellation name + myth
-- [x] 21. Create `components/SeedPhraseDisplay.tsx` — show 3 words prominently
-- [x] 22. Create `components/ResultsScreen.tsx` — full layout per PLAN.md mockup
-- [x] 23. Wire up results: when `# show: results` tag fires, switch to ResultsScreen
-
-## Phase 6: Actions & Polish
-
-- [x] 24. Add copy-card functionality (PNG to clipboard)
-- [x] 25. Add Substack email signup embed
-- [x] 26. Add "Start over" button (reset story state)
-- [x] 27. Add placeholder background images to assets/backgrounds/
-- [x] 28. End-to-end test: play through stub story → see results → copy card
-
----
+- `src/components/ResultsScreen.tsx` — add modal state, restructure JSX
+- `src/components/ShareModal.tsx` — new file
 
 ## Notes
 
-- Each item should result in a working (if incomplete) app
-- Verify in browser before checking off
-- Commit after each item
-- If an item is too big, break into sub-items (1a, 1b, etc.)
+- Keep styling minimal (unstyled-first approach per CLAUDE.md)
+- Modal should trap focus for accessibility (nice-to-have, not required)
+- No external modal library needed — simple div with fixed positioning

@@ -28,6 +28,7 @@ export interface UseInkStoryReturn {
   variables: VariableReader;
   continue: () => void;
   choose: (index: number) => void;
+  reset: () => void;
   isEnded: boolean;
 }
 
@@ -80,6 +81,15 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     [story, continueStory]
   );
 
+  const reset = useCallback(() => {
+    story.ResetState();
+    setText("");
+    setChoices([]);
+    setTags({});
+    setIsEnded(false);
+    continueStory();
+  }, [story, continueStory]);
+
   // Provide a stable function to read variables on demand
   const variables: VariableReader = useMemo(
     () => ({
@@ -95,6 +105,7 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     variables,
     continue: continueStory,
     choose,
+    reset,
     isEnded,
   };
 }

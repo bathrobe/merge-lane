@@ -18,7 +18,7 @@ const AXIS_NAMES: Array<keyof AxisValues> = [
 ];
 
 function App() {
-  const { text, choices, tags, variables, choose, continue: continueStory, isEnded } =
+  const { text, choices, tags, variables, choose, reset, continue: continueStory, isEnded } =
     useInkStory(storyJson);
 
   // Auto-continue on first render to get initial text
@@ -34,7 +34,7 @@ function App() {
       axisValues[name] = (variables.getVariable(name) as number) ?? 8;
     }
 
-    return <ResultsScreen values={axisValues} />;
+    return <ResultsScreen values={axisValues} onReset={reset} />;
   }
 
   return (

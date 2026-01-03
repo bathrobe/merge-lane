@@ -10,6 +10,7 @@ import SubstackSignup from "./SubstackSignup";
 
 interface ResultsScreenProps {
   values: AxisValues;
+  onReset: () => void;
 }
 
 /**
@@ -18,7 +19,7 @@ interface ResultsScreenProps {
  */
 type CopyStatus = "idle" | "copying" | "copied" | "error";
 
-function ResultsScreen({ values }: ResultsScreenProps) {
+function ResultsScreen({ values, onReset }: ResultsScreenProps) {
   const [constellation, setConstellation] = useState<ConstellationResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
@@ -104,6 +105,13 @@ function ResultsScreen({ values }: ResultsScreenProps) {
         </button>
 
         <SubstackSignup />
+
+        <button
+          onClick={onReset}
+          className="text-sm opacity-70 hover:opacity-100 underline"
+        >
+          Start over
+        </button>
       </div>
     </div>
   );

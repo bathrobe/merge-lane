@@ -46,7 +46,7 @@ Derived from `docs/tech-spec.md` and `docs/PLAN.md`. Work through in order.
 
 - [x] 24. Add copy-card functionality (PNG to clipboard)
 - [x] 25. Add Substack email signup embed
-- [ ] 26. Add "Start over" button (reset story state)
+- [x] 26. Add "Start over" button (reset story state)
 - [ ] 27. Add placeholder background images to assets/backgrounds/
 - [ ] 28. End-to-end test: play through stub story → see results → copy card
 

@@ -44,8 +44,8 @@ Derived from `docs/tech-spec.md` and `docs/PLAN.md`. Work through in order.
 
 ## Phase 6: Actions & Polish
 
-- [ ] 24. Add copy-card functionality (PNG to clipboard)
-- [ ] 25. Add Formspring email signup embed
+- [x] 24. Add copy-card functionality (PNG to clipboard)
+- [ ] 25. Add Substack email signup embed
 - [ ] 26. Add "Start over" button (reset story state)
 - [ ] 27. Add placeholder background images to assets/backgrounds/
 - [ ] 28. End-to-end test: play through stub story → see results → copy card

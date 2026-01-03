@@ -6,6 +6,7 @@ import { copyElementAsImage } from "../lib/copyCard";
 import ConstellationChart from "./ConstellationChart";
 import AllAxesDisplay from "./AllAxesDisplay";
 import SeedPhraseDisplay from "./SeedPhraseDisplay";
+import SubstackSignup from "./SubstackSignup";
 
 interface ResultsScreenProps {
   values: AxisValues;
@@ -93,7 +94,7 @@ function ResultsScreen({ values }: ResultsScreenProps) {
       </div>
 
       {/* Actions - outside the card */}
-      <div className="mt-8">
+      <div className="mt-8 flex flex-col items-center gap-6">
         <button
           onClick={handleCopyCard}
           disabled={copyStatus === "copying"}
@@ -101,6 +102,8 @@ function ResultsScreen({ values }: ResultsScreenProps) {
         >
           {copyButtonLabel}
         </button>
+
+        <SubstackSignup />
       </div>
     </div>
   );

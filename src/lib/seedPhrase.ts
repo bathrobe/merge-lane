@@ -5,24 +5,24 @@ import { seedWords } from './wordlists/seedWords';
 
 export type AxisValues = {
   elitist_populist: number;
-  optimist_doomer: number;
-  earnest_ironic: number;
+  legible_illegible: number;
   sovereign_symphonic: number;
-  anthropo_cosmo: number;
-  mortal_immortal: number;
-  vanguard_steward: number;
+  anthro_xeno: number;
+  mortal_immortalist: number;
+  accel_steward: number;
   aligned_autonomous: number;
+  apollonian_dionysian: number;
 };
 
 const AXIS_ORDER: (keyof AxisValues)[] = [
   'elitist_populist',
-  'optimist_doomer',
-  'earnest_ironic',
+  'legible_illegible',
   'sovereign_symphonic',
-  'anthropo_cosmo',
-  'mortal_immortal',
-  'vanguard_steward',
+  'anthro_xeno',
+  'mortal_immortalist',
+  'accel_steward',
   'aligned_autonomous',
+  'apollonian_dionysian',
 ];
 
 /**

@@ -81,7 +81,7 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
   }[copyStatus];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8 flex flex-col items-center">
       {/* Card area - this gets captured as PNG */}
       {/* Using inline styles with RGB colors for html2canvas compatibility (oklch not supported) */}
       <div
@@ -120,7 +120,7 @@ function ResultsScreen({ values, onReset }: ResultsScreenProps) {
         <button
           onClick={handleCopyCard}
           disabled={copyStatus === "copying"}
-          className="px-6 py-2 border border-white/30 rounded hover:bg-white/10 disabled:opacity-50"
+          className="px-6 py-3 min-h-[44px] border border-white/30 rounded hover:bg-white/10 disabled:opacity-50"
         >
           {copyButtonLabel}
         </button>

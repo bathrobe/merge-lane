@@ -20,7 +20,7 @@ function ChoiceList({ choices, onChoose }: ChoiceListProps) {
         <button
           key={choice.index}
           onClick={() => onChoose(choice.index)}
-          className="block w-full text-left p-3 border rounded hover:bg-white/10"
+          className="block w-full text-left p-3 min-h-[44px] border rounded hover:bg-white/10"
         >
           {choice.text}
         </button>

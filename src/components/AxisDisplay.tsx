@@ -15,14 +15,14 @@ function AxisDisplay({ leftLabel, rightLabel, value }: AxisDisplayProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="w-24 text-right text-sm">{leftLabel}</span>
+      <span className="w-20 md:w-24 text-right text-xs md:text-sm">{leftLabel}</span>
       <div className="relative flex-1 h-1 bg-gray-600 rounded">
         <div
           className="absolute w-3 h-3 bg-white rounded-full -translate-y-1/2 top-1/2"
           style={{ left: `calc(${positionPercent}% - 6px)` }}
         />
       </div>
-      <span className="w-24 text-left text-sm">{rightLabel}</span>
+      <span className="w-20 md:w-24 text-left text-xs md:text-sm">{rightLabel}</span>
     </div>
   );
 }

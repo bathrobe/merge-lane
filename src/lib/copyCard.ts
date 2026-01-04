@@ -41,9 +41,8 @@ export async function copyElementAsImage(
 
     // Check permissions if possible to give better debug info
     if (navigator.permissions && navigator.permissions.query) {
-      // @ts-ignore: clipboard-write permission type check
       const p = await navigator.permissions
-        .query({ name: "clipboard-write" })
+        .query({ name: "clipboard-write" as PermissionName })
         .catch(() => null);
       if (p) console.log("[copyCard] Permission state:", p.state);
     }

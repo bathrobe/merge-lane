@@ -1,4 +1,4 @@
-import type { AxisValues } from "../components/AllAxesDisplay";
+import type { AxisValues } from "./seedPhrase";
 
 export interface ConstellationResult {
   name: string;
@@ -63,13 +63,13 @@ function buildPrompt(values: AxisValues): string {
 
 The person's 8 axis values (0=left pole, 15=right pole, 8=center):
 - Elitist/Populist: ${values.elitist_populist}
-- Optimist/Doomer: ${values.optimist_doomer}
-- Earnest/Ironic: ${values.earnest_ironic}
+- Legible/Illegible: ${values.legible_illegible}
 - Sovereign/Symphonic: ${values.sovereign_symphonic}
-- Anthropocentric/Cosmocentric: ${values.anthropo_cosmo}
-- Mortal/Immortalist: ${values.mortal_immortal}
-- Vanguard/Steward: ${values.vanguard_steward}
+- Anthro/Xeno: ${values.anthro_xeno}
+- Mortal/Immortalist: ${values.mortal_immortalist}
+- Accel/Steward: ${values.accel_steward}
 - Aligned/Autonomous: ${values.aligned_autonomous}
+- Apollonian/Dionysian: ${values.apollonian_dionysian}
 
 Create a constellation name (2-3 words, evocative like "The Lantern" or "The Wandering Flame") and a 2-sentence mythic description of those who bear this constellation.
 
@@ -90,11 +90,11 @@ function parseConstellationResponse(text: string): ConstellationResult {
 
 function getPlaceholderConstellation(values: AxisValues): ConstellationResult {
   // Generate a simple deterministic name based on dominant traits
-  const optimism = values.optimist_doomer < 8 ? "Light" : "Shadow";
-  const scale = values.anthropo_cosmo < 8 ? "Keeper" : "Seeker";
+  const order = values.apollonian_dionysian < 8 ? "Flame" : "Shadow";
+  const scale = values.anthro_xeno < 8 ? "Keeper" : "Seeker";
 
   return {
-    name: `The ${optimism} ${scale}`,
+    name: `The ${order} ${scale}`,
     myth: "Those who bear this constellation walk between worlds, carrying questions that have no easy answers. Their path is their own to forge.",
   };
 }

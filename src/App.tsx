@@ -8,18 +8,28 @@ import storyJson from "./story/episode1.json";
 // Ink variable names for the 8 personality axes
 const AXIS_NAMES: Array<keyof AxisValues> = [
   "elitist_populist",
-  "optimist_doomer",
-  "earnest_ironic",
+  "legible_illegible",
   "sovereign_symphonic",
-  "anthropo_cosmo",
-  "mortal_immortal",
-  "vanguard_steward",
+  "anthro_xeno",
+  "mortal_immortalist",
+  "accel_steward",
   "aligned_autonomous",
+  "apollonian_dionysian",
 ];
 
 function App() {
-  const { text, choices, tags, variables, choose, reset, continue: continueStory, isEnded } =
-    useInkStory(storyJson);
+  const {
+    textHistory,
+    newBatchStartIndex,
+    choices,
+    tags,
+    variables,
+    choose,
+    reset,
+    continue: continueStory,
+    isEnded,
+    hasPendingContent,
+  } = useInkStory(storyJson);
 
   // Auto-continue on first render to get initial text
   useEffect(() => {
@@ -40,10 +50,13 @@ function App() {
   return (
     <GameView
       backgroundName={tags.background}
-      text={text}
+      textHistory={textHistory}
+      newBatchStartIndex={newBatchStartIndex}
       choices={choices}
       onChoose={choose}
+      onContinue={continueStory}
       isEnded={isEnded}
+      hasPendingContent={hasPendingContent}
     />
   );
 }

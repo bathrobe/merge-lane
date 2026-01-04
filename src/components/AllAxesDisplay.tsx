@@ -11,13 +11,13 @@ const AXIS_CONFIG: Array<{
   rightLabel: string;
 }> = [
   { key: "elitist_populist", leftLabel: "Elitist", rightLabel: "Populist" },
-  { key: "optimist_doomer", leftLabel: "Optimist", rightLabel: "Doomer" },
-  { key: "earnest_ironic", leftLabel: "Earnest", rightLabel: "Ironic" },
+  { key: "legible_illegible", leftLabel: "Legible", rightLabel: "Illegible" },
   { key: "sovereign_symphonic", leftLabel: "Sovereign", rightLabel: "Symphonic" },
-  { key: "anthropo_cosmo", leftLabel: "Anthropocentric", rightLabel: "Cosmocentric" },
-  { key: "mortal_immortal", leftLabel: "Mortal", rightLabel: "Immortalist" },
-  { key: "vanguard_steward", leftLabel: "Vanguard", rightLabel: "Steward" },
+  { key: "anthro_xeno", leftLabel: "Anthro", rightLabel: "Xeno" },
+  { key: "mortal_immortalist", leftLabel: "Mortal", rightLabel: "Immortalist" },
+  { key: "accel_steward", leftLabel: "Accel", rightLabel: "Steward" },
   { key: "aligned_autonomous", leftLabel: "Aligned", rightLabel: "Autonomous" },
+  { key: "apollonian_dionysian", leftLabel: "Apollonian", rightLabel: "Dionysian" },
 ];
 
 interface AllAxesDisplayProps {

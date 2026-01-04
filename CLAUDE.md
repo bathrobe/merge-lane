@@ -1,7 +1,3 @@
-# Scholastic Fair
-
-Use 'bd' for task tracking.
-
 Visual novel engine: Ink (narrative) + React (presentation).
 
 ## Quick Context
@@ -10,18 +6,9 @@ Visual novel engine: Ink (narrative) + React (presentation).
 - **Stack**: Vite + React + TypeScript + inkjs + pnpm
 - **Principle**: Ink owns all logic; React is dumb renderer
 
-## Key Docs
+## Notes (notes/)
 
-- `docs/PLAN.md` — Full implementation plan (read this first)
-- `docs/tech-spec.md` — Technical specification
-- `docs/DESIGN.md` — Concept and vision
-- `docs/PERSONALITY_AXES.md` — The 8 personality dimensions
-- `docs/world/` — Worldbuilding notes
-
-## Deep Context
-
-For origin story, broader vision, and Obsidian-linked notes:
-`/Users/joe/Vaults/Hakuin/Projects/Interactive Fiction Project/`
+All useful context lives in the notes/ folder (copied from my Obsidian vault). Look there for info on image generation, Ink syntax, the plot of the story, and so on.
 
 ## Styling Approach
 
@@ -42,7 +29,7 @@ pnpm dev              # Start dev server
 pnpm run ink:compile  # Compile .ink to .json
 ```
 
-*Project not yet scaffolded. Run these after setup.*
+_Project not yet scaffolded. Run these after setup._
 
 ---
 
@@ -50,7 +37,9 @@ pnpm run ink:compile  # Compile .ink to .json
 
 ### Spec-Driven Development
 
-1. **Read the spec** (`docs/tech-spec.md`) before implementing anything
+When I have a large task, I'll have a spec document and a checklist for agentically coding it. Here's what to do:
+
+1. **Read the spec** (`tech-spec.md`) before implementing anything
 2. **Check `CHECKLIST.md`** for the next task (lowest unchecked item)
 3. **Implement** according to spec + CLAUDE.md code style
 4. **Verify in browser** using Claude-in-Chrome extension before marking complete
@@ -110,6 +99,25 @@ function StoryText({ initialText }) {
 
 ---
 
+## Ink Patterns
+
+### Flavor → Mechanical nesting
+
+Top-level choices can be pure expression (no axis change). Nest the mechanical choices underneath. This gives players more voice without inflating the axis system.
+
+```ink
+* "I don't trust therapists."
+    "That's fair," they say. "What is it specifically?"
+    * * "My thoughts are my own."
+        ~ sovereign_symphonic -= 1
+        -> next_knot
+    * * "Who says you're qualified?"
+        ~ elitist_populist += 1
+        -> next_knot
+```
+
+---
+
 ## Assets
 
-AI-generated images will be in a local folder (path TBD). React components reference these for backgrounds, etc.
+- **Backgrounds**: `public/backgrounds/{scene-name}.jpg`

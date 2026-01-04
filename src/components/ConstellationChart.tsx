@@ -3,25 +3,26 @@ import type { AxisValues } from "./AllAxesDisplay";
 interface ConstellationChartProps {
   values: AxisValues;
   size?: number; // Width/height in pixels, default 200
+  className?: string; // For CSS-based responsive sizing
 }
 
 // Order of axes around the circle (clockwise from top)
 const AXIS_ORDER: Array<keyof AxisValues> = [
   "elitist_populist",
-  "optimist_doomer",
-  "earnest_ironic",
+  "legible_illegible",
   "sovereign_symphonic",
-  "anthropo_cosmo",
-  "mortal_immortal",
-  "vanguard_steward",
+  "anthro_xeno",
+  "mortal_immortalist",
+  "accel_steward",
   "aligned_autonomous",
+  "apollonian_dionysian",
 ];
 
 /**
  * Plots 8 personality axis values as dots on a circular chart.
  * Value 0 = center, value 15 = edge.
  */
-function ConstellationChart({ values, size = 200 }: ConstellationChartProps) {
+function ConstellationChart({ values, size = 200, className }: ConstellationChartProps) {
   const center = 50; // Center of viewBox
   const maxRadius = 40; // Max distance from center to edge
 
@@ -47,7 +48,7 @@ function ConstellationChart({ values, size = 200 }: ConstellationChartProps) {
       width={size}
       height={size}
       viewBox="0 0 100 100"
-      className="overflow-visible"
+      className={`overflow-visible ${className ?? ""}`}
     >
       {/* Faint circle outline for reference */}
       <circle

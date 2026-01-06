@@ -92,14 +92,14 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         currentBackground = parsedLineTags.background;
 
         // This line's text and tags go to overflow
-        const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+        const lines = (text ?? '').split('\n').map(line => line.trim()).filter(line => line);
         overflowText.push(...lines);
         tagsAfterChange = tagsAfterChange.concat(lineTags);
 
         // Continue collecting the rest into overflow
         while (story.canContinue) {
           const moreText = story.Continue();
-          const moreLines = moreText.split('\n').map(line => line.trim()).filter(line => line);
+          const moreLines = (moreText ?? '').split('\n').map(line => line.trim()).filter(line => line);
           overflowText.push(...moreLines);
           tagsAfterChange = tagsAfterChange.concat(story.currentTags ?? []);
         }
@@ -108,7 +108,7 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
 
       // No background change yet, add to current batch
       tagsBeforeChange = tagsBeforeChange.concat(lineTags);
-      const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+      const lines = (text ?? '').split('\n').map(line => line.trim()).filter(line => line);
       textBatch.push(...lines);
     }
 

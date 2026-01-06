@@ -1,5 +1,8 @@
 # Image Generation Guide — Scholastic Fair
 
+> [!info] Skill version available
+> Core workflow now in `/scholastic-bg` skill. This doc kept for reference/context.
+
 ## Technical Specs
 
 | Setting | Value | Rationale |
@@ -23,49 +26,9 @@ uv run ~/.claude/skills/nano-banana/scripts/generate_image.py \
 
 ## Composition Rules
 
-### Safe Zone (Critical)
-
-```
-┌────────────────────────────────────┐
-│                                    │
-│   ████████████████████   ░░░░░░░   │
-│   ████ SAFE ZONE ████   ░ MAY  ░   │
-│   ████  (center-  ████   ░ CROP ░   │
-│   ████   left)   ████   ░░░░░░░   │
-│   ████████████████████             │
-│                                    │
-└────────────────────────────────────┘
-         70% safe ───────► 30% flex
-```
-
-- **Keep all important elements in the center-left 70%** of the frame
-- Right edge may be cropped on narrower viewports (1280px laptops)
-- Top/bottom edges may crop slightly on wider viewports (1920px monitors)
-- When in doubt, center-weight the composition
-
-### Prompt Phrasing for Composition
-
-Include phrases like:
-- "subject positioned center-left in frame"
-- "important elements in left two-thirds"
-- "negative space on right side of frame"
-- "cinematic composition with room on right"
-
-### Model Compliance Warning
-
-**Image models are probabilistic.** Even with explicit composition instructions, Nano Banana Pro may:
-- Ignore composition guidance entirely on some generations
-- Center subjects anyway (common default behavior)
-- Interpret "center-left" loosely
-
-**Mitigation strategies:**
-1. Composition guidance is baked into Style Lock prefix AND suffix (see `docs/vault/Style Lock.md`)
-2. Use reference images (`-r` flag) that already have center-left composition
-3. **Always verify** composition after generation — don't assume it worked
-4. Regenerate with stronger phrasing if needed: "subject firmly in LEFT THIRD of frame, RIGHT SIDE EMPTY"
-5. As a last resort, crop/pan in post if model stubbornly centers
-
-**Expect ~30% of generations to need a retry for composition reasons.**
+- Keep important elements away from extreme edges (may be cropped on any viewport)
+- Works as a **background** — leave visual breathing room for UI overlay
+- Use reference images (`-r` flag) for consistent style
 
 ---
 
@@ -87,12 +50,12 @@ Include phrases like:
 ### Prompt Structure
 
 ```
-[scene description], [composition guidance], [style keywords], [technical]
+[scene description], [style keywords], [technical]
 
 Example:
 "A sparse therapist's office with two chairs facing each other,
-subject positioned center-left in frame, soft window light from the left,
-muted earth tones, painterly illustration style, atmospheric,
+soft window light from the left, muted earth tones,
+painterly illustration style, atmospheric,
 slightly surreal, cinematic visual novel background"
 ```
 
@@ -119,13 +82,8 @@ Use lowercase, underscores for spaces, no special characters.
 2. **Read Style Lock** (`docs/vault/Style Lock.md`) — paste prefix/suffix into prompt
 3. **Draft prompt** following structure above
 4. **Generate** with 4:3, 2K
-5. **Composition verification** (CRITICAL):
-   - View the generated image
-   - Ask: "Is the subject/focal point in the left 70% of the frame?"
-   - Ask: "Is there negative space on the right edge?"
-   - If NO to either: regenerate with stronger composition language
-6. **Test in browser** at multiple viewport widths (1280, 1440, 1920)
-7. **Regenerate if needed** with adjusted prompt for better composition
+5. **Verify result**: Check style adherence, no UI elements, good composition
+6. **Test in browser** at multiple viewport widths if needed
 
 ---
 
@@ -134,7 +92,7 @@ Use lowercase, underscores for spaces, no special characters.
 ```bash
 # Standard scene
 uv run ~/.claude/skills/nano-banana/scripts/generate_image.py \
-  "description here, center-left composition, painterly style, atmospheric" \
+  "description here, painterly style, atmospheric" \
   -a 4:3 -s 2K \
   -o /Users/joe/Developer/scholastic-fair/public/backgrounds/scene_name.jpg
 

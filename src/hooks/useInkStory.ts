@@ -10,6 +10,7 @@ export interface InkChoice {
 export interface ParsedTags {
   background?: string;
   show?: string;
+  mood?: string;
   [key: string]: string | undefined;
 }
 
@@ -32,6 +33,9 @@ export interface UseInkStoryReturn {
   reset: () => void;
   isEnded: boolean;
   hasPendingContent: boolean; // True when there's content waiting after a scene change
+  getState: () => string; // Serialize current Ink state
+  loadState: (state: string, background?: string, savedTextHistory?: string[]) => void;
+  jumpTo: (knotName: string) => void; // Dev tool: jump to any knot
 }
 
 export function useInkStory(storyJson: object): UseInkStoryReturn {
@@ -119,30 +123,38 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     }));
 
     if (hitBackgroundChange) {
-      // We have content before AND after the background change
-      // Show the "before" content now, store the "after" as pending
+      // Background change detected during processing
 
       if (textBatch.length > 0) {
-        // Append to existing history (same scene continues)
+        // There's "before" content - show it now, store "after" as pending
         setTextHistory(prev => {
           setNewBatchStartIndex(prev.length);
           return [...prev, ...textBatch];
         });
-      }
 
-      // Preserve current background if reply has no explicit background tag
-      const parsedBeforeTags = parseTags(tagsBeforeChange);
-      if (!parsedBeforeTags.background && startingBackground) {
-        parsedBeforeTags.background = startingBackground;
-      }
-      setTags(parsedBeforeTags);
-      setChoices([]); // Hide choices until pending content is shown
+        const parsedBeforeTags = parseTags(tagsBeforeChange);
+        if (!parsedBeforeTags.background && startingBackground) {
+          parsedBeforeTags.background = startingBackground;
+        }
+        setTags(parsedBeforeTags);
+        setChoices([]); // Hide choices until pending content is shown
 
-      // Store overflow for next continue
-      setPendingText(overflowText);
-      setPendingTags(parseTags(tagsAfterChange));
-      setPendingChoices(currentChoices);
-      setIsEnded(false);
+        // Store overflow for next continue
+        setPendingText(overflowText);
+        setPendingTags(parseTags(tagsAfterChange));
+        setPendingChoices(currentChoices);
+        setIsEnded(false);
+      } else {
+        // No "before" content - show the new scene immediately
+        const parsedAfterTags = parseTags(tagsAfterChange);
+        previousBackgroundRef.current = parsedAfterTags.background;
+
+        setTextHistory(overflowText);
+        setNewBatchStartIndex(0);
+        setTags(parsedAfterTags);
+        setChoices(currentChoices);
+        setIsEnded(!story.canContinue && currentChoices.length === 0);
+      }
     } else {
       // No background change, normal flow
       const parsedTags = parseTags(tagsBeforeChange);
@@ -196,6 +208,60 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     continueStory();
   }, [story, continueStory]);
 
+  const getState = useCallback(() => {
+    return story.state.toJson();
+  }, [story]);
+
+  // Dev tool: jump directly to a knot by name
+  const jumpTo = useCallback((knotName: string) => {
+    story.ChoosePathString(knotName);
+    setTextHistory([]);
+    setNewBatchStartIndex(0);
+    setChoices([]);
+    setTags({});
+    setIsEnded(false);
+    setPendingText([]);
+    setPendingTags({});
+    setPendingChoices([]);
+    previousBackgroundRef.current = undefined;
+    continueStory();
+  }, [story, continueStory]);
+
+  const loadState = useCallback((savedState: string, background?: string, savedTextHistory?: string[]) => {
+    story.state.LoadJson(savedState);
+    // Clear pending state
+    setNewBatchStartIndex(0);
+    setIsEnded(false);
+    setPendingText([]);
+    setPendingTags({});
+    setPendingChoices([]);
+
+    // Restore background if provided
+    if (background) {
+      setTags({ background });
+      previousBackgroundRef.current = background;
+    } else {
+      setTags({});
+      previousBackgroundRef.current = undefined;
+    }
+
+    // If story can continue, process content normally
+    if (story.canContinue) {
+      setTextHistory([]);
+      setChoices([]);
+      continueStory();
+    } else {
+      // At a choice point - restore saved text and populate choices
+      setTextHistory(savedTextHistory ?? []);
+      const currentChoices = story.currentChoices.map((choice) => ({
+        text: choice.text,
+        index: choice.index,
+      }));
+      setChoices(currentChoices);
+      setIsEnded(currentChoices.length === 0);
+    }
+  }, [story, continueStory]);
+
   // Provide a stable function to read variables on demand
   const variables: VariableReader = useMemo(
     () => ({
@@ -215,5 +281,8 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     reset,
     isEnded,
     hasPendingContent: pendingText.length > 0,
+    getState,
+    loadState,
+    jumpTo,
   };
 }

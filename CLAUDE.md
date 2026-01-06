@@ -10,6 +10,14 @@ Visual novel engine: Ink (narrative) + React (presentation).
 
 All useful context lives in the notes/ folder (copied from my Obsidian vault). Look there for info on image generation, Ink syntax, the plot of the story, and so on.
 
+WHENEVER you write Ink syntax, pull up `notes/ink_syntax.md` to guide you.
+
+**At session start, always read `DEV_NOTES.md`** — it contains hard-won lessons about Ink + React integration bugs and patterns.
+
+If you feel you're lacking context on an image generation task, you can try looking at `image_generation.md` in the smae folder, too.
+
+When we're preparing to release, check it looks good on everything via `viewport-testing.md`.
+
 ## Styling Approach
 
 **Unstyled first.** During checklist implementation, use minimal/no styling — just functional layout. No colors, fancy typography, or visual polish. A dedicated styling pass will happen later with Joe's direct input on design decisions.

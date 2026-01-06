@@ -68,7 +68,7 @@ Take screenshot for documentation after each viewport test.
 - Side-by-side layout (image left, text right)
 - Text panel fixed at 384px width
 - Background uses `bg-cover` with `bg-[30%_50%]` focal point
-- Safe zone content (center-left 70%) visible
+- Important content visible, not cropped at edges
 
 ### Large Viewports (1280px+)
 - Verify background cropping doesn't lose important content

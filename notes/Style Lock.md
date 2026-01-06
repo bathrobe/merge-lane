@@ -2,29 +2,35 @@
 created: "[[Journals/Daily/2026/01/2026-01-03]]"
 ---
 
+> [!info] Skill version available
+> This content is now in the `/scholastic-bg` skill. Use that for generation.
+
 ## Style Lock
 
 Paste at START of every image prompt:
 
 ```
-Late 1990s educational CD-ROM 3D graphics. Low-poly models, soft plastic textures,
-early CGI lighting. Utopian scholastic aesthetic—Dorling Kindersley, mid-90s
-Microsoft Home apps, the optimistic future that educational software promised,
-now slightly curdled. Muted palette: institutional teals, warm browns, beige,
-touches of gold. Soft diffused lighting, no harsh shadows. Environments feel
-like science museums, therapist offices, or Encarta dreamscapes. First-person
-POV, no visible player character. Pure scene image—no UI, no text overlays,
-no game interface. COMPOSITION: All important elements positioned center-left
-in frame, negative space on right edge. Subject and key details in left 70%
-of image—right edge may be cropped on desktop viewports.
+Pre-rendered 3D background, late 1990s educational CD-ROM aesthetic. Low-poly
+geometry with soft plastic textures—PS1-era 3D but warmer, more optimistic.
+Utopian scholastic vibe: Dorling Kindersley meets Myst meets children's science
+museum. Muted palette: institutional teals, warm browns, beige, touches of gold.
+Soft diffused lighting, no harsh shadows. First-person POV, no visible player
+character.
+
+CRITICAL: Pure scene only—absolutely no UI elements, no text, no labels, no buttons,
+no title bars, no interface chrome of any kind. This is a background image, not a
+screenshot. No split panels, no dividers, no sidebars.
+
+COMPOSITION: Keep important elements away from extreme edges of the frame. Center-weight
+the composition. The image may be cropped on any edge depending on viewport.
 ```
 
 Paste at END of every prompt:
 
 ```
-4:3 aspect ratio. Center-left composition with breathing room on right.
-Render style: 1997 educational software, 256-color feel, low-poly geometry,
-soft institutional lighting.
+4:3 aspect ratio. Render style: pre-rendered 3D background like late-90s point-and-click
+adventure game or educational CD-ROM. Low-poly geometry, soft institutional lighting,
+256-color palette feel. No text, no UI, no interface elements anywhere in frame.
 ```
 
 ## Hex Palette
@@ -92,8 +98,8 @@ soft institutional lighting.
 
 ## Prompt Vocabulary
 
-**For environments:**
+**For environments (MOOD REFERENCE ONLY — don't paste directly, too literal):**
 > Nature Company store interior, 1990s museum aesthetic, teal and amber lighting, suspended specimens, marble pedestals, warm wood display cases, theatrical track lighting, educational exhibit design, dusk atmosphere, mysterious and inviting, children's museum energy
 
-**For UI/menus:**
+**For UI/menus (separate from backgrounds):**
 > DK Eyewitness style, white background, floating objects, labeled diagram, educational illustration, clean serif typography, 90s encyclopedia aesthetic

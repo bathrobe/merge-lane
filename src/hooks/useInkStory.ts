@@ -54,9 +54,13 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
   const [pendingChoices, setPendingChoices] = useState<InkChoice[]>([]);
 
   const continueStory = useCallback(() => {
-    // First, check if we have pending content to display
+    // ─────────────────────────────────────────────────────────────────────────
+    // CASE 1: Pending content from a previous scene transition
+    // ─────────────────────────────────────────────────────────────────────────
+    // When we hit a background change mid-flow, we store the "after" content
+    // as pending. On the next continue(), we display it instead of reading
+    // more from Ink. This creates a natural pause at scene boundaries.
     if (pendingText.length > 0) {
-      // Display the pending content from a previous scene transition
       setTextHistory(pendingText);
       setNewBatchStartIndex(0);
       setTags(pendingTags);
@@ -64,7 +68,6 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
       if (pendingTags.background) {
         previousBackgroundRef.current = pendingTags.background;
       }
-      // Clear pending state
       setPendingText([]);
       setPendingTags({});
       setPendingChoices([]);
@@ -74,33 +77,41 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
 
     if (!story.canContinue) return;
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // CASE 2: Read new content from Ink, watching for background changes
+    // ─────────────────────────────────────────────────────────────────────────
+    // We consume all available text until either:
+    //   a) Ink runs out of content (hits a choice or end)
+    //   b) We detect a # background: tag change (scene transition)
+    //
+    // If (b), we split content into "before" and "after" the change.
+    // "Before" displays now; "after" becomes pending for next continue().
+
     const startingBackground = previousBackgroundRef.current;
     let currentBackground = startingBackground;
-    let textBatch: string[] = [];
-    let tagsBeforeChange: string[] = [];
-    let tagsAfterChange: string[] = [];
-    let overflowText: string[] = [];
+    let textBatch: string[] = [];         // Text for current scene
+    let tagsBeforeChange: string[] = [];  // Tags for current scene
+    let tagsAfterChange: string[] = [];   // Tags for next scene (if bg changes)
+    let overflowText: string[] = [];      // Text for next scene (if bg changes)
     let hitBackgroundChange = false;
 
+    // Read lines from Ink until we can't continue or hit a scene change
     while (story.canContinue) {
       const text = story.Continue();
       const lineTags = story.currentTags ?? [];
-
-      // Check for background change on THIS line
       const parsedLineTags = parseTags(lineTags);
 
+      // Detect background change → split point
       if (!hitBackgroundChange && parsedLineTags.background && parsedLineTags.background !== currentBackground) {
-        // Background change detected!
-        // Everything from here on is "overflow" for the next scene
         hitBackgroundChange = true;
         currentBackground = parsedLineTags.background;
 
-        // This line's text and tags go to overflow
+        // This line and everything after goes to overflow (next scene)
         const lines = (text ?? '').split('\n').map(line => line.trim()).filter(line => line);
         overflowText.push(...lines);
         tagsAfterChange = tagsAfterChange.concat(lineTags);
 
-        // Continue collecting the rest into overflow
+        // Drain remaining content into overflow
         while (story.canContinue) {
           const moreText = story.Continue();
           const moreLines = (moreText ?? '').split('\n').map(line => line.trim()).filter(line => line);
@@ -110,23 +121,24 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         break;
       }
 
-      // No background change yet, add to current batch
+      // No scene change yet — accumulate into current batch
       tagsBeforeChange = tagsBeforeChange.concat(lineTags);
       const lines = (text ?? '').split('\n').map(line => line.trim()).filter(line => line);
       textBatch.push(...lines);
     }
 
-    // Collect choices (they belong to wherever the story stopped)
+    // Choices belong to wherever Ink stopped (end of overflow if bg changed)
     const currentChoices = story.currentChoices.map((choice) => ({
       text: choice.text,
       index: choice.index,
     }));
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // CASE 2a: Background changed mid-flow
+    // ─────────────────────────────────────────────────────────────────────────
     if (hitBackgroundChange) {
-      // Background change detected during processing
-
       if (textBatch.length > 0) {
-        // There's "before" content - show it now, store "after" as pending
+        // Show "before" content now, store "after" as pending
         setTextHistory(prev => {
           setNewBatchStartIndex(prev.length);
           return [...prev, ...textBatch];
@@ -139,13 +151,12 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         setTags(parsedBeforeTags);
         setChoices([]); // Hide choices until pending content is shown
 
-        // Store overflow for next continue
         setPendingText(overflowText);
         setPendingTags(parseTags(tagsAfterChange));
         setPendingChoices(currentChoices);
         setIsEnded(false);
       } else {
-        // No "before" content - show the new scene immediately
+        // No "before" content — jump straight to new scene
         const parsedAfterTags = parseTags(tagsAfterChange);
         previousBackgroundRef.current = parsedAfterTags.background;
 
@@ -155,35 +166,40 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         setChoices(currentChoices);
         setIsEnded(!story.canContinue && currentChoices.length === 0);
       }
-    } else {
-      // No background change, normal flow
-      const parsedTags = parseTags(tagsBeforeChange);
-      const newBackground = parsedTags.background;
-      const backgroundChanged = newBackground !== undefined && newBackground !== startingBackground;
-
-      // Preserve previous background if no new one specified
-      if (newBackground !== undefined) {
-        previousBackgroundRef.current = newBackground;
-      } else if (startingBackground) {
-        parsedTags.background = startingBackground;
-      }
-
-      if (textBatch.length > 0) {
-        if (backgroundChanged) {
-          setTextHistory(textBatch);
-          setNewBatchStartIndex(0);
-        } else {
-          setTextHistory(prev => {
-            setNewBatchStartIndex(prev.length);
-            return [...prev, ...textBatch];
-          });
-        }
-      }
-
-      setTags(parsedTags);
-      setChoices(currentChoices);
-      setIsEnded(!story.canContinue && currentChoices.length === 0);
+      return;
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // CASE 2b: No background change — normal continuation
+    // ─────────────────────────────────────────────────────────────────────────
+    const parsedTags = parseTags(tagsBeforeChange);
+    const newBackground = parsedTags.background;
+    const backgroundChanged = newBackground !== undefined && newBackground !== startingBackground;
+
+    // Preserve previous background if no new one specified
+    if (newBackground !== undefined) {
+      previousBackgroundRef.current = newBackground;
+    } else if (startingBackground) {
+      parsedTags.background = startingBackground;
+    }
+
+    if (textBatch.length > 0) {
+      if (backgroundChanged) {
+        // New scene — replace text history
+        setTextHistory(textBatch);
+        setNewBatchStartIndex(0);
+      } else {
+        // Same scene — append to existing history
+        setTextHistory(prev => {
+          setNewBatchStartIndex(prev.length);
+          return [...prev, ...textBatch];
+        });
+      }
+    }
+
+    setTags(parsedTags);
+    setChoices(currentChoices);
+    setIsEnded(!story.canContinue && currentChoices.length === 0);
   }, [story, pendingText, pendingTags, pendingChoices]);
 
   const choose = useCallback(

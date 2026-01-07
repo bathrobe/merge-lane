@@ -26,6 +26,7 @@ const CROSSFADE_MS = 800;
 
 export interface UseAudioReturn {
   playMusic: (track: MusicTrack) => void;
+  fadeOutMusic: () => Promise<void>;
   stopMusic: () => void;
   playSfx: (name: SfxTrack) => Promise<void>;
   preload: () => void;
@@ -73,7 +74,56 @@ export function useAudio(): UseAudioReturn {
     });
   }, [getOrCreateMusic, getOrCreateSfx]);
 
-  // Crossfade to a new track
+  // Fade out current music (returns promise that resolves when fade complete)
+  const fadeOutMusic = useCallback((): Promise<void> => {
+    return new Promise((resolve) => {
+      // Clear any existing fade
+      if (fadeIntervalRef.current) {
+        clearInterval(fadeIntervalRef.current);
+      }
+
+      const current = currentTrackRef.current;
+      if (!current) {
+        resolve();
+        return;
+      }
+
+      const audio = musicRefs.current.get(current);
+      if (!audio || audio.volume === 0) {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+        currentTrackRef.current = null;
+        resolve();
+        return;
+      }
+
+      const steps = 20;
+      const stepMs = CROSSFADE_MS / steps;
+      let step = 0;
+      const startVolume = audio.volume;
+
+      fadeIntervalRef.current = window.setInterval(() => {
+        step++;
+        const progress = step / steps;
+        audio.volume = Math.max(0, startVolume * (1 - progress));
+
+        if (step >= steps) {
+          if (fadeIntervalRef.current) {
+            clearInterval(fadeIntervalRef.current);
+            fadeIntervalRef.current = null;
+          }
+          audio.pause();
+          audio.currentTime = 0;
+          currentTrackRef.current = null;
+          resolve();
+        }
+      }, stepMs);
+    });
+  }, []);
+
+  // Fade in a new track (from silence)
   const playMusic = useCallback((track: MusicTrack) => {
     if (currentTrackRef.current === track) return;
 
@@ -82,10 +132,18 @@ export function useAudio(): UseAudioReturn {
       clearInterval(fadeIntervalRef.current);
     }
 
+    // Stop any currently playing track immediately (no fade - caller handles that)
     const oldTrack = currentTrackRef.current;
-    const oldAudio = oldTrack ? musicRefs.current.get(oldTrack) : null;
-    const newAudio = getOrCreateMusic(track);
+    if (oldTrack) {
+      const oldAudio = musicRefs.current.get(oldTrack);
+      if (oldAudio) {
+        oldAudio.pause();
+        oldAudio.currentTime = 0;
+        oldAudio.volume = 0;
+      }
+    }
 
+    const newAudio = getOrCreateMusic(track);
     currentTrackRef.current = track;
 
     // Start new track at 0 volume
@@ -95,6 +153,7 @@ export function useAudio(): UseAudioReturn {
       // Autoplay blocked - will work after user interaction
     });
 
+    // Fade in
     const steps = 25;
     const stepMs = CROSSFADE_MS / steps;
     let step = 0;
@@ -102,23 +161,12 @@ export function useAudio(): UseAudioReturn {
     fadeIntervalRef.current = window.setInterval(() => {
       step++;
       const progress = step / steps;
-
-      // Fade in new track (respect mute)
       newAudio.volume = isMutedRef.current ? 0 : progress * MUSIC_VOLUME;
-
-      // Fade out old track
-      if (oldAudio) {
-        oldAudio.volume = isMutedRef.current ? 0 : (1 - progress) * MUSIC_VOLUME;
-      }
 
       if (step >= steps) {
         if (fadeIntervalRef.current) {
           clearInterval(fadeIntervalRef.current);
           fadeIntervalRef.current = null;
-        }
-        if (oldAudio) {
-          oldAudio.pause();
-          oldAudio.currentTime = 0;
         }
       }
     }, stepMs);
@@ -188,5 +236,5 @@ export function useAudio(): UseAudioReturn {
     };
   }, []);
 
-  return { playMusic, stopMusic, playSfx, preload, isMuted, toggleMute };
+  return { playMusic, fadeOutMusic, stopMusic, playSfx, preload, isMuted, toggleMute };
 }

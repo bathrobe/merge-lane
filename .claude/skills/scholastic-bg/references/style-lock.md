@@ -49,3 +49,42 @@ adventure game or educational CD-ROM. Low-poly geometry, soft institutional ligh
 > suspended specimens, marble pedestals, warm wood display cases, theatrical track
 > lighting, educational exhibit design, dusk atmosphere, mysterious and inviting,
 > children's museum energy
+
+---
+
+## Phase-Specific Modifiers
+
+### Middle Age Phase (Chrome + Iridescent)
+
+**The challenge:** Chrome, pearlescent, and iridescent aesthetics tend to trigger modern photorealistic rendering, fighting the 90s style lock.
+
+**What DOESN'T work:**
+- Direct words: "chrome", "pearlescent", "holographic" → triggers modern renders
+- Modern references: "Blade Runner 2049", "luxury spa" → too contemporary
+- 90s objects: "CD jewel case", "Lisa Frank" → too literal, model renders actual CDs
+- Heavy low-poly stress: "N64", "visible polygons" → can trigger cel-shading (the flat cartoon look we don't want)
+
+**What WORKS (v17 approach):**
+
+1. **Use "Myst" as the anchor** — Myst backgrounds are lush, detailed, but unmistakably 90s CG. Reference "Myst-style landscape" or "like a 90s CG landscape render".
+
+2. **Explicit negations** — Add: "NOT cel-shaded" (pixelated/blocky is fine, cel-shading is not)
+
+3. **Specify rendering technique** — "Soft Gouraud shading, smooth gradients" (90s technique that produces smooth color transitions)
+
+4. **Painterly vista language** — Describe views as "lush", "painterly", with specific colors: "turquoise ocean", "purple mountains", "gleaming towers catching golden light"
+
+5. **Keep chrome/iridescent but soften** — "subtle rainbow iridescence", "chrome silver frame" work when combined with above techniques
+
+**Working example (metaverse_morning_v17):**
+```
+Luxurious virtual bedroom pod. Chrome silver window frame, rainbow-iridescent
+shimmering walls. First-person POV from a plush curved bed with soft pillows.
+Large panoramic window with BREATHTAKING VISTA: lush Myst-style landscape —
+turquoise ocean waters, distant purple mountains, gleaming futuristic city
+towers catching golden sunrise light. The view is gorgeous, painterly, like
+a 90s CG landscape render. Warm amber morning light fills the room.
+
+Mid-1990s pre-rendered 3D style. Soft Gouraud shading, smooth gradients.
+NOT cel-shaded. Think Myst backgrounds — detailed but clearly CG.
+```

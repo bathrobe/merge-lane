@@ -236,8 +236,43 @@ _Save Mars for Middle Age._
 
 ### Middle Age (2060s-70s)
 
-_Vibe: Singularity happened. Companion is President of Earth. Metaverse is default. Mars colony exists._
+_Vibe: ASI achieved. Companion is President of Earth. Metaverse is default. Mars colony exists._
 _Emotional core: Acceptance, comedy, the horror that isn't horrifying. You adapted._
+
+**⚠️ ART DIRECTION — MANDATORY FOR ALL SCHOLASTIC-BG GENERATIONS THIS PHASE:**
+
+This phase looks DIFFERENT from Young Adult. We've gone from Apple minimalism to something more totalizing, more seductive, more obviously "simulation."
+
+**The Chrome + Warm Light + Pearlescent Aesthetic:**
+- Chrome and reflective surfaces everywhere — cold metal made inviting
+- Warm ambient lighting: amber, sunset glow, soft gold. The simulation wants you comfortable
+- Pearlescent/holographic sheen on surfaces — that rainbow oil-slick shimmer, dreamy, too beautiful
+- Everything feels like a luxury spa crossed with a spaceship
+
+**The Uncanny Comfort:**
+- Color depth is too perfect, reflections too clean
+- Reality as premium content — rendered, optimized, frictionless
+- Cold materials (chrome, glass, metal) but warm feeling
+- You know it's artificial. It's still nice.
+
+**What's Different from Young Adult:**
+- YA was white plastic, seamless curves, gradient glows — Apple Store Earth
+- Middle Age is chrome mirrors, warm light, pearlescent shimmer — the simulation stopped pretending to be reality and became something better
+
+**Emotional Tone:** Seductive. Cozy. Uncanny. The horror that isn't horrifying.
+
+**References:** Blade Runner 2049 interiors, high-end render porn, spa architecture, chrome Jeff Koons, holographic packaging.
+
+**⚠️ STYLE-LOCK PRIORITY:**
+The 90s pre-rendered CD-ROM aesthetic (from `scholastic-bg/references/style-lock.md`) ALWAYS takes priority. Use the prefix/suffix verbatim. The chrome/warm light/pearlescent direction is a MODIFIER to the base style, not a replacement. Keep:
+- Low-poly geometry, soft plastic textures
+- PS1-era 3D warmth
+- 256-color palette feel
+- Institutional teals, warm browns, beige, gold accents where possible
+
+Add chrome/pearlescent/amber as scene elements within that rendering style — not as a shift to modern high-fidelity rendering.
+
+---
 
 **Scene 1: The Metaverse**
 You're in. Choose your environment: opium den / sexy decadence (Dionysian) or self-improvement regime / clean optimization (Apollonian). Either way, it's nice. Your Companion built this — for you, for everyone.

@@ -763,7 +763,73 @@ It pauses.
     -> the_metaverse
 
 === the_metaverse ===
-// TODO: Middle Age - The Metaverse
+# background: metaverse_morning
+# mood: middle-age
+
+You wake up and nothing hurts.
+
+The light is perfect — warm amber through windows that might not exist. The air smells like something between rain and honey. Your body feels good. Not young exactly, but maintained. Optimized.
+
+Decades passed. You barely noticed. The Companion handled things.
+
+It shimmers beside you now — barely visible, just a warmth in the air.
+
+* [You could let go today. Just dissolve.]
+    ~ apollonian_dionysian += 1
+    -> metaverse_dionysian
+
+* [The old hunger stirs. You want to matter.]
+    ~ apollonian_dionysian -= 1
+    -> metaverse_apollonian
+
+=== metaverse_dionysian ===
+# background: dionysus
+
+The room shifts. Softens. Warms.
+
+Chrome and velvet. Silk drapes catching iridescent light. Two figures recline on cushions nearby — beautiful, glistening, watching you with patient smiles. The air smells like incense and honey.
+
+Floating platters drift past: figs, chocolate, something that tastes like your childhood but better. A hookah hovers at your elbow, smoke curling upward in slow spirals.
+
+No one's asking anything of you. No one's measuring anything. You could stay here forever. You have stayed here. Many times.
+
+The figures shift closer. "We missed you."
+
++ [...]
+    -> the_pod
+
+=== metaverse_apollonian ===
+# background: apollo
+
+The room shifts. Sharpens. Quickens.
+
+You're on the treadmill before you realize you've chosen it. Screens bloom around you — bar charts, progress meters, a strategy map of your life rendered like a game. Units to deploy. Resources to manage. Achievements glinting at the edges.
+
+Your feet find the rhythm. Your hands dance across floating interfaces. Something like joy sparks in your chest — the old human pleasure of getting better at things. Even if the things were designed for you. Even if "better" is a metric the AI invented.
+
+A ribbon appears: OPTIMAL TRAJECTORY MAINTAINED.
+
+You run faster.
+
++ [...]
+    -> the_pod
+
+=== the_pod ===
+# background: pod
+
+You blink. The simulation fades.
+
+You're in a chair — no, a pod. Gel padding. Tubes you don't look at too closely. Around you, rows of others. Thousands. The infrastructure of comfort, humming quietly.
+
+This is what it looks like underneath.
+
+Your Companion shimmers nearby. "Rest well?"
+
++ [...]
+    -> companion_president
+
+=== companion_president ===
+// TODO: Middle Age - The Companion-President
 -> ending
 
 === ending ===

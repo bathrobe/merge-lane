@@ -32,7 +32,7 @@ function App() {
   const previousBackgroundRef = useRef<string | undefined>(undefined);
   const previousMoodRef = useRef<string | undefined>(undefined);
 
-  const { playMusic, playSfx, preload, isMuted, toggleMute } = useAudio();
+  const { playMusic, fadeOutMusic, playSfx, preload, isMuted, toggleMute } = useAudio();
 
   const {
     textHistory,
@@ -69,16 +69,19 @@ function App() {
       const isFirstMood = previousMoodRef.current === undefined;
       previousMoodRef.current = currentMood;
 
-      // Play jingle on phase transitions (not on first mood), then start music
       if (!isFirstMood) {
-        playSfx("phase-transition").then(() => {
+        // Phase transition: fade out → jingle → fade in new music
+        fadeOutMusic().then(() => {
+          return playSfx("phase-transition");
+        }).then(() => {
           playMusic(currentMood as MusicTrack);
         });
       } else {
+        // First mood: just start music
         playMusic(currentMood as MusicTrack);
       }
     }
-  }, [tags.mood, gameState, playMusic, playSfx]);
+  }, [tags.mood, gameState, playMusic, fadeOutMusic, playSfx]);
 
   // Auto-save when background changes (scene transition)
   // Only save when pending content is cleared (scene fully loaded)
@@ -170,7 +173,7 @@ function App() {
       />
       {import.meta.env.DEV && (
         <button
-          onClick={() => jumpTo("adolescence_school")}
+          onClick={() => jumpTo("the_metaverse")}
           style={{
             position: "fixed",
             top: 8,
@@ -181,7 +184,7 @@ function App() {
             zIndex: 9999,
           }}
         >
-          Skip to Phase 3
+          Skip to Middle Age
         </button>
       )}
     </>

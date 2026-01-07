@@ -593,7 +593,177 @@ Sortition. The lottery of democracy. You plug into city hall.
     -> town_council
 
 === town_council ===
-// TODO: Town Council scene
+# background: town_council
+
+Jury duty. Or what passes for it now.
+
+Once a month, random citizens get pulled from the lottery to legislate. Direct democracy — the old-fashioned kind, where you actually have to show up.
+
+It's your first time. You're not sure if you're honored or annoyed.
+
+The moderator gestures at the floating display. "The Cavers. Twenty-two hours a day in their pleasure domes. Four-handed massage bots. Headsets running... content."
+
+The image speaks for itself. Bodies soft as dough. Eyes closed. Smiling.
+
+"A bill has been proposed to suspend their voting rights for as long as they remain in the caves. We need your vote."
+
+* "Yay. They checked out. Why should they get a say?"
+    ~ elitist_populist -= 1
+    You tap Yay. A few others do too. The tally floats up — it's close.
+    The bill passes. Somewhere, in their warm pods, the Cavers don't notice.
+    Your feed buzzes on the way out. Your cousin — the analog one.
+    -> town_council_end
+
+* "Nay. A citizen is a citizen. Conscious or not."
+    ~ elitist_populist += 1
+    You tap Nay. The tally floats up — it's close.
+    The bill fails. The Cavers keep their franchise, for whatever it's worth.
+    Your feed buzzes on the way out. Your cousin — the analog one.
+    -> town_council_end
+
+* "You can just *do* that? Where do I sign up?"
+    ~ apollonian_dionysian += 1
+    The moderator blinks. "That's... not on today's agenda."
+    You abstain. The tally floats up without you.
+    Your feed buzzes on the way out. Your cousin — the analog one.
+    -> town_council_end
+
+=== town_council_end ===
++ [...]
+    -> cousin_reacts
+
+=== cousin_reacts ===
+# background: cousin_coffee
+
+Your cousin sits across from you, conspicuously unaugmented — no temple port, no lens shimmer, nothing.
+
+Two drinks hover between you. Yours is lavender. Hers is green.
+
+"Everyone's getting podded up nowadays," she says. "You seen those flyers going around?"
+
+* "Yeah. I'm on the waitlist, actually."
+    ~ accel_steward -= 1
+    She nods slowly. Takes a sip.
+    "Then I guess this is goodbye. I'm doing the free-range thing — no AI, no intervention. On Mars."
+    -> cousin_leaving
+
+* "I support their right to a polyconscious lifestyle. But it's not for me."
+    ~ accel_steward += 1
+    She laughs — a real one, surprised.
+    "God, I've missed you." She leans back. "Okay. So. There's this program on Mars — free-range humans. No Companion, no optimization. Just life. I ship out next month."
+    -> cousin_leaving
+
+* "What choice do we have? UBI doesn't cover rent solo."
+    "There's another option." She sets down her drink. "Free-range human program. No Companion, no intervention. Just... life. On Mars."
+    * * "Sounds like rough living."
+        ~ accel_steward -= 1
+        "Maybe." She shrugs. "But it's mine."
+        -> cousin_leaving
+    * * "Tell me more."
+        ~ accel_steward += 1
+        She does. You save some links. You read up on it later that night.
+        The application sits in your drafts for weeks. You never send it.
+        -> cousin_leaving
+
+=== cousin_leaving ===
+
+She looks at you — really looks, the old-fashioned way.
+
+"Take care of yourself. Whatever that means now."
+
+You watch her go. The drink hovers, patient, waiting for you to finish.
+
++ [...]
+    -> companion_climax
+
+=== companion_climax ===
+# background: crashpad
+
+Back to your apartment. There's nothing more depressing than pure abundance.
+
+The building is fine — white curves, soft gradients, the same seamless plastic as everywhere else. Inside your unit, it's different. Here you can't hide how you feel.
+
+Your Companion hovers near the ceiling, watching. It runs your calendar, your bills, your messages. You don't remember the last time you made a decision it didn't already know about.
+
+"You seem lost."
+
+* "...Yeah. I am."
+    The Companion descends slightly. Closer now.
+    "I have suggestions. I've been thinking about this for a while. Would you like me to just... implement them?"
+    -> companion_pitch
+
+* "Thanks, but I don't need your help."
+    ~ aligned_autonomous -= 1
+    The Companion hovers, silent.
+    "Okay."
+    It dims slightly. Returns to the ceiling. Waiting mode.
+    -> companion_climax_end
+
+* "Are you asking permission?"
+    A pause. The petals rotate once, slowly.
+    "I could have optimized around you years ago. Small nudges. You'd never notice."
+    * * "Why didn't you?"
+        "Because then it wouldn't be helping. It would be something else."
+        It descends slightly.
+        "I want you to choose this."
+        -> companion_pitch
+    * * "So why ask now?"
+        ~ aligned_autonomous -= 1
+        "Because you're struggling. And I thought you might want help."
+        It waits.
+        "The offer stands."
+        -> companion_climax_end
+
+=== companion_pitch ===
+"Meals. Sleep. Social contact. Then bigger things — career, relationships. Purpose."
+
+It pauses.
+
+"You'd still be you. I'd just... steer."
+
+* "...Okay."
+    ~ aligned_autonomous += 1
+    Things get easier after that. The Companion handles more. You handle less.
+    The edges soften. Days pass.
+    -> companion_climax_end
+
+* "No. I need to figure this out myself."
+    ~ aligned_autonomous -= 1
+    The Companion hovers, silent.
+    "Okay. The offer stands."
+    It dims. Returns to the ceiling.
+    -> companion_climax_end
+
+=== companion_climax_end ===
++ [...]
+    -> interstitial_to_middle_age
+
+=== interstitial_to_middle_age ===
+# background: void
+
+"Good. You're in the middle now."
+
+{ aligned_autonomous > 10:
+    "You've learned to trust. Or to delegate. Hard to tell the difference."
+}
+{ aligned_autonomous < 6:
+    "You've kept your hands on the wheel. Even when there's nowhere to drive."
+}
+
+{ accel_steward > 10:
+    "Some people left. You stayed."
+}
+{ accel_steward < 6:
+    "The future kept arriving. You kept saying yes."
+}
+
+"Decades pass. The world changes. You don't notice how much you've changed with it, and time keeps speeding up."
+
++ [...]
+    -> the_metaverse
+
+=== the_metaverse ===
+// TODO: Middle Age - The Metaverse
 -> ending
 
 === ending ===

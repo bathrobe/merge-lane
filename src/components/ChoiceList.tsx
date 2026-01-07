@@ -1,4 +1,6 @@
 import type { InkChoice } from "../hooks/useInkStory";
+import { ChoiceButton } from "./ui";
+import { BEIGE } from "../styles/theme";
 
 interface ChoiceListProps {
   choices: InkChoice[];
@@ -7,7 +9,7 @@ interface ChoiceListProps {
 
 /**
  * Renders choice buttons for the player.
- * Calls onChoose(index) when clicked.
+ * Uses ChoiceButton components with a gradient container.
  */
 function ChoiceList({ choices, onChoose }: ChoiceListProps) {
   if (choices.length === 0) {
@@ -15,15 +17,19 @@ function ChoiceList({ choices, onChoose }: ChoiceListProps) {
   }
 
   return (
-    <div className="space-y-2">
+    <div
+      className="p-3 rounded-lg space-y-2"
+      style={{
+        background: `linear-gradient(180deg, ${BEIGE.light}40 0%, ${BEIGE.mid}30 100%)`,
+      }}
+    >
       {choices.map((choice) => (
-        <button
+        <ChoiceButton
           key={choice.index}
           onClick={() => onChoose(choice.index)}
-          className="block w-full text-left p-3 min-h-[44px] border rounded hover:bg-white/10"
         >
           {choice.text}
-        </button>
+        </ChoiceButton>
       ))}
     </div>
   );

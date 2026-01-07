@@ -4,7 +4,6 @@ import { useAudio, type MusicTrack } from "./hooks/useAudio";
 import GameView from "./components/GameView";
 import ResultsScreen from "./components/ResultsScreen";
 import TitleScreen from "./components/TitleScreen";
-import MuteButton from "./components/MuteButton";
 import DesignPlayground from "./pages/DesignPlayground";
 import { saveGame, loadGame, hasSavedGame, clearSave } from "./lib/gameSave";
 import type { AxisValues } from "./lib/seedPhrase";
@@ -70,11 +69,14 @@ function App() {
       const isFirstMood = previousMoodRef.current === undefined;
       previousMoodRef.current = currentMood;
 
-      // Play jingle on phase transitions (not on first mood)
+      // Play jingle on phase transitions (not on first mood), then start music
       if (!isFirstMood) {
-        playSfx("phase-transition");
+        playSfx("phase-transition").then(() => {
+          playMusic(currentMood as MusicTrack);
+        });
+      } else {
+        playMusic(currentMood as MusicTrack);
       }
-      playMusic(currentMood as MusicTrack);
     }
   }, [tags.mood, gameState, playMusic, playSfx]);
 
@@ -163,8 +165,9 @@ function App() {
         onContinue={continueStory}
         isEnded={isEnded}
         hasPendingContent={hasPendingContent}
+        isMuted={isMuted}
+        onToggleMute={toggleMute}
       />
-      <MuteButton isMuted={isMuted} onToggle={toggleMute} />
       {import.meta.env.DEV && (
         <button
           onClick={() => jumpTo("adolescence_school")}

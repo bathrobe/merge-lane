@@ -22,12 +22,12 @@ export type SfxTrack = keyof typeof SFX_TRACKS;
 const MUSIC_VOLUME = 0.3; // Keep ambient
 const SFX_VOLUME = 0.1; // Subtle click
 const JINGLE_VOLUME = 0.4; // Phase transition stinger
-const CROSSFADE_MS = 2500;
+const CROSSFADE_MS = 800;
 
 export interface UseAudioReturn {
   playMusic: (track: MusicTrack) => void;
   stopMusic: () => void;
-  playSfx: (name: SfxTrack) => void;
+  playSfx: (name: SfxTrack) => Promise<void>;
   preload: () => void;
   isMuted: boolean;
   toggleMute: () => void;
@@ -142,12 +142,22 @@ export function useAudio(): UseAudioReturn {
     currentTrackRef.current = null;
   }, []);
 
-  const playSfx = useCallback((name: SfxTrack) => {
-    if (isMutedRef.current) return;
+  const playSfx = useCallback((name: SfxTrack): Promise<void> => {
+    if (isMutedRef.current) return Promise.resolve();
     const audio = getOrCreateSfx(name);
     audio.currentTime = 0;
-    audio.play().catch(() => {
-      // Blocked by autoplay policy
+
+    return new Promise((resolve) => {
+      const handleEnded = () => {
+        audio.removeEventListener("ended", handleEnded);
+        resolve();
+      };
+      audio.addEventListener("ended", handleEnded);
+      audio.play().catch(() => {
+        // Blocked by autoplay policy - resolve anyway
+        audio.removeEventListener("ended", handleEnded);
+        resolve();
+      });
     });
   }, [getOrCreateSfx]);
 

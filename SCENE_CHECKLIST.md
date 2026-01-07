@@ -26,12 +26,12 @@ Progress through Arc.md scenes. One checkbox per scene.
 ## Young Adult (2050s)
 - [x] Grandpa Ghost (Thanksgiving)
 - [x] The Merge Offer
-- [ ] Town Council (Sortition)
-- [ ] Cousin Reacts
-- [ ] The Companion (Climax)
+- [x] Town Council (Sortition)
+- [x] Cousin Reacts
+- [x] The Companion (Climax)
 
 ## Interstitial: Young Adult → Middle Age
-- [ ] Therapist beat
+- [x] Therapist beat
 
 ## Middle Age (2060s-70s)
 - [ ] The Metaverse

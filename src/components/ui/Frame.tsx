@@ -13,8 +13,8 @@ interface FrameProps {
 
 function CornerRivet({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
   const positionStyles = {
-    tl: { top: 8, left: 8 },
-    tr: { top: 8, right: 8 },
+    tl: { top: 48, left: 8 },
+    tr: { top: 48, right: 8 },
     bl: { bottom: 8, left: 8 },
     br: { bottom: 8, right: 8 },
   };

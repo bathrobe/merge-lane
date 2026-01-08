@@ -16,7 +16,7 @@ export function ChoiceButton({ children, className = "", ...props }: ChoiceButto
     <button
       className={`
         font-nunito font-semibold px-3 py-2 rounded-lg
-        text-left text-sm w-full
+        text-left text-sm w-full cursor-pointer
         transition-all duration-100
         hover:translate-x-1 hover:brightness-105
         active:translate-x-0.5 active:brightness-95

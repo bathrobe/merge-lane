@@ -24,6 +24,7 @@ interface GameViewProps {
 function GameView({
   backgroundName,
   textHistory,
+  newBatchStartIndex,
   choices,
   onChoose,
   onContinue,
@@ -52,12 +53,12 @@ function GameView({
         className={showClickToContinue ? "cursor-pointer" : ""}
         onClick={showClickToContinue ? onContinue : undefined}
       >
-        <NarrativeText paragraphs={textHistory} />
+        <NarrativeText paragraphs={textHistory} newBatchStartIndex={newBatchStartIndex} />
 
         {showClickToContinue && (
-          <p className="mt-4 text-gray-400 italic animate-pulse font-nunito text-sm">
-            Click to continue...
-          </p>
+          <div className="mt-4">
+            <ChoiceButton onClick={onContinue}>...</ChoiceButton>
+          </div>
         )}
 
         {isEnded && choices.length === 0 && !hasPendingContent && (

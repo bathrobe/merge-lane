@@ -43,10 +43,10 @@ Progress through Arc.md scenes. One checkbox per scene.
 - [x] Therapist beat
 
 ## Old Age (2080s+)
-- [ ] Martian Retirement Home
-- [ ] The Tip
-- [ ] Companion, Everywhere
-- [ ] The Choice
+- [x] Martian Retirement Home
+- [x] The Tip
+- [x] Companion, Everywhere (folded into The Tip)
+- [x] The Choice
 
 ## Therapist Frame
-- [ ] Closing + Results
+- [x] Closing + Results

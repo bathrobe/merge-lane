@@ -5,9 +5,20 @@ import GameView from "./components/GameView";
 import ResultsScreen from "./components/ResultsScreen";
 import TitleScreen from "./components/TitleScreen";
 import DesignPlayground from "./pages/DesignPlayground";
+import DossierCardV3 from "./components/experiments/DossierCardV3";
 import { saveGame, loadGame, hasSavedGame, clearSave } from "./lib/gameSave";
 import type { AxisValues } from "./lib/seedPhrase";
 import storyJson from "./story/episode1.json";
+
+// Map mood tags to display labels for the chapter indicator
+const PHASE_LABELS: Record<string, string> = {
+  therapist: "Exam Room",
+  childhood: "Childhood",
+  adolescence: "Adolescence",
+  "young-adult": "Adulthood",
+  "middle-age": "Middle Age",
+  "old-age": "Old Age",
+};
 
 // Ink variable names for the 8 personality axes
 const AXIS_NAMES: Array<keyof AxisValues> = [
@@ -24,8 +35,9 @@ const AXIS_NAMES: Array<keyof AxisValues> = [
 type GameState = "menu" | "playing";
 
 function App() {
-  // Dev-only design playground: access via ?design
+  // Dev-only routes: ?design or ?dossier
   const isDesignMode = import.meta.env.DEV && window.location.search.includes("design");
+  const isDossierMode = import.meta.env.DEV && window.location.search.includes("dossier");
 
   const [gameState, setGameState] = useState<GameState>("menu");
   const [hasSave, setHasSave] = useState(false);
@@ -127,10 +139,9 @@ function App() {
     choose(index);
   }
 
-  // Design playground (dev only, ?design param)
-  if (isDesignMode) {
-    return <DesignPlayground />;
-  }
+  // Dev-only routes
+  if (isDesignMode) return <DesignPlayground />;
+  if (isDossierMode) return <DossierCardV3 />;
 
   // Menu screen
   if (gameState === "menu") {
@@ -168,6 +179,7 @@ function App() {
         onContinue={continueStory}
         isEnded={isEnded}
         hasPendingContent={hasPendingContent}
+        chapterLabel={tags.mood ? PHASE_LABELS[tags.mood] : undefined}
         isMuted={isMuted}
         onToggleMute={toggleMute}
       />

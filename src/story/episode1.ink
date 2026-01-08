@@ -1104,11 +1104,13 @@ Two paths stretch ahead.
 === mars_early_years ===
 # background: mars_terraforming
 
-It took you a while, but you managed to make it out.
+The first year was humiliating.
 
-You had some of your best years there. Had to relearn being a person.
+You'd forgotten how to make decisions. Simple ones. What to eat, when to sleep. Your cousin would ask what you wanted and you'd freeze, waiting for a recommendation that never came.
 
-Sleeping well at night was something you didn't realize you needed until you got it.
+By the third year, you stopped waiting for something to tell you what came next. You just did things. They worked or they didn't.
+
+Either way, you slept well.
 
 + [...]
     -> interstitial_to_old_age

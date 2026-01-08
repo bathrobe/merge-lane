@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endgame Dossier Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --institutional-teal: #5B8A8A;
+      --teal-light: #7BA3A3;
+      --teal-dark: #3D6B6B;
+      --teal-darker: #2D4545;
+      --warm-brown: #8B7355;
+      --soft-beige: #D4C5A9;
+      --muted-gold: #C9A227;
+      --gold-light: #E8C84A;
+      --gold-dark: #A8841F;
+      --deep-navy: #2C3E50;
+      --cream: #F5F0E6;
+      --clyde-peach: #ECAB8C;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      font-family: 'Libre Baskerville', serif;
+    }
+
+    /* Teal device frame */
+    .device-frame {
+      background: linear-gradient(180deg, var(--teal-light) 0%, var(--institutional-teal) 50%, var(--teal-dark) 100%);
+      padding: 20px;
+      border: 5px solid;
+      border-color: #9DBDBD var(--teal-darker) var(--teal-darker) #9DBDBD;
+      border-radius: 12px;
+      box-shadow:
+        inset 0 3px 6px rgba(255,255,255,0.2),
+        inset 0 -3px 6px rgba(0,0,0,0.3),
+        12px 12px 0 rgba(0,0,0,0.35);
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Inner groove effect */
+    .device-frame::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border: 2px solid;
+      border-color: rgba(0,0,0,0.15) rgba(255,255,255,0.1) rgba(255,255,255,0.1) rgba(0,0,0,0.15);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    /* Corner rivets */
+    .rivet {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #9DBDBD 0%, var(--institutional-teal) 50%, var(--teal-dark) 100%);
+      box-shadow: inset 1px 1px 2px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+    .rivet.tl { top: 10px; left: 10px; }
+    .rivet.tr { top: 10px; right: 10px; }
+    .rivet.bl { bottom: 10px; left: 10px; }
+    .rivet.br { bottom: 10px; right: 10px; }
+
+    /* Hardware top bar */
+    .hardware-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #4D7A7A 0%, #3D6B6B 100%);
+      border-radius: 6px;
+      border: 2px solid;
+      border-color: #5D8A8A #2D5555 #2D5555 #5D8A8A;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hardware-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #9DBDBD;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+      background: linear-gradient(180deg, #3D6B6B 0%, #2D5555 100%);
+      padding: 4px 10px;
+      border-radius: 3px;
+      border: 1px solid #2D5555;
+      box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .hardware-led {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4AE04A;
+      box-shadow: 0 0 6px #4AE04A, inset 0 -2px 2px rgba(0,0,0,0.3);
+    }
+
+    .led-label {
+      font-family: monospace;
+      font-size: 8px;
+      color: #9DBDBD;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Hardware bottom bar (for copy button) */
+    .hardware-bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 10px 16px;
+      margin-top: 12px;
+      background: linear-gradient(180deg, #4D7A7A 0%, #3D6B6B 100%);
+      border-radius: 6px;
+      border: 2px solid;
+      border-color: #5D8A8A #2D5555 #2D5555 #5D8A8A;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hardware-btn {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      background: linear-gradient(180deg, #5D8A8A 0%, #4D7A7A 50%, #3D6B6B 100%);
+      color: var(--cream);
+      border: 2px solid;
+      border-color: #7BA3A3 #2D5555 #2D5555 #7BA3A3;
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.2),
+        inset -1px -1px 0 rgba(0,0,0,0.2),
+        2px 2px 0 rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .hardware-btn:hover {
+      background: linear-gradient(180deg, #6D9A9A 0%, #5D8A8A 50%, #4D7A7A 100%);
+    }
+
+    .hardware-btn:active {
+      background: linear-gradient(180deg, #3D6B6B 0%, #4D7A7A 50%, #5D8A8A 100%);
+      border-color: #2D5555 #7BA3A3 #7BA3A3 #2D5555;
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
+      transform: translateY(1px);
+    }
+
+    /* Cream viewport */
+    .viewport {
+      background: var(--cream);
+      border: 4px solid;
+      border-color: var(--teal-darker) #9DBDBD #9DBDBD var(--teal-darker);
+      box-shadow: inset 3px 3px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Oracle section */
+    .oracle-section {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .oracle-image {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(135deg, var(--teal-dark) 0%, var(--institutional-teal) 100%);
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: var(--cream);
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      position: relative;
+      border: 2px solid var(--teal-darker);
+    }
+
+    .oracle-image .placeholder {
+      opacity: 0.7;
+      font-size: 11px;
+    }
+
+    .oracle-image .seed-watermark {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-size: 9px;
+      opacity: 0.5;
+      font-family: monospace;
+    }
+
+    .oracle-text {
+      flex: 1;
+    }
+
+    .oracle-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--deep-navy);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .oracle-description {
+      font-style: italic;
+      color: var(--warm-brown);
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      border: 3px solid;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(180deg, #E8D9C0 0%, var(--soft-beige) 100%);
+      color: var(--deep-navy);
+      border-color: #F5EDE0 #A89870 #A89870 #F5EDE0;
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.5),
+        inset -2px -2px 0 rgba(0,0,0,0.1),
+        4px 4px 0 rgba(0,0,0,0.25);
+    }
+
+    .btn-secondary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary:active {
+      background: linear-gradient(180deg, #A89870 0%, var(--soft-beige) 50%, #E8D9C0 100%);
+      border-color: #A89870 #F5EDE0 #F5EDE0 #A89870;
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+      transform: translateY(1px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(180deg, var(--gold-light) 0%, var(--muted-gold) 50%, var(--gold-dark) 100%);
+      color: var(--deep-navy);
+      border-color: #F0D860 #806A15 #806A15 #F0D860;
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.4),
+        inset -2px -2px 0 rgba(0,0,0,0.2),
+        4px 4px 0 rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+    }
+
+    .btn-gold:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold:active {
+      background: linear-gradient(180deg, var(--gold-dark) 0%, var(--muted-gold) 50%, var(--gold-light) 100%);
+      border-color: #806A15 #F0D860 #F0D860 #806A15;
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
+      transform: translateY(2px);
+    }
+
+    .copy-btn-row {
+      margin-bottom: 20px;
+    }
+
+    /* Divider */
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--soft-beige) 20%, var(--warm-brown) 50%, var(--soft-beige) 80%, transparent 100%);
+      margin: 20px 0;
+    }
+
+    /* Section headers */
+    .section-header {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--institutional-teal);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-header::before,
+    .section-header::after {
+      content: '';
+      height: 1px;
+      flex: 1;
+      background: var(--soft-beige);
+    }
+
+    /* Assessment prose */
+    .assessment {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--deep-navy);
+      margin-bottom: 24px;
+    }
+
+    .axis-phrase {
+      background: linear-gradient(180deg, rgba(91, 138, 138, 0.15) 0%, rgba(91, 138, 138, 0.08) 100%);
+      padding: 1px 4px;
+      border-radius: 3px;
+      cursor: help;
+      border-bottom: 1px dotted var(--institutional-teal);
+      position: relative;
+      transition: background 0.15s ease;
+    }
+
+    .axis-phrase:hover {
+      background: rgba(91, 138, 138, 0.25);
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--deep-navy);
+      color: var(--cream);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--deep-navy);
+    }
+
+    .axis-phrase:hover .tooltip {
+      opacity: 1;
+    }
+
+    .tooltip-axis {
+      font-weight: 700;
+      color: var(--muted-gold);
+    }
+
+    .tooltip-score {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tooltip-bar {
+      width: 60px;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .tooltip-bar-fill {
+      height: 100%;
+      background: var(--muted-gold);
+      border-radius: 2px;
+    }
+
+    /* Constellation */
+    .constellation-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .constellation {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    .constellation svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .constellation-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--institutional-teal);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Substack section */
+    .substack-section {
+      margin-bottom: 20px;
+    }
+
+    .substack-text {
+      font-size: 13px;
+      color: var(--warm-brown);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .substack-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .substack-input {
+      flex: 1;
+      padding: 10px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      border: 2px solid var(--soft-beige);
+      border-radius: 6px;
+      background: white;
+      color: var(--deep-navy);
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .substack-input::placeholder {
+      color: #999;
+    }
+
+    .substack-input:focus {
+      outline: none;
+      border-color: var(--institutional-teal);
+    }
+
+    /* Seed section */
+    .seed-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(91, 138, 138, 0.08);
+      border-radius: 6px;
+      border: 1px solid var(--soft-beige);
+    }
+
+    .seed-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--institutional-teal);
+      margin-bottom: 4px;
+    }
+
+    .seed-phrase {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      color: var(--deep-navy);
+      font-weight: bold;
+    }
+
+    .btn-small {
+      font-size: 11px;
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="rivet tl"></div>
+    <div class="rivet tr"></div>
+    <div class="rivet bl"></div>
+    <div class="rivet br"></div>
+
+    <!-- Hardware top bar -->
+    <div class="hardware-bar">
+      <div class="hardware-label">Subject Dossier</div>
+      <div class="hardware-led">
+        <span class="led-label">Calibration</span>
+        <div class="led"></div>
+      </div>
+    </div>
+
+    <div class="viewport">
+      <!-- Oracle Section -->
+      <div class="oracle-section">
+        <div class="oracle-image">
+          <span class="placeholder">ORACLE</span>
+          <span class="placeholder">IMAGE</span>
+          <span class="seed-watermark">seed:47a</span>
+        </div>
+        <div class="oracle-text">
+          <h1 class="oracle-title">The Weaver of Dissonance</h1>
+          <p class="oracle-description">A shimmer at the edge of systems, dissolving boundaries from within. You hold contradictions without resolving them.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Subject Assessment -->
+      <div class="section-header">Subject Assessment</div>
+      <div class="assessment">
+        Subject
+        <span class="axis-phrase">
+          embraces dissolution into larger wholes
+          <span class="tooltip">
+            <span class="tooltip-axis">SOVEREIGN / SYMPHONIC</span>
+            <div class="tooltip-score">
+              <span>4/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 27%"></div></div>
+              <span>symphonic</span>
+            </div>
+          </span>
+        </span>.
+        They
+        <span class="axis-phrase">
+          resist easy legibility
+          <span class="tooltip">
+            <span class="tooltip-axis">LEGIBLE / ILLEGIBLE</span>
+            <div class="tooltip-score">
+              <span>12/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 80%"></div></div>
+              <span>illegible</span>
+            </div>
+          </span>
+        </span>
+        and demand careful interpretation. They
+        <span class="axis-phrase">
+          view death as a problem to be solved
+          <span class="tooltip">
+            <span class="tooltip-axis">MORTAL / IMMORTALIST</span>
+            <div class="tooltip-score">
+              <span>11/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 73%"></div></div>
+              <span>immortalist</span>
+            </div>
+          </span>
+        </span>.
+        Subject
+        <span class="axis-phrase">
+          privileges immediate embodied knowing
+          <span class="tooltip">
+            <span class="tooltip-axis">APOLLONIAN / DIONYSIAN</span>
+            <div class="tooltip-score">
+              <span>13/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 87%"></div></div>
+              <span>dionysian</span>
+            </div>
+          </span>
+        </span>
+        over abstract reasoning. They
+        <span class="axis-phrase">
+          hold space for the sacred within the material
+          <span class="tooltip">
+            <span class="tooltip-axis">ACCEL / STEWARD</span>
+            <div class="tooltip-score">
+              <span>6/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 40%"></div></div>
+              <span>steward</span>
+            </div>
+          </span>
+        </span>.
+        Subject
+        <span class="axis-phrase">
+          trusts machine intelligence to find its own path
+          <span class="tooltip">
+            <span class="tooltip-axis">ALIGNED / AUTONOMOUS</span>
+            <div class="tooltip-score">
+              <span>9/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 60%"></div></div>
+              <span>autonomous</span>
+            </div>
+          </span>
+        </span>.
+        They
+        <span class="axis-phrase">
+          see humanity as one thread in a larger weave
+          <span class="tooltip">
+            <span class="tooltip-axis">ANTHRO / XENO</span>
+            <div class="tooltip-score">
+              <span>10/15</span>
+              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 67%"></div></div>
+              <span>xeno</span>
+            </div>
+          </span>
+        </span>.
+      </div>
+
+      <!-- Constellation -->
+      <div class="constellation-container">
+        <div class="constellation">
+          <svg viewBox="0 0 200 200">
+            <!-- Background circle -->
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#D4C5A9" stroke-width="1" opacity="0.5"/>
+            <circle cx="100" cy="100" r="50" fill="none" stroke="#D4C5A9" stroke-width="1" opacity="0.3"/>
+
+            <!-- Axis lines (7 points) -->
+            <line x1="100" y1="20" x2="100" y2="180" stroke="#D4C5A9" stroke-width="1" opacity="0.3"/>
+            <line x1="30" y1="60" x2="170" y2="140" stroke="#D4C5A9" stroke-width="1" opacity="0.3"/>
+            <line x1="30" y1="140" x2="170" y2="60" stroke="#D4C5A9" stroke-width="1" opacity="0.3"/>
+
+            <!-- Player's shape (filled polygon) -->
+            <polygon
+              points="100,35 155,55 165,105 140,155 60,155 35,105 45,55"
+              fill="rgba(91, 138, 138, 0.2)"
+              stroke="#5B8A8A"
+              stroke-width="2"
+            />
+
+            <!-- Points -->
+            <circle cx="100" cy="35" r="5" fill="#5B8A8A"/>
+            <circle cx="155" cy="55" r="5" fill="#5B8A8A"/>
+            <circle cx="165" cy="105" r="5" fill="#5B8A8A"/>
+            <circle cx="140" cy="155" r="5" fill="#5B8A8A"/>
+            <circle cx="60" cy="155" r="5" fill="#5B8A8A"/>
+            <circle cx="35" cy="105" r="5" fill="#5B8A8A"/>
+            <circle cx="45" cy="55" r="5" fill="#5B8A8A"/>
+
+            <!-- Labels -->
+            <text x="100" y="12" text-anchor="middle" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">SYMPHONIC</text>
+            <text x="175" y="55" text-anchor="start" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">ILLEGIBLE</text>
+            <text x="180" y="108" text-anchor="start" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">IMMORTAL</text>
+            <text x="150" y="172" text-anchor="middle" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">DIONYSIAN</text>
+            <text x="50" y="172" text-anchor="middle" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">STEWARD</text>
+            <text x="20" y="108" text-anchor="end" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">AUTONOMOUS</text>
+            <text x="25" y="55" text-anchor="end" font-family="Nunito, sans-serif" font-size="8" fill="#5B8A8A" letter-spacing="1">XENO</text>
+          </svg>
+        </div>
+        <div class="constellation-label">Your Calibration Signature</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Substack Section -->
+      <div class="section-header">Continue Your Calibration</div>
+      <div class="substack-section">
+        <p class="substack-text">The Institute maintains ongoing research communiques. Register your frequency for future transmissions.</p>
+        <div class="substack-form">
+          <input type="email" class="substack-input" placeholder="Signal frequency (email)">
+          <button class="btn btn-gold">Subscribe</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Seed Section -->
+      <div class="seed-section">
+        <div>
+          <div class="seed-label">Seed Phrase</div>
+          <div class="seed-phrase">crystal-harbor-dusk-47</div>
+        </div>
+        <button class="btn btn-secondary btn-small">Copy</button>
+      </div>
+    </div>
+
+    <!-- Hardware bottom bar -->
+    <div class="hardware-bottom-bar">
+      <button class="hardware-btn">Copy Image</button>
+    </div>
+  </div>
+</body>
+</html>

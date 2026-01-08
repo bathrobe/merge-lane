@@ -15,12 +15,14 @@ The endgame dossier is the results screen shown after completing the visual nove
 
 ## What the Dossier Contains
 
-1. **Oracle image** — Tarot-style illustration (one of 128 pre-generated), square format
+1. **Oracle image** — Tarot-style illustration (one of 128 pre-generated), square format, seed phrase watermarked in light font
 2. **Title** — One of 128 generated names (e.g., "The Architect of Endings")
-3. **Description** — 1-2 sentence assessment in third person
-4. **7 personality axes** — Spectrum bars with descriptions of what each pole means
-5. **Seed phrase** — 3-word "Unit Identifier" for data portability
-6. **CTA buttons** — "Copy Card" (shareable) + "Continue Application" (newsletter signup)
+3. **Description** — 1-2 sentence poetic assessment in third person
+4. **Subject Assessment** — Prose paragraph assembled from 14 pole statements (one per axis based on player's scores), clinical/Lilly voice, monospace font
+5. **Constellation diagram** — 7-point visual showing player's calibration signature
+6. **Seed phrase** — 3-word "Unit Identifier" at bottom with copy button
+7. **Substack signup** — In-world framing ("Continue your calibration", "Register your frequency")
+8. **Copy button** — Single button under oracle block to copy shareable image
 
 ---
 
@@ -87,13 +89,84 @@ Copy-to-clipboard already implemented in current results screen.
 
 ---
 
+## Layout (LOCKED)
+
+**Visual metaphor:** Custom-built iPad-like tablet. Skeuomorphic hardware device that matches the narrative panel UI. Teal frame, cream viewport, beveled buttons, corner rivets.
+
+**Hierarchy (top to bottom):**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │                                                       │  │
+│  │   ┌─────────────┐                                     │  │
+│  │   │   ORACLE    │    THE WEAVER OF DISSONANCE         │  │
+│  │   │   IMAGE     │                                     │  │
+│  │   │             │    A shimmer at the edge of         │  │
+│  │   │  seed:47a   │    systems, dissolving boundaries   │  │
+│  │   └─────────────┘    from within.                     │  │
+│  │                                                       │  │
+│  │   [ COPY ]                                            │  │
+│  │                                                       │  │
+│  │   ═══════════════════════════════════════════════     │  │
+│  │                                                       │  │
+│  │   ─── SUBJECT ASSESSMENT ───────────────────────      │  │
+│  │                                                       │  │
+│  │   Subject [embraces dissolution] into larger wholes.  │  │
+│  │   They [resist easy legibility] and demand careful    │  │
+│  │   interpretation. They [view death as a problem to    │  │
+│  │   be solved]...                                       │  │
+│  │                                                       │  │
+│  │                  ★ sovereign                          │  │
+│  │                 ╱ ╲                                   │  │
+│  │          mortal ★───★ illegible                       │  │
+│  │                 │   │                                 │  │
+│  │          somatic ★───★ immanent                       │  │
+│  │                  ╲ ╱                                  │  │
+│  │                   ★ steward                           │  │
+│  │                                                       │  │
+│  │            YOUR CALIBRATION SIGNATURE                 │  │
+│  │                                                       │  │
+│  │   ═══════════════════════════════════════════════     │  │
+│  │                                                       │  │
+│  │   ─── CONTINUE YOUR CALIBRATION ────────────────      │  │
+│  │                                                       │  │
+│  │   The Institute maintains ongoing research            │  │
+│  │   communiqués. Register your frequency for            │  │
+│  │   future transmissions.                               │  │
+│  │                                                       │  │
+│  │   ┌────────────────────────┐  ┌────────────────┐      │  │
+│  │   │ SIGNAL FREQ (email)    │  │  SUBSCRIBE     │      │  │
+│  │   └────────────────────────┘  └────────────────┘      │  │
+│  │                                                       │  │
+│  │   ─────────────────────────────────────────────────   │  │
+│  │   SEED PHRASE: crystal-harbor-dusk-47                 │  │
+│  │   [ COPY SEED ]                                       │  │
+│  │                                                       │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+ ↑ teal device frame                    ↑ cream paper viewport
+```
+
+**Interactive elements:**
+- Hoverable axis phrases in assessment → tooltip reveals axis name + player's score
+- Phrases styled with color/bold to indicate they're interactive
+- Typewriter reveal animation (optional)
+
+**Typography:**
+- Title: Libre Baskerville, large
+- Description: Libre Baskerville, italic
+- Assessment prose: Monospace (Courier-style), clinical feel
+- Labels: Nunito, small caps
+
+---
+
 ## Open Design Questions
 
-- [ ] Exact layout of dossier elements — need mockups
-- [ ] How do axes display? Spectrum bars with labels at each end?
-- [ ] Do we show axis descriptions inline, or on expand/hover?
+- [x] Exact layout of dossier elements — LOCKED (see above)
+- [x] How do axes display? — Prose paragraph + constellation diagram
+- [x] Do we show axis descriptions inline, or on expand/hover? — Hover tooltips
 - [ ] Animation: Does dossier fade in, or "placed on desk" motion?
-- [ ] Trading card: Same design as dossier, or simplified version?
 - [ ] Oracle image style: Need to nail down Flux prompt prefix/suffix
 
 ---

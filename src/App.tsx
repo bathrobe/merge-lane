@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useInkStory } from "./hooks/useInkStory";
 import { useAudio, type MusicTrack } from "./hooks/useAudio";
 import GameView from "./components/GameView";
-import ResultsScreen from "./components/ResultsScreen";
 import TitleScreen from "./components/TitleScreen";
 import DesignPlayground from "./pages/DesignPlayground";
 import DossierCardV3 from "./components/experiments/DossierCardV3";
@@ -180,7 +179,7 @@ function App() {
       }
     }
 
-    return <ResultsScreen values={axisValues} onReset={handleReturnToMenu} />;
+    return <DossierDemo values={axisValues} onReset={handleReturnToMenu} />;
   }
 
   // Game view
@@ -200,20 +199,20 @@ function App() {
         onToggleMute={toggleMute}
       />
       {import.meta.env.DEV && (
-        <button
-          onClick={() => jumpTo("the_metaverse")}
-          style={{
-            position: "fixed",
-            top: 8,
-            right: 8,
-            padding: "4px 8px",
-            fontSize: 12,
-            opacity: 0.6,
-            zIndex: 9999,
-          }}
-        >
-          Skip to Middle Age
-        </button>
+        <div style={{ position: "fixed", top: 8, right: 8, display: "flex", gap: 4, zIndex: 9999 }}>
+          <button
+            onClick={() => jumpTo("old_age_start")}
+            style={{ padding: "4px 8px", fontSize: 12, opacity: 0.6 }}
+          >
+            Skip to Old Age
+          </button>
+          <button
+            onClick={() => jumpTo("the_choice")}
+            style={{ padding: "4px 8px", fontSize: 12, opacity: 0.6 }}
+          >
+            Skip to End
+          </button>
+        </div>
       )}
     </>
   );

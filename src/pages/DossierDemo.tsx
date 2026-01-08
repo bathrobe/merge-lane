@@ -1,19 +1,45 @@
 import { useState } from "react";
 import { AssessmentProse } from "../components/AssessmentProse";
 import { PALETTE } from "../styles/palette";
+import { getArchetypeFromScores } from "../data/epigrams";
+import { encode as encodeSeedPhrase, type AxisValues } from "../lib/seedPhrase";
+
+// Generate random scores (0-15 for each axis, matching Ink story range)
+function randomScores(): AxisValues {
+  return {
+    legible_illegible: Math.floor(Math.random() * 16),
+    sovereign_symphonic: Math.floor(Math.random() * 16),
+    anthro_xeno: Math.floor(Math.random() * 16),
+    mortal_immortalist: Math.floor(Math.random() * 16),
+    accel_steward: Math.floor(Math.random() * 16),
+    aligned_autonomous: Math.floor(Math.random() * 16),
+    apollonian_dionysian: Math.floor(Math.random() * 16),
+  };
+}
+
+interface DossierDemoProps {
+  /** Axis values from the story. If not provided, uses random values (demo mode). */
+  values?: AxisValues;
+  /** Callback when user wants to return to menu. If not provided, hides reset button. */
+  onReset?: () => void;
+}
 
 // Dossier prototype page - matches the HTML mockup but in React
-export function DossierDemo() {
+export function DossierDemo({ values, onReset }: DossierDemoProps) {
   const [email, setEmail] = useState("");
-  const [scores] = useState({
-    legible_illegible: 12,
-    sovereign_symphonic: 4,
-    anthro_xeno: 10,
-    mortal_immortalist: 11,
-    accel_steward: 6,
-    aligned_autonomous: 9,
-    apollonian_dionysian: 13,
-  });
+  // Demo mode: allow rerolling. Production mode: use passed values.
+  const isDemoMode = values === undefined;
+  const [demoScores, setDemoScores] = useState<AxisValues>(randomScores);
+
+  // Use passed values if available, otherwise use demo scores
+  const scores = values ?? demoScores;
+
+  // Derive archetype from current scores
+  const archetype = getArchetypeFromScores(scores);
+
+  const handleReroll = () => {
+    setDemoScores(randomScores());
+  };
 
   return (
     <div
@@ -162,61 +188,77 @@ export function DossierDemo() {
           {/* Oracle Section - THE VERDICT */}
           <SectionHeader>Your Archetype</SectionHeader>
 
-          {/* Copyable Oracle Card - archetype image left, text right */}
+          {/* Copyable Oracle Card - image left, text right, axes full width bottom */}
           <DossierCard>
-            <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-              {/* Archetype Image */}
+            <div style={{ display: "flex", gap: "20px", marginBottom: "14px" }}>
+              {/* Left column - Archetype Image */}
               <img
-                src="/archetypes/cipher_test.jpg"
-                alt="Archetype"
+                src={archetype.imagePath}
+                alt={archetype.title}
                 style={{
-                  width: "120px",
-                  height: "120px",
+                  width: "180px",
+                  height: "180px",
                   borderRadius: "8px",
                   border: `2px solid ${PALETTE.institutionalTeal}`,
                   objectFit: "cover",
                   flexShrink: 0,
                 }}
               />
-              {/* Title + Description */}
-              <div style={{ flex: 1 }}>
+              {/* Right column - title, epigram, seed phrase - vertically centered */}
+              <div style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}>
                 <h2
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
-                    fontSize: "1.3rem",
+                    fontSize: "1.5rem",
                     fontWeight: 700,
                     color: PALETTE.deepNavy,
-                    marginBottom: "6px",
+                    marginBottom: "12px",
                     lineHeight: 1.2,
                   }}
                 >
-                  The Weaver of Dissonance
+                  {archetype.title}
                 </h2>
                 <p
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
                     fontStyle: "italic",
                     color: PALETTE.warmBrown,
-                    lineHeight: 1.4,
-                    fontSize: "13px",
+                    lineHeight: 1.6,
+                    fontSize: "15px",
                     margin: 0,
+                    marginBottom: "16px",
                   }}
                 >
-                  A shimmer at the edge of systems, dissolving boundaries from within.
-                  You hold contradictions without resolving them.
+                  {archetype.epigram}
                 </p>
+                {/* Seed phrase - subtle but readable */}
+                <div
+                  style={{
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontSize: "12px",
+                    color: PALETTE.warmBrown,
+                    opacity: 0.65,
+                    letterSpacing: "1px",
+                  }}
+                >
+                  {encodeSeedPhrase(scores).split(" ").join("-")}
+                </div>
               </div>
             </div>
-            {/* Axis readout - tertiary, above seed */}
+            {/* Axis readout - full width bottom */}
             <div
               style={{
-                marginTop: "14px",
                 paddingTop: "12px",
                 borderTop: `1px solid ${PALETTE.softBeige}`,
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "center",
-                gap: "6px 12px",
+                gap: "6px 14px",
                 fontSize: "9px",
                 fontFamily: "'Nunito', sans-serif",
                 textTransform: "uppercase",
@@ -225,25 +267,11 @@ export function DossierDemo() {
             >
               <PoleReadout scores={scores} />
             </div>
-            {/* Seed phrase at bottom of copyable card */}
-            <div
-              style={{
-                marginTop: "10px",
-                paddingTop: "10px",
-                borderTop: `1px solid ${PALETTE.softBeige}`,
-                fontFamily: "'Courier New', Courier, monospace",
-                fontSize: "11px",
-                color: PALETTE.warmBrown,
-                opacity: 0.7,
-                textAlign: "center",
-                letterSpacing: "0.5px",
-              }}
-            >
-              crystal-harbor-dusk-47
-            </div>
           </DossierCard>
-          <div style={{ marginTop: "12px" }}>
+          <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>
             <CopyButton>Copy Image</CopyButton>
+            {isDemoMode && <CopyButton onClick={handleReroll}>Reroll</CopyButton>}
+            {onReset && <CopyButton onClick={onReset}>Return to Menu</CopyButton>}
           </div>
 
           {/* Seed Section */}
@@ -262,7 +290,7 @@ export function DossierDemo() {
                 borderBottom: `1px solid ${PALETTE.softBeige}`,
               }}
             >
-              crystal-harbor-dusk-47
+              {encodeSeedPhrase(scores).split(" ").join("-")}
             </div>
             <p
               style={{

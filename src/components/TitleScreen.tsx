@@ -4,7 +4,6 @@
  */
 
 import { Frame, Viewport, HardwareBar } from "./ui";
-import { PrimaryButton, SecondaryButton } from "./ui";
 import { PALETTE } from "../styles/palette";
 
 interface TitleScreenProps {
@@ -70,6 +69,78 @@ function BottomHardwareContent() {
   );
 }
 
+function BeveledButton({
+  children,
+  onClick,
+  variant = "primary",
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  variant?: "primary" | "secondary";
+}) {
+  const isPrimary = variant === "primary";
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        fontFamily: "'Nunito', sans-serif",
+        fontWeight: 700,
+        padding: "12px 32px",
+        borderRadius: "8px",
+        cursor: "pointer",
+        background: isPrimary
+          ? "linear-gradient(180deg, #D4B896 0%, #B89B6A 100%)"
+          : "linear-gradient(180deg, #E8D9C0 0%, #D4C5A9 100%)",
+        color: PALETTE.deepNavy,
+        border: "3px solid",
+        borderColor: isPrimary
+          ? "#E8CBA8 #8A7A52 #8A7A52 #E8CBA8"
+          : "#F5EDE0 #A89870 #A89870 #F5EDE0",
+        boxShadow: `
+          inset 2px 2px 0 rgba(255,255,255,0.5),
+          inset -2px -2px 0 rgba(0,0,0,0.1),
+          4px 4px 0 rgba(0,0,0,0.25)
+        `,
+        transition: "all 0.1s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-1px)";
+        e.currentTarget.style.boxShadow = `
+          inset 2px 2px 0 rgba(255,255,255,0.5),
+          inset -2px -2px 0 rgba(0,0,0,0.1),
+          5px 5px 0 rgba(0,0,0,0.25)
+        `;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = `
+          inset 2px 2px 0 rgba(255,255,255,0.5),
+          inset -2px -2px 0 rgba(0,0,0,0.1),
+          4px 4px 0 rgba(0,0,0,0.25)
+        `;
+      }}
+      onMouseDown={(e) => {
+        e.currentTarget.style.transform = "translateY(2px)";
+        e.currentTarget.style.boxShadow = `
+          inset 2px 2px 0 rgba(255,255,255,0.5),
+          inset -2px -2px 0 rgba(0,0,0,0.1),
+          2px 2px 0 rgba(0,0,0,0.25)
+        `;
+      }}
+      onMouseUp={(e) => {
+        e.currentTarget.style.transform = "translateY(-1px)";
+        e.currentTarget.style.boxShadow = `
+          inset 2px 2px 0 rgba(255,255,255,0.5),
+          inset -2px -2px 0 rgba(0,0,0,0.1),
+          5px 5px 0 rgba(0,0,0,0.25)
+        `;
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
 function TitleScreen({ onNewGame, onContinue, hasSave }: TitleScreenProps) {
   return (
     <div
@@ -85,48 +156,38 @@ function TitleScreen({ onNewGame, onContinue, hasSave }: TitleScreenProps) {
 
         <Viewport>
           <div className="p-8 text-center">
-            {/* Institution header */}
-            <p
-              className="font-nunito text-[10px] font-bold tracking-widest uppercase mb-2"
-              style={{ color: PALETTE.institutionalTeal }}
-            >
-              Golden Dark Age Research Group
-            </p>
+            {/* Institute Seal */}
+            <img
+              src="/backgrounds/masthead-riff-2.jpg"
+              alt="Institute Seal"
+              className="mx-auto mb-6"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                border: `3px solid ${PALETTE.institutionalTeal}`,
+                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+              }}
+            />
 
             {/* Title */}
             <h1
-              className="font-baskerville text-3xl mb-1"
+              className="font-baskerville text-3xl mb-8"
               style={{ color: PALETTE.deepNavy }}
             >
               Utopian Scholastic
             </h1>
 
-            {/* Subtitle */}
-            <p
-              className="font-nunito text-xs font-semibold tracking-wide uppercase mb-8"
-              style={{ color: PALETTE.warmBrown }}
-            >
-              Interactive Assessment Program
-            </p>
-
-            {/* Divider */}
-            <div
-              className="w-32 h-px mx-auto mb-8"
-              style={{
-                background: `linear-gradient(90deg, transparent 0%, ${PALETTE.softBeige} 20%, ${PALETTE.warmBrown} 50%, ${PALETTE.softBeige} 80%, transparent 100%)`,
-              }}
-            />
-
             {/* Buttons */}
-            <div className="flex flex-col gap-3 max-w-[200px] mx-auto">
-              <PrimaryButton onClick={onNewGame}>
+            <div className="flex flex-col gap-3 items-center">
+              <BeveledButton onClick={onNewGame} variant="primary">
                 ▶ New Session
-              </PrimaryButton>
+              </BeveledButton>
 
               {hasSave && (
-                <SecondaryButton onClick={onContinue}>
+                <BeveledButton onClick={onContinue} variant="secondary">
                   Resume Session
-                </SecondaryButton>
+                </BeveledButton>
               )}
             </div>
           </div>

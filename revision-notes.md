@@ -97,20 +97,20 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - Clanky grandpa dialogue intentional
 - Flatten politics branch — force 2-3 sequential choices, not deep nesting
 - Add exposition line on cousin early (who she is, unmodified, where she lives)
-- **END with regret beat**: you deflected, didn't have real conversation with ghost. Now on train, too late.
+- ~~**END with regret beat**: you deflected, didn't have real conversation with ghost. Now on train, too late.~~ (cut — too emo, Friends joke carries it)
 
 ### The Merge Offer
-- Actually explain what WePod is:
-  - Move in with ~6 people
-  - Outsource private thoughts, coordinate routines
-  - DIY hive mind, starling flock, polycule with extra steps
+- ~~Actually explain what WePod is:~~ ✓
+  - ~~Move in with ~6 people~~ ✓
+  - ~~Outsource private thoughts, coordinate routines~~ ✓
+  - ~~DIY hive mind, starling flock, polycule with extra steps~~ ✓
 - Skip town council — go straight to cousin coffee
-- **Train ride**: passing mention of Mars thing you missed (info session, application expired)
+- ~~**Train ride**: passing mention of Mars thing you missed (info session, application expired)~~ ✓ (already seeded: "Mars Exploratory Commission... you lost it")
 
 ### Cousin Coffee
 - ~~Cut drink detail~~ ✓
-- Make Mars reveal more dramatic
-- Add beat: you share your dissatisfaction, can't get it together, drifting
+- ~~Make Mars reveal more dramatic~~ ✓
+- ~~Add beat: you share your dissatisfaction, can't get it together, drifting~~ ✓
 - Seeds companion climax AND makes her leaving hit harder
 - ~~Character is not gendered~~ ✓ (verified — player has no gendered pronouns)
 
@@ -206,5 +206,5 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 ---
 
 ## Scenes Not Yet Reviewed
-- All of Old Age
+- ~~All of Old Age~~ ✓
 - Closing therapist frame

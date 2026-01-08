@@ -576,7 +576,7 @@ You leave your family and board a highspeed maglev train back to your empty, mes
 
 Well, no one told you life was gonna be this way.
 
-+ [...]
+++ [...]
     -> the_merge_offer
 
 === the_merge_offer ===
@@ -588,7 +588,7 @@ WePod. Overlapping silhouettes, hands linked. "Pool Your Potential."
 
 You got one of these for the Mars Exploratory Commission. Seemed right up your alley. But you lost it.
 
-Your UBI barely covers rent. But pooled with eleven others? Tier 3 housing. Tier 3 healthcare. Shared decisions, shared attention, shared... edges.
+Your UBI barely covers rent. But move into one of these pods? You upload your personal life — your data, your calendar, your money — and together you all direct each other like some weird polycule flock of birds. Shared decisions, shared attention, and a room in a nicer neighborhood.
 
 "First 30 days free."
 
@@ -597,14 +597,12 @@ Your UBI barely covers rent. But pooled with eleven others? Tier 3 housing. Tier
     Your finger hovers. Then taps.
     Name. Contact. Neural link ID (optional but recommended).
     The screen chirps. "Welcome to the waitlist!"
-    You save the flyer to your agent. Another ping — different seal, official.
     -> merge_offer_end
 
 * [Crumple it and toss]
     ~ sovereign_symphonic -= 1
     The screen crinkles satisfyingly — they made it feel like real paper.
     It tumbles under the seat ahead.
-    Your feed pings. Different seal, official.
     -> merge_offer_end
 
 === merge_offer_end ===
@@ -625,26 +623,30 @@ Two drinks hover between you.
 * "Yeah. I'm on the waitlist, actually."
     ~ accel_steward -= 1
     She nods slowly. Takes a sip.
-    "Then I guess this is goodbye. I'm doing the free-range thing — no AI, no intervention. On Mars."
-    -> cousin_leaving
+    -> cousin_drifting
 
 * "I support their right to a polyconscious lifestyle. But it's not for me."
     ~ accel_steward += 1
     She laughs — a real one, surprised.
-    "God, I've missed you." She leans back. "Okay. So. There's this program on Mars — free-range humans. No Companion, no optimization. Just life. I ship out next month."
-    -> cousin_leaving
+    "God, I've missed you."
+    -> cousin_drifting
 
 * "What choice do we have? UBI doesn't cover rent solo."
-    "There's another option." She sets down her drink. "Free-range human program. No Companion, no intervention. Just... life. On Mars."
-    * * "Sounds like rough living."
-        ~ accel_steward -= 1
-        "Maybe." She shrugs. "But it's mine."
-        -> cousin_leaving
-    * * "Tell me more."
-        ~ accel_steward += 1
-        She does. You save some links. You read up on it later that night.
-        The application sits in your drafts for weeks. You never send it.
-        -> cousin_leaving
+    She shrugs. "Fair."
+    -> cousin_drifting
+
+=== cousin_drifting ===
+
++ [...]
+
+"Honestly? I don't know why I'm living like this. No jobs, no real purpose. Everything's taken care of. Everyone's just... floating around. Feel like livestock."
+
+She sets down her drink.
+
+"Look, I know it sounds crazy, but I'm taking off. Mars. Free-range human program — no Companion, no optimization. Just life. I ship out next month."
+
+++ [...]
+    -> cousin_leaving
 
 === cousin_leaving ===
 

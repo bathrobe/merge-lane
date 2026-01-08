@@ -4,6 +4,7 @@ import { PALETTE } from "../styles/palette";
 
 // Dossier prototype page - matches the HTML mockup but in React
 export function DossierDemo() {
+  const [email, setEmail] = useState("");
   const [scores] = useState({
     legible_illegible: 12,
     sovereign_symphonic: 4,
@@ -77,7 +78,7 @@ export function DossierDemo() {
         >
           {/* Banner */}
           <img
-            src="/inbox/masthead-riff-1-short.jpg"
+            src="/backgrounds/masthead-riff-1-short.jpg"
             alt="Institute Banner"
             style={{
               width: "100%",
@@ -100,7 +101,7 @@ export function DossierDemo() {
           >
             {/* Institute Seal */}
             <img
-              src="/inbox/masthead-riff-2.jpg"
+              src="/backgrounds/masthead-riff-2.jpg"
               alt="Institute Seal"
               style={{
                 width: "140px",
@@ -161,11 +162,22 @@ export function DossierDemo() {
           {/* Oracle Section - THE VERDICT */}
           <SectionHeader>Your Archetype</SectionHeader>
 
-          {/* Copyable Oracle Card - constellation left, text right */}
+          {/* Copyable Oracle Card - archetype image left, text right */}
           <DossierCard>
             <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-              {/* Constellation */}
-              <Constellation scores={scores} size={120} />
+              {/* Archetype Image */}
+              <img
+                src="/archetypes/cipher_test.jpg"
+                alt="Archetype"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  borderRadius: "8px",
+                  border: `2px solid ${PALETTE.institutionalTeal}`,
+                  objectFit: "cover",
+                  flexShrink: 0,
+                }}
+              />
               {/* Title + Description */}
               <div style={{ flex: 1 }}>
                 <h2
@@ -195,10 +207,28 @@ export function DossierDemo() {
                 </p>
               </div>
             </div>
+            {/* Axis readout - tertiary, above seed */}
+            <div
+              style={{
+                marginTop: "14px",
+                paddingTop: "12px",
+                borderTop: `1px solid ${PALETTE.softBeige}`,
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "6px 12px",
+                fontSize: "9px",
+                fontFamily: "'Nunito', sans-serif",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+              }}
+            >
+              <PoleReadout scores={scores} />
+            </div>
             {/* Seed phrase at bottom of copyable card */}
             <div
               style={{
-                marginTop: "12px",
+                marginTop: "10px",
                 paddingTop: "10px",
                 borderTop: `1px solid ${PALETTE.softBeige}`,
                 fontFamily: "'Courier New', Courier, monospace",
@@ -250,24 +280,28 @@ export function DossierDemo() {
           </DossierCard>
 
           {/* Substack Section */}
-          <SectionHeader>Continue Your Calibration</SectionHeader>
-          <DossierCard>
-            <p
-              style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontSize: "13px",
-                color: PALETTE.warmBrown,
-                lineHeight: 1.4,
-                margin: 0,
-                marginBottom: "12px",
-              }}
-            >
-              The Institute maintains ongoing research communiqués. Register your frequency for future transmissions.
-            </p>
+          <div style={{ marginTop: "28px" }}>
+            <SectionHeader>Subscribe to Updates</SectionHeader>
+            <DossierCard>
+              <p
+                style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: "13px",
+                  color: PALETTE.warmBrown,
+                  lineHeight: 1.5,
+                  margin: 0,
+                  marginBottom: "14px",
+                  textAlign: "center",
+                }}
+              >
+                You've been approved to advance to the next stage of your examination. Sign up to be notified when applications open.
+              </p>
             <div style={{ display: "flex", gap: "8px" }}>
               <input
                 type="email"
                 placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 style={{
                   flex: 1,
                   padding: "10px 14px",
@@ -279,9 +313,17 @@ export function DossierDemo() {
                   color: PALETTE.deepNavy,
                 }}
               />
-              <CopyButton>Subscribe</CopyButton>
+              <CopyButton
+                onClick={() => {
+                  const url = `https://winedark.ink/subscribe?email=${encodeURIComponent(email)}`;
+                  window.open(url, "_blank");
+                }}
+              >
+                Subscribe
+              </CopyButton>
             </div>
-          </DossierCard>
+            </DossierCard>
+          </div>
         </div>
       </div>
     </div>
@@ -348,6 +390,53 @@ function DossierCard({ children }: { children: React.ReactNode }) {
     >
       {children}
     </div>
+  );
+}
+
+// Axis definitions: key maps to [lowPole, highPole] names
+// Score 0 = fully lowPole, score 16 = fully highPole
+const AXIS_POLES: Record<string, [string, string]> = {
+  legible_illegible: ["Legible", "Illegible"],
+  sovereign_symphonic: ["Sovereign", "Symphonic"],
+  anthro_xeno: ["Anthro", "Xeno"],
+  mortal_immortalist: ["Mortal", "Immortal"],
+  accel_steward: ["Accel", "Steward"],
+  aligned_autonomous: ["Aligned", "Autonomous"],
+  apollonian_dionysian: ["Apollonian", "Dionysian"],
+};
+
+function PoleReadout({ scores }: { scores: Record<string, number> }) {
+  return (
+    <>
+      {Object.entries(AXIS_POLES).map(([key, [lowPole, highPole]]) => {
+        const score = scores[key] ?? 8;
+        const isHighPole = score >= 8;
+        const poleName = isHighPole ? highPole : lowPole;
+
+        // Distance from center (8) determines strength
+        const distance = Math.abs(score - 8);
+        // 0-2 = weak, 3-5 = medium, 6-8 = strong
+        const strength = distance <= 2 ? "weak" : distance <= 5 ? "medium" : "strong";
+
+        const styleMap = {
+          weak: { fontWeight: 400, opacity: 0.4 },
+          medium: { fontWeight: 600, opacity: 0.65 },
+          strong: { fontWeight: 700, opacity: 1 },
+        };
+
+        return (
+          <span
+            key={key}
+            style={{
+              color: PALETTE.warmBrown,
+              ...styleMap[strength],
+            }}
+          >
+            {poleName}
+          </span>
+        );
+      })}
+    </>
   );
 }
 
@@ -485,9 +574,16 @@ function Constellation({ scores, size = 120 }: ConstellationProps) {
   );
 }
 
-function CopyButton({ children }: { children: React.ReactNode }) {
+function CopyButton({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
     <button
+      onClick={onClick}
       style={{
         fontFamily: "'Nunito', sans-serif",
         fontWeight: 700,

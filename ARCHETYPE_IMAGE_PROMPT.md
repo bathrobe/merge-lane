@@ -45,16 +45,17 @@ Read `src/data/epigrams.ts` for the 128 epigrams. Each image should evoke its ep
 
 ### Must Have
 - **Ink on aged cream paper** - the paper texture should feel old, warm, slightly worn
-- **Pure black ink only** - no color, no sepia, no grey tones
+- **Black ink with light brown wash** - like pen lines with diluted sepia or brown paint for shading and atmosphere
 - **Single pen line weight** - consistent throughout, like a careful hand with one pen
 - **Patient minimalism** - sparse but thoughtful, every line intentional
-- **Similar density** - all images should feel roughly equally "full" (not too much negative space)
+- **FILL THE ENTIRE FRAME** - the subject should take up the whole square, edge to edge. No floating in empty space. The illustration should bleed to all four edges of the image.
 
 ### Must NOT Have
 - No borders or frames
 - No decorative symbols around the edges
 - No text or letters
 - No tarot-card-style framing elements
+- No excessive negative space - the image should feel FULL
 
 ### Can Vary
 - **Subject matter**: humans, animals, space, abstract shapes, objects, hands, landscapes
@@ -71,7 +72,7 @@ Read `src/data/epigrams.ts` for the 128 epigrams. Each image should evoke its ep
 For each binary key, construct a Flux 2 prompt:
 
 ```
-Simple ink illustration on aged cream paper. Single pen line weight, patient minimalism. No border, no frame, no symbols. [SUBJECT BASED ON EPIGRAM/AXES]
+Ink illustration on aged cream paper with light brown paint wash shading. Single pen line weight. No border, no frame, no symbols. Subject fills the entire frame edge to edge, no empty space. [SUBJECT BASED ON EPIGRAM/AXES]
 ```
 
 ### Deriving Subject Matter

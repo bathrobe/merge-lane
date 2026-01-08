@@ -47,6 +47,7 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
   const [tags, setTags] = useState<ParsedTags>({});
   const [isEnded, setIsEnded] = useState(false);
   const previousBackgroundRef = useRef<string | undefined>(undefined);
+  const previousMoodRef = useRef<string | undefined>(undefined);
 
   // Pending content: text/tags waiting to be shown after a scene transition
   const [pendingText, setPendingText] = useState<string[]>([]);
@@ -67,6 +68,9 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
       setChoices(pendingChoices);
       if (pendingTags.background) {
         previousBackgroundRef.current = pendingTags.background;
+      }
+      if (pendingTags.mood) {
+        previousMoodRef.current = pendingTags.mood;
       }
       setPendingText([]);
       setPendingTags({});
@@ -148,17 +152,35 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         if (!parsedBeforeTags.background && startingBackground) {
           parsedBeforeTags.background = startingBackground;
         }
+        if (!parsedBeforeTags.mood && previousMoodRef.current) {
+          parsedBeforeTags.mood = previousMoodRef.current;
+        }
+        // Update mood ref if we got a new mood
+        if (parsedBeforeTags.mood) {
+          previousMoodRef.current = parsedBeforeTags.mood;
+        }
         setTags(parsedBeforeTags);
         setChoices([]); // Hide choices until pending content is shown
 
+        // Preserve mood in pending tags if not specified
+        const parsedPendingTags = parseTags(tagsAfterChange);
+        if (!parsedPendingTags.mood && previousMoodRef.current) {
+          parsedPendingTags.mood = previousMoodRef.current;
+        }
         setPendingText(overflowText);
-        setPendingTags(parseTags(tagsAfterChange));
+        setPendingTags(parsedPendingTags);
         setPendingChoices(currentChoices);
         setIsEnded(false);
       } else {
         // No "before" content — jump straight to new scene
         const parsedAfterTags = parseTags(tagsAfterChange);
         previousBackgroundRef.current = parsedAfterTags.background;
+        // Preserve mood
+        if (parsedAfterTags.mood) {
+          previousMoodRef.current = parsedAfterTags.mood;
+        } else if (previousMoodRef.current) {
+          parsedAfterTags.mood = previousMoodRef.current;
+        }
 
         setTextHistory(overflowText);
         setNewBatchStartIndex(0);
@@ -181,6 +203,13 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
       previousBackgroundRef.current = newBackground;
     } else if (startingBackground) {
       parsedTags.background = startingBackground;
+    }
+
+    // Preserve previous mood if no new one specified
+    if (parsedTags.mood !== undefined) {
+      previousMoodRef.current = parsedTags.mood;
+    } else if (previousMoodRef.current) {
+      parsedTags.mood = previousMoodRef.current;
     }
 
     if (textBatch.length > 0) {
@@ -221,6 +250,7 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     setPendingTags({});
     setPendingChoices([]);
     previousBackgroundRef.current = undefined;
+    previousMoodRef.current = undefined;
     continueStory();
   }, [story, continueStory]);
 
@@ -240,6 +270,7 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     setPendingTags({});
     setPendingChoices([]);
     previousBackgroundRef.current = undefined;
+    previousMoodRef.current = undefined;
     continueStory();
   }, [story, continueStory]);
 
@@ -260,6 +291,8 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
       setTags({});
       previousBackgroundRef.current = undefined;
     }
+    // Mood will be picked up from story tags on next continue
+    previousMoodRef.current = undefined;
 
     // If story can continue, process content normally
     if (story.canContinue) {

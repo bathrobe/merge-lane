@@ -2,8 +2,8 @@ import { useState, useMemo } from "react";
 import {
   generateAssessment,
   getAxisTooltipData,
-  AssessmentSegment,
 } from "../utils/generateAssessment";
+import type { AssessmentBullet } from "../utils/generateAssessment";
 import { PALETTE } from "../styles/palette";
 
 interface AssessmentProseProps {
@@ -14,58 +14,82 @@ export function AssessmentProse({ scores }: AssessmentProseProps) {
   const assessment = useMemo(() => generateAssessment(scores), [scores]);
 
   return (
-    <div
+    <ul
       style={{
         fontFamily: "'Courier New', Courier, monospace",
         fontSize: "14px",
-        lineHeight: 1.7,
+        lineHeight: 1.8,
         color: PALETTE.deepNavy,
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
       }}
     >
-      {assessment.segments.map((segment, index) => (
-        <AssessmentSegmentView key={index} segment={segment} />
+      {assessment.bullets.map((bullet) => (
+        <BulletItem key={bullet.axisId} bullet={bullet} />
       ))}
-    </div>
+    </ul>
   );
 }
 
-function AssessmentSegmentView({ segment }: { segment: AssessmentSegment }) {
+function BulletItem({ bullet }: { bullet: AssessmentBullet }) {
   const [showTooltip, setShowTooltip] = useState(false);
-
-  if (segment.type === "text") {
-    return <span>{segment.content}</span>;
-  }
-
-  // Axis segment - hoverable
-  const tooltipData = getAxisTooltipData(segment.axisId!, segment.score!);
+  const tooltipData = getAxisTooltipData(bullet.axisId, bullet.score);
 
   return (
-    <span
+    <li
       style={{
+        marginBottom: "8px",
+        paddingLeft: "20px",
         position: "relative",
-        display: "inline",
-        cursor: "help",
-        borderBottom: `1px dotted ${PALETTE.institutionalTeal}`,
-        backgroundColor: `${PALETTE.institutionalTeal}15`,
-        padding: "1px 4px",
-        borderRadius: "3px",
-        transition: "background-color 0.15s ease",
       }}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
     >
-      {segment.content}
-      {showTooltip && tooltipData && (
-        <AxisTooltip
-          name={tooltipData.name}
-          description={tooltipData.description}
-          score={tooltipData.score}
-          maxScore={tooltipData.maxScore}
-          lowPole={tooltipData.lowPole}
-          highPole={tooltipData.highPole}
-        />
+      {/* Bullet point */}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          color: PALETTE.institutionalTeal,
+        }}
+      >
+        •
+      </span>
+
+      {/* Text before highlight */}
+      <span>{bullet.beforeHighlight}</span>
+
+      {/* Highlighted phrase */}
+      {bullet.highlight && (
+        <span
+          style={{
+            position: "relative",
+            display: "inline",
+            cursor: "help",
+            borderBottom: `1px dotted ${PALETTE.institutionalTeal}`,
+            backgroundColor: `${PALETTE.institutionalTeal}15`,
+            padding: "1px 3px",
+            borderRadius: "2px",
+          }}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          {bullet.highlight}
+          {showTooltip && tooltipData && (
+            <AxisTooltip
+              name={tooltipData.name}
+              description={tooltipData.description}
+              score={tooltipData.score}
+              maxScore={tooltipData.maxScore}
+              lowPole={tooltipData.lowPole}
+              highPole={tooltipData.highPole}
+            />
+          )}
+        </span>
       )}
-    </span>
+
+      {/* Text after highlight */}
+      <span>{bullet.afterHighlight}</span>
+    </li>
   );
 }
 
@@ -92,7 +116,7 @@ function AxisTooltip({
     <div
       style={{
         position: "absolute",
-        bottom: "calc(100% + 8px)",
+        bottom: "calc(100% + 12px)",
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 50,
@@ -101,11 +125,16 @@ function AxisTooltip({
     >
       <div
         style={{
-          backgroundColor: PALETTE.deepNavy,
-          color: PALETTE.cream,
-          padding: "8px 12px",
-          borderRadius: "6px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+          backgroundColor: PALETTE.cream,
+          color: PALETTE.deepNavy,
+          padding: "12px 16px",
+          borderRadius: "8px",
+          border: "3px solid",
+          borderColor: "#2D4545 #9DBDBD #9DBDBD #2D4545",
+          boxShadow: `
+            inset 2px 2px 4px rgba(0,0,0,0.08),
+            6px 6px 0 rgba(0,0,0,0.25)
+          `,
           whiteSpace: "nowrap",
           fontFamily: "'Nunito', sans-serif",
           fontSize: "11px",
@@ -115,8 +144,10 @@ function AxisTooltip({
         <div
           style={{
             fontWeight: 700,
-            color: PALETTE.mutedGold,
+            color: PALETTE.institutionalTeal,
             marginBottom: "4px",
+            fontFamily: "'Libre Baskerville', serif",
+            fontSize: "13px",
           }}
         >
           {name}
@@ -125,10 +156,12 @@ function AxisTooltip({
         {/* Description */}
         <div
           style={{
-            color: `${PALETTE.cream}cc`,
-            marginBottom: "8px",
+            color: PALETTE.warmBrown,
+            marginBottom: "10px",
             maxWidth: "200px",
             whiteSpace: "normal",
+            fontStyle: "italic",
+            lineHeight: 1.4,
           }}
         >
           {description}
@@ -139,15 +172,16 @@ function AxisTooltip({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "6px",
+            gap: "8px",
           }}
         >
           <span
             style={{
-              color: `${PALETTE.cream}99`,
+              color: PALETTE.warmBrown,
               fontSize: "9px",
               textTransform: "uppercase",
               letterSpacing: "1px",
+              fontWeight: 600,
             }}
           >
             {lowPole}
@@ -155,17 +189,18 @@ function AxisTooltip({
           <div
             style={{
               flex: 1,
-              height: "4px",
-              backgroundColor: `${PALETTE.cream}33`,
-              borderRadius: "2px",
+              height: "6px",
+              backgroundColor: PALETTE.softBeige,
+              borderRadius: "3px",
               overflow: "hidden",
               minWidth: "60px",
+              border: `1px solid ${PALETTE.warmBrown}40`,
             }}
           >
             <div
               style={{
                 height: "100%",
-                backgroundColor: PALETTE.mutedGold,
+                background: `linear-gradient(180deg, #E8C84A 0%, ${PALETTE.mutedGold} 100%)`,
                 borderRadius: "2px",
                 width: `${percentage}%`,
               }}
@@ -173,10 +208,11 @@ function AxisTooltip({
           </div>
           <span
             style={{
-              color: `${PALETTE.cream}99`,
+              color: PALETTE.warmBrown,
               fontSize: "9px",
               textTransform: "uppercase",
               letterSpacing: "1px",
+              fontWeight: 600,
             }}
           >
             {highPole}
@@ -187,15 +223,16 @@ function AxisTooltip({
         <div
           style={{
             textAlign: "center",
-            color: `${PALETTE.cream}80`,
-            fontSize: "9px",
-            marginTop: "4px",
+            color: PALETTE.institutionalTeal,
+            fontSize: "10px",
+            marginTop: "6px",
+            fontWeight: 600,
           }}
         >
           {score}/{maxScore}
         </div>
 
-        {/* Arrow */}
+        {/* Arrow - pointing down */}
         <div
           style={{
             position: "absolute",
@@ -204,9 +241,23 @@ function AxisTooltip({
             transform: "translateX(-50%)",
             width: 0,
             height: 0,
+            borderLeft: "8px solid transparent",
+            borderRight: "8px solid transparent",
+            borderTop: `8px solid #9DBDBD`,
+          }}
+        />
+        {/* Inner arrow for cream fill */}
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% - 3px)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 0,
+            height: 0,
             borderLeft: "6px solid transparent",
             borderRight: "6px solid transparent",
-            borderTop: `6px solid ${PALETTE.deepNavy}`,
+            borderTop: `6px solid ${PALETTE.cream}`,
           }}
         />
       </div>

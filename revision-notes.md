@@ -44,17 +44,17 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 
 ### Parents Search
 - ~~Trim TV/elites description to one sentence max~~ ✓
-- Lean into latchkey kid joke: parents have their own pinwheel, everyone's being optimized
-- Maybe glimpse them through doorway, headsets on, smiling at nothing
+- ~~Lean into latchkey kid joke: parents have their own pinwheel, everyone's being optimized~~ ✓
+- ~~Maybe glimpse them through doorway, headsets on, smiling at nothing~~ ✓
 
 ### Timeline (The Feed)
 - Keep it short, 2 choices is fine
 - ~~Punch up "influencer toddlers hawking supplements" with specifics~~ ✓ (used "unvaxed bison goop")
 
 ### Grandpa's Room
-- Add third funnier option: you miss the pinwheel, grandpa's grumpy, wants Matlock, doesn't obey commands. AI was easier. (anthro/xeno)
+- ~~Add third funnier option: you miss the pinwheel, grandpa's grumpy, wants Matlock, doesn't obey commands. AI was easier. (anthro/xeno)~~ ✓
 - ~~"Waxy hands will return to soil" → too purple, simplify~~ ✓ (changed to "One day he will return to the soil.")
-- Make immortalist choice attractive, not just wistful — seed the theme: what if he didn't have to go?
+- ~~Make immortalist choice attractive, not just wistful — seed the theme: what if he didn't have to go?~~ ✓
 
 ### Interstitial: To Adolescence
 - ~~"Good." opener is flat — needs more voice or cut~~ ✓ (cut it)
@@ -157,7 +157,7 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 ### Apollonian Path
 - **Image note:** should look like a hamster wheel
 - ~~Cut "just stop" option — doesn't land~~ ✓
-- **Flag for second pass:** could be funnier with careful attention
+- ~~**Flag for second pass:** could be funnier with careful attention~~ ✓ (sigma grindset rewrite, 4 choices: accel, aligned, autonomous, legible)
 
 ### The Pod
 - ~~Add a fourth choice that's NOT critical/downer~~ ✓
@@ -174,11 +174,11 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~"Sic semper tyrannis" — tighten the follow-up text~~ ✓
 
 ### Cousin Mars Call
-- Cousin needs stronger philosophical case — not Luddite, not anti-AI
-- Mars still has AI, just less powerful
-- The case: human agency, captain of your own soul, even if you don't live as well
-- "Better to live on your feet than die in a fetal position in six inches of amniotic fluid" — she could make that joke
-- Gives Mars choice philosophical weight
+- ~~Cousin needs stronger philosophical case — not Luddite, not anti-AI~~ ✓
+- ~~Mars still has AI, just less powerful~~ ✓ ("ours advises, yours decides")
+- ~~The case: human agency, captain of your own soul, even if you don't live as well~~ ✓
+- ~~"Better to live on your feet than die in a fetal position in six inches of amniotic fluid" — she could make that joke~~ ✓
+- ~~Gives Mars choice philosophical weight~~ ✓
 
 ### Grandpa Revised
 - ~~Keep mostly as-is — working~~ ✓

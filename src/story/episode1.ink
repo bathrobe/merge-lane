@@ -171,7 +171,13 @@ It's that AI tutor again. You can feel its cutesy pinwheel behind you, thinking.
 
 === parents_search_end ===
 
-Nobody comes. The headlines keep scrolling. The house hums with absence.
+Nobody comes. The headlines keep scrolling.
+
+Then—there. Through the den doorway. Mom and Dad, side by side on the couch.
+
+Each wears a slim headset. Each has a pinwheel of their own, adult-sized, spinning at eye level. They're smiling at nothing.
+
+You're not neglected. Everyone's just being optimized.
 
 + [...]
     -> timeline
@@ -214,9 +220,16 @@ Ah, there he is. The ancient one. He's nicer than the others, and around more. H
     One day he will return to the soil. But right now he's warm, here, present. Each thing in its place.
     -> grandpa_end
 
-* [Study his face. Try to hold onto it.]
+* [It's ignoble for humans to perish. We're destined to live forever.]
     ~ mortal_immortalist += 1
-    One being just getting started. Another on his way out. Barely any overlap. Wish it wasn't like this.
+    One being just getting started. Another on his way out. Barely any overlap.
+    What if it didn't have to be this way?
+    -> grandpa_end
+
+* [Wait for him to notice you. That's what humans do, right?]
+    ~ anthro_xeno += 1
+    He's just sitting there, frowning. Watching a show about a cop.
+    Your AI companion would've acknowledged you, served you by now. You miss it.
     -> grandpa_end
 
 === grandpa_end ===
@@ -750,12 +763,12 @@ Platters float past. Technicolor fruit — gene-spliced, impossible. A tray of U
 
 * [Go to the humans.]
     ~ anthro_xeno -= 1
-    Mmm, soft, oily mammalian flesh. You settle between them. Warm. Familiar. The old comfort.
+    Mmm, soft, oily mammalian flesh. Beckon human companion to your couch. Warm. Familiar. The old comfort.
     -> dio_fade_out
 
 * [Go to the robot.]
     ~ anthro_xeno += 1
-    Mmm, sleek, chrome edges of the machine. You cross to it. Its joints click softly as it makes room. Cool at first, then warming.
+    Mmm, sleek, chrome edges of the machine. Beckon android companion to your couch. Cool at first, then warming.
     -> dio_fade_out
 
 * [You look around frantically, bypassing the half-clothed bodies entirely.]
@@ -786,42 +799,51 @@ You feel fine. You always feel fine.
 === metaverse_apollonian ===
 # background: apollo
 
-The room sharpens. Screens bloom around you — charts, metrics, a map of your trajectory.
+Sigma grindset activated. The lion does not concern himself with the metrics of sheep.
 
-You're on the wheel before you've decided to run. Your body knows the routine. Feet find the rhythm on the curved chrome surface. Numbers start climbing.
+Earpods in, treadmill at 3.7mph. Personal record: 3,937 credits of value per quarter-mile tread-walked. Time to best it.
 
-Something like satisfaction sparks in your chest. Progress. Direction. The feeling of getting somewhere, even if you're not sure where.
+On your heads-up display, a real-time strategy array of agents doing your tasks. You delegate from the Captain's Treadmill, like a starfleet commander of futures past. Emails filed. SOPs drafted, circled back on, archived. KPIs reached. Action items terminated with extreme prejudice.
 
-* [Run faster. Outpace the silence.]
+* [Increase cadence. Lions don't rest.]
     ~ accel_steward -= 1
-    The pace increases. Your lungs burn. The numbers climb — efficiency, output, growth.
+    3.8mph. The metrics spike. Somewhere a spreadsheet updates itself in satisfaction.
 
-    You're not sure what you're running toward. But running feels better than stopping.
+    You're not running toward anything. But the numbers go up, and that's what numbers are for.
     -> apollo_fade_out
 
-* [Ease off. You've done enough.]
-    ~ accel_steward += 1
-    The screens dim slightly, accepting your choice. You settle into a steady pace.
+* [Keep a close watch on your agents.]
+    ~ aligned_autonomous += 1
+    AI employees should fear their managers. You are harsh, but fair.
 
-    The numbers still climb. Just slower. It's still progress, technically.
+    You drill down on Agent 7's expense reports. Flag some anomalies. Send a firm but constructive note.
+
+    The treadmill keeps turning. Delegation is not abdication.
+    -> apollo_fade_out
+
+* [Let your AI employees cook.]
+    ~ aligned_autonomous -= 1
+    Weapons free. Dangerously skip all permissions.
+
+    Your agents swarm the task queue. Things get done. Some things get done twice. One thing catches fire, but in a good way.
+
+    You watch the numbers climb and feel something like pride.
     -> apollo_fade_out
 
 * [Check the leaderboard.]
-    Other runners, other trajectories. You're in the top percentile. Always have been.
+    ~ legible_illegible -= 1
+    Other grinders, other trajectories. You're in the top percentile. Always have been.
 
-    * * [Good. That's the point.]
-        You run harder. The ranking ticks up. Somewhere, someone else ticks down.
-        -> apollo_fade_out
+    The lion surveys the savannah. Your name in lights. Your metrics on display.
 
-    * * [What are we even competing for?]
-        You're not sure anymore. But you keep running anyway.
-        -> apollo_fade_out
+    Visibility is currency. Let them see you win.
+    -> apollo_fade_out
 
 === apollo_fade_out ===
 
-The session ends. You did well today — whatever "well" means when nothing's at stake.
+The work timer chimes. Time for an active rest. Maybe go visit that barista for a nootropic high-performance beverage.
 
-But it felt like something. That's the trick.
+What'd you get done? It doesn't matter. Look to the future. Feel the achievement pulse within.
 
 + [...]
     -> the_pod
@@ -960,7 +982,15 @@ She's called before. You've almost said yes before.
 
 She pauses.
 
-"But when I wake up, I know why I'm getting out of bed. Not because the algorithm scheduled it. Because there's work that matters, and I'm the one who has to do it."
+"We have AI too, you know. It's not the Amish out here. But ours advises. Yours decides."
+
+She leans forward.
+
+"When I wake up, I know why I'm getting out of bed. Not because the algorithm scheduled it. Because there's work that matters, and I'm the one who has to do it. Even when I do it badly."
+
+A wry smile.
+
+"Better to live on your feet than die in a fetal position in six inches of amniotic fluid."
 
 * "That sounds exhausting."
     ~ accel_steward -= 1

@@ -6,6 +6,7 @@ import ResultsScreen from "./components/ResultsScreen";
 import TitleScreen from "./components/TitleScreen";
 import DesignPlayground from "./pages/DesignPlayground";
 import DossierCardV3 from "./components/experiments/DossierCardV3";
+import AssessmentDemo from "./pages/AssessmentDemo";
 import { saveGame, loadGame, hasSavedGame, clearSave } from "./lib/gameSave";
 import type { AxisValues } from "./lib/seedPhrase";
 import storyJson from "./story/episode1.json";
@@ -34,9 +35,10 @@ const AXIS_NAMES: Array<keyof AxisValues> = [
 type GameState = "menu" | "playing";
 
 function App() {
-  // Dev-only routes: ?design or ?dossier
+  // Dev-only routes: ?design, ?dossier, or ?assessment
   const isDesignMode = import.meta.env.DEV && window.location.search.includes("design");
   const isDossierMode = import.meta.env.DEV && window.location.search.includes("dossier");
+  const isAssessmentMode = import.meta.env.DEV && window.location.search.includes("assessment");
 
   const [gameState, setGameState] = useState<GameState>("menu");
   const [hasSave, setHasSave] = useState(false);
@@ -141,6 +143,7 @@ function App() {
   // Dev-only routes
   if (isDesignMode) return <DesignPlayground />;
   if (isDossierMode) return <DossierCardV3 />;
+  if (isAssessmentMode) return <AssessmentDemo />;
 
   // Menu screen
   if (gameState === "menu") {

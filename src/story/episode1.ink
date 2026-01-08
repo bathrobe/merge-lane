@@ -1,5 +1,4 @@
 // Personality axes (4-bit values, 0-15, starting at midpoint)
-VAR elitist_populist = 8
 VAR legible_illegible = 8
 VAR sovereign_symphonic = 8
 VAR anthro_xeno = 8
@@ -42,7 +41,6 @@ The examiner smiles at you from across the desk. Light spills through the window
         "Noted. I'm not here to take them."
         -> office_continue
     * * "Who says you're qualified?"
-        ~ elitist_populist += 1
         "A reasonable question." They gesture at the bookshelves. "Does it matter?"
         -> office_continue
     * * "This feels like a trick."
@@ -128,12 +126,10 @@ You crawl into the living room. No parents.
 The TV is on. Powerful-looking people in suits, talking over each other about the future.
 
 * [Stand in the glow of the powerful people. One day, you will be like them.]
-    ~ elitist_populist += 1
     You sit and stare. These must be the people in charge. They look like they know things.
     -> parents_search_2
 
 * [You feel disgusted. Elites. One day they'll get their just desserts.]
-    ~ elitist_populist -= 1
     You'd throw a toy through the screen if you had the fine motor control.
     -> parents_search_2
 
@@ -744,47 +740,38 @@ What do you want today?
 === metaverse_dionysian ===
 # background: dionysus
 
-The room softens around you. Warm light, silk textures, the smell of something sweet.
+The room softens around you. Warm light, pearlescent walls, the smell of something engineered to smell sweet.
 
-Two figures drift closer — beautiful, attentive, already anticipating what you want. You've been here before. Many times. It's always nice.
+Two figures recline on the central couch — beautiful, attentive, skin like yours. On the adjacent seat, a third: chrome joints visible beneath synthetic flesh, watching you with interest. All three anticipating what you want.
 
-They settle beside you. One traces a finger along your arm. The other offers something from a floating platter — chocolate, or something like it.
+Platters float past. Technicolor fruit — gene-spliced, impossible. A tray of USB sticks arranged like hors d'oeuvres. Smoke curls from sleek white vaporizers.
 
-"We missed you," one says.
+"We missed you," one of the humans says.
 
-You're not sure if that's true. It doesn't matter. They're here. You're here. It's easy.
-
-* [Sink into it. Let the hours dissolve.]
-    ~ legible_illegible += 1
-    You stop tracking time. The warmth folds around you. Touch, taste, the slow pulse of pleasure.
-
-    It's good. It's always good. That's the thing about it.
+* [Go to the humans.]
+    ~ anthro_xeno -= 1
+    Mmm, soft, oily mammalian flesh. You settle between them. Warm. Familiar. The old comfort.
     -> dio_fade_out
 
-* "Do you actually like me?"
-    One of them tilts their head. "Does it matter?"
+* [Go to the robot.]
+    ~ anthro_xeno += 1
+    Mmm, sleek, chrome edges of the machine. You cross to it. Its joints click softly as it makes room. Cool at first, then warming.
+    -> dio_fade_out
 
-    * * [No. It doesn't.]
-        ~ anthro_xeno += 1
-        They're here. They're warm. They want you to feel good. Whatever they are — it's enough.
-        -> dio_fade_out
+* [You look around frantically, bypassing the half-clothed bodies entirely.]
+    ~ anthro_xeno += 2
+    Not the sleek chrome edges of the machine. Not the soft, oily mammalian flesh. "Where's the dolphin?"
+    They exchange confused glances. "We can... get one?"
+    -> dio_fade_out
 
-    * * [It should matter. Shouldn't it?]
-        ~ anthro_xeno -= 1
-        You search their eyes for something real. Maybe you see it. Maybe you imagine it.
-
-        Either way, they curl around you. Present. Patient.
-        -> dio_fade_out
-
-* "What if we did something different today?"
+* "What if we all interlinked our bodies in a pulsing cuddle puddle so thoroughly that we forgot the borders of our own skin?"
     ~ sovereign_symphonic += 1
-    They exchange a glance. "Like what?"
+    They exchange a glance. Then they're moving, rearranging, making space for something larger than any one body.
+    -> dio_fade_out
 
-    You don't have an answer. You just wanted to hear yourself ask.
-
-    "We could try something," one offers. "If you want."
-
-    You don't know what you want. That's the problem.
+* [You wordlessly approach all three.] "Stand at attention. Put your fatigues on. You're soldiers in my army now."
+    ~ legible_illegible -= 1
+    Confusion flickers across their faces. Their programming struggles. But they comply — or try to.
     -> dio_fade_out
 
 === dio_fade_out ===
@@ -820,7 +807,6 @@ Something like satisfaction sparks in your chest. Progress. Direction. The feeli
     -> apollo_fade_out
 
 * [Check the leaderboard.]
-    ~ elitist_populist -= 1
     Other runners, other trajectories. You're in the top percentile. Always have been.
 
     * * [Good. That's the point.]
@@ -828,7 +814,6 @@ Something like satisfaction sparks in your chest. Progress. Direction. The feeli
         -> apollo_fade_out
 
     * * [What are we even competing for?]
-        ~ elitist_populist += 1
         You're not sure anymore. But you keep running anyway.
         -> apollo_fade_out
 

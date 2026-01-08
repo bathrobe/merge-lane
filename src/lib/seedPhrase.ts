@@ -1,10 +1,9 @@
 import { seedWords } from './wordlists/seedWords';
 
-// 8 axes, each 4 bits (0-15), total 32 bits
-// 3 words × 11 bits = 33 bits (1 bit padding)
+// 7 axes, each 4 bits (0-15), total 28 bits
+// 3 words × 11 bits = 33 bits (5 bits padding)
 
 export type AxisValues = {
-  elitist_populist: number;
   legible_illegible: number;
   sovereign_symphonic: number;
   anthro_xeno: number;
@@ -15,7 +14,6 @@ export type AxisValues = {
 };
 
 const AXIS_ORDER: (keyof AxisValues)[] = [
-  'elitist_populist',
   'legible_illegible',
   'sovereign_symphonic',
   'anthro_xeno',
@@ -26,18 +24,18 @@ const AXIS_ORDER: (keyof AxisValues)[] = [
 ];
 
 /**
- * Encode 8 axis values (4 bits each) into a 3-word seed phrase.
+ * Encode 7 axis values (4 bits each) into a 3-word seed phrase.
  */
 export function encode(axes: AxisValues): string {
-  // Pack 8 × 4-bit values into 32 bits
+  // Pack 7 × 4-bit values into 28 bits
   let bits = 0;
   for (const axis of AXIS_ORDER) {
     const value = Math.max(0, Math.min(15, axes[axis])); // clamp to 0-15
     bits = (bits << 4) | value;
   }
 
-  // Add 1 bit padding to make 33 bits (divisible into 3 × 11)
-  bits = bits << 1;
+  // Add 5 bits padding to make 33 bits (divisible into 3 × 11)
+  bits = bits << 5;
 
   // Extract three 11-bit indices
   const word3Index = bits & 0x7ff;
@@ -60,12 +58,12 @@ export function decode(phrase: string): AxisValues | null {
   // Reconstruct 33 bits from three 11-bit indices
   let bits = (indices[0] << 22) | (indices[1] << 11) | indices[2];
 
-  // Remove 1-bit padding
-  bits = bits >> 1;
+  // Remove 5-bit padding
+  bits = bits >> 5;
 
-  // Extract 8 × 4-bit values (in reverse order)
+  // Extract 7 × 4-bit values (in reverse order)
   const values: number[] = [];
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 7; i++) {
     values.unshift(bits & 0xf);
     bits = bits >> 4;
   }

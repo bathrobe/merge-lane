@@ -8,7 +8,6 @@ interface ConstellationChartProps {
 
 // Order of axes around the circle (clockwise from top)
 const AXIS_ORDER: Array<keyof AxisValues> = [
-  "elitist_populist",
   "legible_illegible",
   "sovereign_symphonic",
   "anthro_xeno",
@@ -19,17 +18,18 @@ const AXIS_ORDER: Array<keyof AxisValues> = [
 ];
 
 /**
- * Plots 8 personality axis values as dots on a circular chart.
+ * Plots 7 personality axis values as dots on a circular chart.
  * Value 0 = center, value 15 = edge.
  */
 function ConstellationChart({ values, size = 200, className }: ConstellationChartProps) {
   const center = 50; // Center of viewBox
   const maxRadius = 40; // Max distance from center to edge
+  const angleStep = 360 / AXIS_ORDER.length; // Degrees per axis
 
   // Convert axis value + index to x,y coordinates
   const getPointCoords = (value: number, index: number) => {
     // Angle in radians, starting from top (-90°), going clockwise
-    const angleRadians = ((index * 45 - 90) * Math.PI) / 180;
+    const angleRadians = ((index * angleStep - 90) * Math.PI) / 180;
     // Radius scales with value: 0 = center, 15 = maxRadius
     const radius = (Math.max(0, Math.min(15, value)) / 15) * maxRadius;
     return {

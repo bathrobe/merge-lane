@@ -61,8 +61,7 @@ export async function generateConstellation(
 function buildPrompt(values: AxisValues): string {
   return `You are creating a mythic constellation name and brief origin myth for a personality test result.
 
-The person's 8 axis values (0=left pole, 15=right pole, 8=center):
-- Elitist/Populist: ${values.elitist_populist}
+The person's 7 axis values (0=left pole, 15=right pole, 8=center):
 - Legible/Illegible: ${values.legible_illegible}
 - Sovereign/Symphonic: ${values.sovereign_symphonic}
 - Anthro/Xeno: ${values.anthro_xeno}

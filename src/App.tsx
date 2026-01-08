@@ -20,9 +20,8 @@ const PHASE_LABELS: Record<string, string> = {
   "old-age": "Old Age",
 };
 
-// Ink variable names for the 8 personality axes
+// Ink variable names for the 7 personality axes
 const AXIS_NAMES: Array<keyof AxisValues> = [
-  "elitist_populist",
   "legible_illegible",
   "sovereign_symphonic",
   "anthro_xeno",

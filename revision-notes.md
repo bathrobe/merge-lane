@@ -149,9 +149,10 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~Structure is good, choices need more personality~~ ✓
 
 ### Dionysian Path
-- "Does the stripper like me" beat too on-the-nose — may cut or rework
-- "What if we did something different" has potential
-- **Flag for second pass:** rewrite for humor without changing structure
+- ~~"Does the stripper like me" beat too on-the-nose — may cut or rework~~ ✓ (replaced with human/robot/dolphin/cuddle puddle/military choices)
+- ~~"What if we did something different" has potential~~ ✓ (became cuddle puddle option)
+- ~~**Flag for second pass:** rewrite for humor without changing structure~~ ✓
+- ~~**Image:** regenerated with robot, neon fruit, USB sticks, futuristic hookahs~~ ✓
 
 ### Apollonian Path
 - **Image note:** should look like a hamster wheel

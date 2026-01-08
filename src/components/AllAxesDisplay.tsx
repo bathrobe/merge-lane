@@ -10,7 +10,6 @@ const AXIS_CONFIG: Array<{
   leftLabel: string;
   rightLabel: string;
 }> = [
-  { key: "elitist_populist", leftLabel: "Elitist", rightLabel: "Populist" },
   { key: "legible_illegible", leftLabel: "Legible", rightLabel: "Illegible" },
   { key: "sovereign_symphonic", leftLabel: "Sovereign", rightLabel: "Symphonic" },
   { key: "anthro_xeno", leftLabel: "Anthro", rightLabel: "Xeno" },
@@ -25,7 +24,7 @@ interface AllAxesDisplayProps {
 }
 
 /**
- * Renders all 8 personality axes with their current values.
+ * Renders all 7 personality axes with their current values.
  */
 function AllAxesDisplay({ values }: AllAxesDisplayProps) {
   return (

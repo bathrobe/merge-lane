@@ -18,7 +18,9 @@ export function DossierDemo() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+        backgroundImage: "url(/backgrounds/title_clouds.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -61,54 +63,6 @@ export function DossierDemo() {
           />
         ))}
 
-        {/* Hardware Top Bar */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "6px 12px",
-            marginBottom: "12px",
-            background: "linear-gradient(180deg, #4D7A7A 0%, #3D6B6B 100%)",
-            borderRadius: "6px",
-            border: "2px solid",
-            borderColor: "#5D8A8A #2D5555 #2D5555 #5D8A8A",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.2)",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: "9px",
-              fontWeight: 700,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "#9DBDBD",
-              textShadow: "1px 1px 0 rgba(0,0,0,0.3)",
-              background: "linear-gradient(180deg, #3D6B6B 0%, #2D5555 100%)",
-              padding: "4px 10px",
-              borderRadius: "3px",
-              border: "1px solid #2D5555",
-              boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.3)",
-            }}
-          >
-            Subject Dossier
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <span
-              style={{
-                fontFamily: "monospace",
-                fontSize: "8px",
-                color: "#9DBDBD",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-              }}
-            >
-              Confidential
-            </span>
-          </div>
-        </div>
-
         {/* Cream Viewport */}
         <div
           style={{
@@ -118,52 +72,88 @@ export function DossierDemo() {
             boxShadow: "inset 3px 3px 8px rgba(0,0,0,0.15)",
             borderRadius: "8px",
             padding: "24px",
+            margin: "8px",
           }}
         >
-          {/* Masthead - Document style */}
-          <div style={{ textAlign: "center", marginBottom: "16px" }}>
-            <div
+          {/* Banner */}
+          <img
+            src="/inbox/masthead-riff-1-short.jpg"
+            alt="Institute Banner"
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: "6px",
+              marginBottom: "20px",
+              border: `2px solid ${PALETTE.institutionalTeal}`,
+            }}
+          />
+
+          {/* Masthead - Seal left, text right */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              marginBottom: "28px",
+              paddingLeft: "8px",
+            }}
+          >
+            {/* Institute Seal */}
+            <img
+              src="/inbox/masthead-riff-2.jpg"
+              alt="Institute Seal"
               style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontSize: "10px",
-                letterSpacing: "3px",
-                textTransform: "uppercase",
-                color: PALETTE.warmBrown,
-                marginBottom: "6px",
+                width: "140px",
+                height: "140px",
+                borderRadius: "50%",
+                border: `3px solid ${PALETTE.institutionalTeal}`,
+                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+                flexShrink: 0,
               }}
-            >
-              Institute for Futurological Studies
-            </div>
-            <h1
-              style={{
-                fontFamily: "'Libre Baskerville', serif",
-                fontSize: "1.6rem",
-                fontWeight: 700,
-                color: PALETTE.deepNavy,
-                marginBottom: "6px",
-                lineHeight: 1.2,
-              }}
-            >
-              Subject Dossier
-            </h1>
-            <div
-              style={{
-                display: "inline-block",
-                fontFamily: "monospace",
-                fontSize: "10px",
-                color: PALETTE.cream,
-                background: PALETTE.institutionalTeal,
-                padding: "4px 12px",
-                borderRadius: "3px",
-                letterSpacing: "1px",
-              }}
-            >
-              CLASSIFICATION: CONFIDENTIAL
+            />
+            {/* Text content */}
+            <div style={{ flex: 1, paddingLeft: "12px" }}>
+              <h1
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontSize: "1.6rem",
+                  fontWeight: 700,
+                  color: PALETTE.deepNavy,
+                  marginBottom: "4px",
+                  lineHeight: 1.2,
+                }}
+              >
+                Psychological Profile
+              </h1>
+              <p
+                style={{
+                  fontFamily: "'Libre Baskerville', serif",
+                  fontStyle: "italic",
+                  fontSize: "0.85rem",
+                  color: PALETTE.warmBrown,
+                  marginBottom: "10px",
+                }}
+              >
+                On the Merge and Machine Relations
+              </p>
+              <div
+                style={{
+                  display: "inline-block",
+                  fontFamily: "monospace",
+                  fontSize: "10px",
+                  color: PALETTE.cream,
+                  background: PALETTE.institutionalTeal,
+                  padding: "4px 12px",
+                  borderRadius: "3px",
+                  letterSpacing: "1px",
+                }}
+              >
+                CLASSIFICATION: CONFIDENTIAL
+              </div>
             </div>
           </div>
 
           {/* Subject Assessment - THE REVEAL */}
-          <SectionHeader>Psychological Profile</SectionHeader>
           <div style={{ marginBottom: "28px" }}>
             <AssessmentProse scores={scores} />
           </div>
@@ -171,30 +161,11 @@ export function DossierDemo() {
           {/* Oracle Section - THE VERDICT */}
           <SectionHeader>Your Archetype</SectionHeader>
 
-          {/* Copyable Oracle Card - image left, text right */}
+          {/* Copyable Oracle Card - constellation left, text right */}
           <DossierCard>
             <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-              {/* Oracle Image */}
-              <div
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  flexShrink: 0,
-                  background: `linear-gradient(135deg, #3D6B6B 0%, ${PALETTE.institutionalTeal} 100%)`,
-                  borderRadius: "8px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: PALETTE.cream,
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: "11px",
-                  border: "2px solid #2D4545",
-                }}
-              >
-                <span style={{ opacity: 0.7 }}>ORACLE</span>
-                <span style={{ opacity: 0.7 }}>IMAGE</span>
-              </div>
+              {/* Constellation */}
+              <Constellation scores={scores} size={120} />
               {/* Title + Description */}
               <div style={{ flex: 1 }}>
                 <h2
@@ -224,10 +195,26 @@ export function DossierDemo() {
                 </p>
               </div>
             </div>
-            <div style={{ marginTop: "14px" }}>
-              <CopyButton>Copy Image</CopyButton>
+            {/* Seed phrase at bottom of copyable card */}
+            <div
+              style={{
+                marginTop: "12px",
+                paddingTop: "10px",
+                borderTop: `1px solid ${PALETTE.softBeige}`,
+                fontFamily: "'Courier New', Courier, monospace",
+                fontSize: "11px",
+                color: PALETTE.warmBrown,
+                opacity: 0.7,
+                textAlign: "center",
+                letterSpacing: "0.5px",
+              }}
+            >
+              crystal-harbor-dusk-47
             </div>
           </DossierCard>
+          <div style={{ marginTop: "12px" }}>
+            <CopyButton>Copy Image</CopyButton>
+          </div>
 
           {/* Seed Section */}
           <SectionHeader>Your Seed Phrase</SectionHeader>
@@ -235,15 +222,14 @@ export function DossierDemo() {
             <div
               style={{
                 fontFamily: "'Courier New', Courier, monospace",
-                fontSize: "1.5rem",
+                fontSize: "1.4rem",
                 color: PALETTE.deepNavy,
                 fontWeight: "bold",
-                marginBottom: "10px",
-                letterSpacing: "1px",
-                background: "white",
-                padding: "12px 16px",
-                borderRadius: "6px",
-                border: `1px solid ${PALETTE.softBeige}`,
+                marginBottom: "16px",
+                letterSpacing: "2px",
+                textAlign: "center",
+                padding: "20px 16px",
+                borderBottom: `1px solid ${PALETTE.softBeige}`,
               }}
             >
               crystal-harbor-dusk-47
@@ -253,14 +239,14 @@ export function DossierDemo() {
                 fontFamily: "'Nunito', sans-serif",
                 fontSize: "13px",
                 color: PALETTE.warmBrown,
-                lineHeight: 1.4,
+                lineHeight: 1.5,
                 margin: 0,
-                marginBottom: "14px",
+                textAlign: "center",
+                padding: "4px 12px",
               }}
             >
-              Save this phrase to load your personality profile in future examinations.
+              This seed phrase contains all you need to load this personality profile into future simulations. Be sure to save it somewhere safe.
             </p>
-            <CopyButton>Save Seed Phrase</CopyButton>
           </DossierCard>
 
           {/* Substack Section */}
@@ -362,6 +348,140 @@ function DossierCard({ children }: { children: React.ReactNode }) {
     >
       {children}
     </div>
+  );
+}
+
+// Axis labels for the constellation (short versions)
+const AXIS_LABELS = [
+  { key: "sovereign_symphonic", label: "SYM", fullLabel: "Symphonic" },
+  { key: "legible_illegible", label: "ILL", fullLabel: "Illegible" },
+  { key: "mortal_immortalist", label: "IMM", fullLabel: "Immortal" },
+  { key: "apollonian_dionysian", label: "DIO", fullLabel: "Dionysian" },
+  { key: "accel_steward", label: "STW", fullLabel: "Steward" },
+  { key: "aligned_autonomous", label: "AUT", fullLabel: "Autonomous" },
+  { key: "anthro_xeno", label: "XEN", fullLabel: "Xeno" },
+];
+
+interface ConstellationProps {
+  scores: Record<string, number>;
+  size?: number;
+}
+
+function Constellation({ scores, size = 120 }: ConstellationProps) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const maxRadius = size * 0.38; // Leave room for labels
+  const minRadius = size * 0.08;
+  const numAxes = AXIS_LABELS.length;
+
+  // Calculate point position for a given axis index and value (0-16 scale)
+  const getPoint = (index: number, value: number) => {
+    const angle = (index * 2 * Math.PI) / numAxes - Math.PI / 2; // Start at top
+    const normalizedValue = Math.max(0, Math.min(16, value)) / 16; // Clamp to 0-1
+    const radius = minRadius + normalizedValue * (maxRadius - minRadius);
+    return {
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle),
+    };
+  };
+
+  // Generate the player's shape points
+  const shapePoints = AXIS_LABELS.map((axis, i) => {
+    const value = scores[axis.key] ?? 8;
+    return getPoint(i, value);
+  });
+
+  const shapePath = shapePoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") + " Z";
+
+  // Generate outer boundary points (max values)
+  const outerPoints = AXIS_LABELS.map((_, i) => getPoint(i, 16));
+
+  // Generate grid circles
+  const gridRadii = [0.25, 0.5, 0.75, 1].map((r) => minRadius + r * (maxRadius - minRadius));
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{
+        flexShrink: 0,
+        background: PALETTE.cream,
+        borderRadius: "8px",
+        border: `2px solid ${PALETTE.institutionalTeal}`,
+      }}
+    >
+      {/* Grid circles */}
+      {gridRadii.map((r, i) => (
+        <circle
+          key={i}
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill="none"
+          stroke={PALETTE.softBeige}
+          strokeWidth="1"
+          opacity={0.6}
+        />
+      ))}
+
+      {/* Axis lines */}
+      {outerPoints.map((p, i) => (
+        <line
+          key={i}
+          x1={cx}
+          y1={cy}
+          x2={p.x}
+          y2={p.y}
+          stroke={PALETTE.softBeige}
+          strokeWidth="1"
+          opacity={0.6}
+        />
+      ))}
+
+      {/* Player's shape - filled */}
+      <path
+        d={shapePath}
+        fill={`${PALETTE.institutionalTeal}40`}
+        stroke={PALETTE.institutionalTeal}
+        strokeWidth="2"
+      />
+
+      {/* Points at each vertex */}
+      {shapePoints.map((p, i) => (
+        <circle
+          key={i}
+          cx={p.x}
+          cy={p.y}
+          r={3}
+          fill={PALETTE.institutionalTeal}
+        />
+      ))}
+
+      {/* Axis labels */}
+      {AXIS_LABELS.map((axis, i) => {
+        const angle = (i * 2 * Math.PI) / numAxes - Math.PI / 2;
+        const labelRadius = maxRadius + 12;
+        const x = cx + labelRadius * Math.cos(angle);
+        const y = cy + labelRadius * Math.sin(angle);
+        return (
+          <text
+            key={axis.key}
+            x={x}
+            y={y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontFamily="Nunito, sans-serif"
+            fontSize="7"
+            fontWeight="600"
+            fill={PALETTE.warmBrown}
+            letterSpacing="0.5"
+          >
+            {axis.label}
+          </text>
+        );
+      })}
+    </svg>
   );
 }
 

@@ -1,9 +1,9 @@
 /**
- * TitleScreen - Device startup screen with New/Resume session options
- * Uses TitleLayout with hardware bars for late-90s educational software aesthetic
+ * TitleScreen - Device-style welcome screen
+ * Matches the teal frame / cream viewport aesthetic of the dossier
  */
 
-import { TitleLayout } from "../layouts/TitleLayout";
+import { Frame, Viewport, HardwareBar } from "./ui";
 import { PrimaryButton, SecondaryButton } from "./ui";
 import { PALETTE } from "../styles/palette";
 
@@ -13,46 +13,39 @@ interface TitleScreenProps {
   hasSave: boolean;
 }
 
-function StatusLED({ color, label }: { color: string; label: string }) {
-  return (
-    <div className="flex items-center gap-1">
-      <div
-        className="w-2 h-2 rounded-full"
-        style={{
-          background: color,
-          boxShadow: `0 0 4px ${color}`,
-        }}
-      />
-      <span className="font-mono text-[8px]" style={{ color: "#9DBDBD" }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
 function TopHardwareContent() {
   return (
     <div className="flex items-center justify-between w-full px-2">
-      {/* Status LEDs */}
-      <div className="flex items-center gap-3">
-        <StatusLED color="#4AE04A" label="PWR" />
-        <StatusLED color={PALETTE.mutedGold} label="SYS" />
-      </div>
-
-      {/* Model emboss */}
+      {/* Embossed label */}
       <div
-        className="font-mono text-[10px] tracking-widest"
+        className="font-nunito text-[9px] font-bold tracking-widest uppercase px-3 py-1 rounded"
         style={{
-          color: "#7BA3A3",
-          textShadow:
-            "1px 1px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(255,255,255,0.1)",
+          background: "linear-gradient(180deg, #3D6B6B 0%, #2D5555 100%)",
+          color: "#9DBDBD",
+          border: "1px solid #2D5555",
+          boxShadow: "inset 1px 1px 2px rgba(0,0,0,0.3)",
+          textShadow: "1px 1px 0 rgba(0,0,0,0.3)",
         }}
       >
-        SCHOLASTIC-1 LEARNING SYSTEM
+        Assessment Terminal
       </div>
 
-      {/* Spacer for balance */}
-      <div className="w-16" />
+      {/* Status LED */}
+      <div className="flex items-center gap-2">
+        <span
+          className="font-mono text-[8px] uppercase tracking-wider"
+          style={{ color: "#9DBDBD" }}
+        >
+          Ready
+        </span>
+        <div
+          className="w-2 h-2 rounded-full"
+          style={{
+            background: "#4AE04A",
+            boxShadow: "0 0 6px #4AE04A, inset 0 -2px 2px rgba(0,0,0,0.3)",
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -60,12 +53,18 @@ function TopHardwareContent() {
 function BottomHardwareContent() {
   return (
     <div className="flex items-center justify-center gap-4">
-      <span className="font-mono text-[9px]" style={{ color: "#6D9A9A" }}>
-        © 2026 THE READING ROOM
+      <span
+        className="font-mono text-[9px] uppercase tracking-wider"
+        style={{ color: "#9DBDBD" }}
+      >
+        © 2026 Seph News
       </span>
       <span style={{ color: "#4D7A7A" }}>•</span>
-      <span className="font-mono text-[9px]" style={{ color: "#6D9A9A" }}>
-        v1.0.0
+      <span
+        className="font-mono text-[9px] uppercase tracking-wider"
+        style={{ color: "#9DBDBD" }}
+      >
+        v1.0
       </span>
     </div>
   );
@@ -73,39 +72,69 @@ function BottomHardwareContent() {
 
 function TitleScreen({ onNewGame, onContinue, hasSave }: TitleScreenProps) {
   return (
-    <TitleLayout
-      topHardwareBar={<TopHardwareContent />}
-      bottomHardwareBar={<BottomHardwareContent />}
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        backgroundImage: "url(/backgrounds/title_clouds.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      <div className="text-center">
-        {/* Title */}
-        <h1
-          className="font-baskerville text-4xl mb-2"
-          style={{ color: PALETTE.deepNavy }}
-        >
-          Utopian Scholastic
-        </h1>
-        <p
-          className="font-mono text-xs tracking-widest uppercase mb-8"
-          style={{ color: PALETTE.warmBrown }}
-        >
-          Interactive Assessment Program
-        </p>
+      <Frame>
+        <HardwareBar centerSlot={<TopHardwareContent />} />
 
-        {/* Main buttons */}
-        <div className="flex flex-col gap-3 max-w-xs mx-auto">
-          <PrimaryButton onClick={onNewGame} className="text-lg">
-            ▶ New Session
-          </PrimaryButton>
+        <Viewport>
+          <div className="p-8 text-center">
+            {/* Institution header */}
+            <p
+              className="font-nunito text-[10px] font-bold tracking-widest uppercase mb-2"
+              style={{ color: PALETTE.institutionalTeal }}
+            >
+              Golden Dark Age Research Group
+            </p>
 
-          {hasSave && (
-            <SecondaryButton onClick={onContinue} className="text-lg">
-              Resume Session
-            </SecondaryButton>
-          )}
-        </div>
-      </div>
-    </TitleLayout>
+            {/* Title */}
+            <h1
+              className="font-baskerville text-3xl mb-1"
+              style={{ color: PALETTE.deepNavy }}
+            >
+              Utopian Scholastic
+            </h1>
+
+            {/* Subtitle */}
+            <p
+              className="font-nunito text-xs font-semibold tracking-wide uppercase mb-8"
+              style={{ color: PALETTE.warmBrown }}
+            >
+              Interactive Assessment Program
+            </p>
+
+            {/* Divider */}
+            <div
+              className="w-32 h-px mx-auto mb-8"
+              style={{
+                background: `linear-gradient(90deg, transparent 0%, ${PALETTE.softBeige} 20%, ${PALETTE.warmBrown} 50%, ${PALETTE.softBeige} 80%, transparent 100%)`,
+              }}
+            />
+
+            {/* Buttons */}
+            <div className="flex flex-col gap-3 max-w-[200px] mx-auto">
+              <PrimaryButton onClick={onNewGame}>
+                ▶ New Session
+              </PrimaryButton>
+
+              {hasSave && (
+                <SecondaryButton onClick={onContinue}>
+                  Resume Session
+                </SecondaryButton>
+              )}
+            </div>
+          </div>
+        </Viewport>
+
+        <HardwareBar centerSlot={<BottomHardwareContent />} />
+      </Frame>
+    </div>
   );
 }
 

@@ -7,6 +7,7 @@ import TitleScreen from "./components/TitleScreen";
 import DesignPlayground from "./pages/DesignPlayground";
 import DossierCardV3 from "./components/experiments/DossierCardV3";
 import AssessmentDemo from "./pages/AssessmentDemo";
+import DossierDemo from "./pages/DossierDemo";
 import { saveGame, loadGame, hasSavedGame, clearSave } from "./lib/gameSave";
 import type { AxisValues } from "./lib/seedPhrase";
 import storyJson from "./story/episode1.json";
@@ -35,9 +36,10 @@ const AXIS_NAMES: Array<keyof AxisValues> = [
 type GameState = "menu" | "playing";
 
 function App() {
-  // Dev-only routes: ?design, ?dossier, or ?assessment
+  // Dev-only routes: ?design, ?dossier, ?assessment, ?dossier-demo
   const isDesignMode = import.meta.env.DEV && window.location.search.includes("design");
-  const isDossierMode = import.meta.env.DEV && window.location.search.includes("dossier");
+  const isDossierMode = import.meta.env.DEV && window.location.search === "?dossier";
+  const isDossierDemoMode = import.meta.env.DEV && window.location.search.includes("dossier-demo");
   const isAssessmentMode = import.meta.env.DEV && window.location.search.includes("assessment");
 
   const [gameState, setGameState] = useState<GameState>("menu");
@@ -84,11 +86,10 @@ function App() {
 
       if (!isFirstMood) {
         // Phase transition: fade out → jingle → fade in new music
-        fadeOutMusic().then(() => {
-          return playSfx("phase-transition");
-        }).then(() => {
-          playMusic(currentMood as MusicTrack);
-        });
+        fadeOutMusic()
+          .then(() => playSfx("phase-transition"))
+          .then(() => playMusic(currentMood as MusicTrack))
+          .catch((err) => console.error("Audio transition failed:", err));
       } else {
         // First mood: just start music
         playMusic(currentMood as MusicTrack);
@@ -142,6 +143,7 @@ function App() {
 
   // Dev-only routes
   if (isDesignMode) return <DesignPlayground />;
+  if (isDossierDemoMode) return <DossierDemo />;
   if (isDossierMode) return <DossierCardV3 />;
   if (isAssessmentMode) return <AssessmentDemo />;
 
@@ -161,9 +163,21 @@ function App() {
     // Clear save since player completed the episode
     clearSave();
 
-    const axisValues: AxisValues = {} as AxisValues;
+    // Initialize with defaults to ensure all axes have values
+    const axisValues: AxisValues = {
+      legible_illegible: 8,
+      sovereign_symphonic: 8,
+      anthro_xeno: 8,
+      mortal_immortalist: 8,
+      accel_steward: 8,
+      aligned_autonomous: 8,
+      apollonian_dionysian: 8,
+    };
     for (const name of AXIS_NAMES) {
-      axisValues[name] = (variables.getVariable(name) as number) ?? 8;
+      const value = variables.getVariable(name);
+      if (typeof value === "number") {
+        axisValues[name] = value;
+      }
     }
 
     return <ResultsScreen values={axisValues} onReset={handleReturnToMenu} />;

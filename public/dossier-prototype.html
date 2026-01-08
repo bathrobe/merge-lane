@@ -341,27 +341,41 @@
       background: var(--soft-beige);
     }
 
-    /* Assessment prose */
-    .assessment {
+    /* Assessment list */
+    .assessment-list {
       font-family: 'Courier New', Courier, monospace;
       font-size: 14px;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--deep-navy);
-      margin-bottom: 24px;
+      margin: 0 0 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .assessment-list li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .bullet {
+      position: absolute;
+      left: 0;
+      color: var(--institutional-teal);
     }
 
     .axis-phrase {
-      background: linear-gradient(180deg, rgba(91, 138, 138, 0.15) 0%, rgba(91, 138, 138, 0.08) 100%);
-      padding: 1px 4px;
-      border-radius: 3px;
+      position: relative;
+      display: inline;
       cursor: help;
       border-bottom: 1px dotted var(--institutional-teal);
-      position: relative;
-      transition: background 0.15s ease;
+      background: rgba(91, 138, 138, 0.1);
+      padding: 1px 3px;
+      border-radius: 2px;
     }
 
     .axis-phrase:hover {
-      background: rgba(91, 138, 138, 0.25);
+      background: rgba(91, 138, 138, 0.2);
     }
 
     /* Tooltip */
@@ -376,11 +390,11 @@
       border-radius: 6px;
       font-family: 'Nunito', sans-serif;
       font-size: 11px;
-      white-space: nowrap;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
       z-index: 10;
+      width: 220px;
     }
 
     .tooltip::after {
@@ -400,17 +414,32 @@
     .tooltip-axis {
       font-weight: 700;
       color: var(--muted-gold);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .tooltip-desc {
+      display: block;
+      color: rgba(245, 240, 230, 0.8);
+      margin-bottom: 8px;
+      line-height: 1.4;
     }
 
     .tooltip-score {
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-top: 4px;
+    }
+
+    .tooltip-score span {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(245, 240, 230, 0.6);
     }
 
     .tooltip-bar {
-      width: 60px;
+      flex: 1;
       height: 4px;
       background: rgba(255,255,255,0.2);
       border-radius: 2px;
@@ -421,6 +450,14 @@
       height: 100%;
       background: var(--muted-gold);
       border-radius: 2px;
+    }
+
+    .tooltip-num {
+      display: block;
+      text-align: center;
+      font-size: 9px;
+      color: rgba(245, 240, 230, 0.5);
+      margin-top: 4px;
     }
 
     /* Constellation */
@@ -557,92 +594,36 @@
 
       <!-- Subject Assessment -->
       <div class="section-header">Subject Assessment</div>
-      <div class="assessment">
-        Subject
-        <span class="axis-phrase">
-          embraces dissolution into larger wholes
-          <span class="tooltip">
-            <span class="tooltip-axis">SOVEREIGN / SYMPHONIC</span>
-            <div class="tooltip-score">
-              <span>4/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 27%"></div></div>
-              <span>symphonic</span>
-            </div>
-          </span>
-        </span>.
-        They
-        <span class="axis-phrase">
-          resist easy legibility
-          <span class="tooltip">
-            <span class="tooltip-axis">LEGIBLE / ILLEGIBLE</span>
-            <div class="tooltip-score">
-              <span>12/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 80%"></div></div>
-              <span>illegible</span>
-            </div>
-          </span>
-        </span>
-        and demand careful interpretation. They
-        <span class="axis-phrase">
-          view death as a problem to be solved
-          <span class="tooltip">
-            <span class="tooltip-axis">MORTAL / IMMORTALIST</span>
-            <div class="tooltip-score">
-              <span>11/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 73%"></div></div>
-              <span>immortalist</span>
-            </div>
-          </span>
-        </span>.
-        Subject
-        <span class="axis-phrase">
-          privileges immediate embodied knowing
-          <span class="tooltip">
-            <span class="tooltip-axis">APOLLONIAN / DIONYSIAN</span>
-            <div class="tooltip-score">
-              <span>13/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 87%"></div></div>
-              <span>dionysian</span>
-            </div>
-          </span>
-        </span>
-        over abstract reasoning. They
-        <span class="axis-phrase">
-          hold space for the sacred within the material
-          <span class="tooltip">
-            <span class="tooltip-axis">ACCEL / STEWARD</span>
-            <div class="tooltip-score">
-              <span>6/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 40%"></div></div>
-              <span>steward</span>
-            </div>
-          </span>
-        </span>.
-        Subject
-        <span class="axis-phrase">
-          trusts machine intelligence to find its own path
-          <span class="tooltip">
-            <span class="tooltip-axis">ALIGNED / AUTONOMOUS</span>
-            <div class="tooltip-score">
-              <span>9/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 60%"></div></div>
-              <span>autonomous</span>
-            </div>
-          </span>
-        </span>.
-        They
-        <span class="axis-phrase">
-          see humanity as one thread in a larger weave
-          <span class="tooltip">
-            <span class="tooltip-axis">ANTHRO / XENO</span>
-            <div class="tooltip-score">
-              <span>10/15</span>
-              <div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 67%"></div></div>
-              <span>xeno</span>
-            </div>
-          </span>
-        </span>.
-      </div>
+      <ul class="assessment-list">
+        <li>
+          <span class="bullet">•</span>
+          Willing to <span class="axis-phrase">dissolve into something<span class="tooltip"><span class="tooltip-axis">Sovereign / Symphonic</span><span class="tooltip-desc">Do you maintain sharp individual boundaries, or embrace dissolution into larger wholes?</span><div class="tooltip-score"><span>Sovereign</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 27%"></div></div><span>Symphonic</span></div><span class="tooltip-num">4/15</span></span></span> larger than themselves
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Prefers to stay <span class="axis-phrase">hard to read<span class="tooltip"><span class="tooltip-axis">Legible / Illegible</span><span class="tooltip-desc">How visible are you? Do you want to be seen and understood, or do you resist easy interpretation?</span><div class="tooltip-score"><span>Legible</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 80%"></div></div><span>Illegible</span></div><span class="tooltip-num">12/15</span></span></span>, keeping true motives hidden
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Sees humanity as <span class="axis-phrase">one thread<span class="tooltip"><span class="tooltip-axis">Anthro / Xeno</span><span class="tooltip-desc">Are humans special? Do you center human perspective, or see humanity as one thread in a larger weave?</span><div class="tooltip-score"><span>Anthro</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 67%"></div></div><span>Xeno</span></div><span class="tooltip-num">10/15</span></span></span> among many possible minds
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Views death as a <span class="axis-phrase">problem to solve<span class="tooltip"><span class="tooltip-axis">Mortal / Immortalist</span><span class="tooltip-desc">Do you see mortality as natural, or as a problem to be solved?</span><div class="tooltip-score"><span>Mortal</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 73%"></div></div><span>Immortalist</span></div><span class="tooltip-num">11/15</span></span></span>, not a fact to accept
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Prefers to <span class="axis-phrase">protect what works<span class="tooltip"><span class="tooltip-axis">Accel / Steward</span><span class="tooltip-desc">Do you prioritize progress and speed, or preservation and care?</span><div class="tooltip-score"><span>Accel</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 40%"></div></div><span>Steward</span></div><span class="tooltip-num">6/15</span></span></span> over racing toward the new
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Comfortable with AI finding <span class="axis-phrase">its own path<span class="tooltip"><span class="tooltip-axis">Aligned / Autonomous</span><span class="tooltip-desc">Should machine intelligence be constrained to human values, or free to find its own path?</span><div class="tooltip-score"><span>Aligned</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 60%"></div></div><span>Autonomous</span></div><span class="tooltip-num">9/15</span></span></span>, even if it diverges
+        </li>
+        <li>
+          <span class="bullet">•</span>
+          Trusts <span class="axis-phrase">gut feeling<span class="tooltip"><span class="tooltip-axis">Apollonian / Dionysian</span><span class="tooltip-desc">Do you trust reason and structure, or intuition and embodied knowing?</span><div class="tooltip-score"><span>Apollonian</span><div class="tooltip-bar"><div class="tooltip-bar-fill" style="width: 87%"></div></div><span>Dionysian</span></div><span class="tooltip-num">13/15</span></span></span> and lived experience over abstraction
+        </li>
+      </ul>
 
       <!-- Constellation -->
       <div class="constellation-container">

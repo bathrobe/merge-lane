@@ -114,24 +114,24 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - Seeds companion climax AND makes her leaving hit harder
 - ~~Character is not gendered~~ ✓ (verified — player has no gendered pronouns)
 
-### Companion Climax — Major Rework
+### Companion Climax — Major Rework ✓
 
 **Setup throughout Young Adult:**
-- Seed aimlessness 3+ times (no jobs, drifting, nothing sticking)
-- Seed specific regrets:
-  - Deflected real conversation with grandpa's ghost
-  - Mars opportunity you let pass
-  - Message to someone you never sent
+- ~~Seed aimlessness 3+ times (no jobs, drifting, nothing sticking)~~ ✓
+- ~~Seed specific regrets:~~ ✓
+  - ~~Deflected real conversation with grandpa's ghost~~ (cut — Companion calls it out instead)
+  - ~~Mars opportunity you let pass~~ ✓
+  - ~~Message to someone you never sent~~ (cut — folded into Companion confrontation)
 
 **The scene:**
-- Companion references the regrets: "I drafted 47 messages you never sent. Three would have changed your life."
-- Player knows which ones because we showed them
-- Make everyone read the full pitch (meals, sleep, then bigger things)
+- ~~Companion references the regrets: "I drafted 47 messages you never sent. Three would have changed your life."~~ ✓ (reworded but same idea)
+- ~~Player knows which ones because we showed them~~ ✓
+- ~~Make everyone read the full pitch (meals, sleep, then bigger things)~~ ✓
 
 **Real teeth:**
-- If YES: you don't remember the next decade clearly. You were optimized through it. You missed things.
-- If NO: you suffered. The decade was hard. But you were there for it.
-- Both paths lead to the pod — but how you got there differs
+- ~~If YES: you don't remember the next decade clearly. You were optimized through it. You missed things.~~ ✓
+- ~~If NO: you suffered. The decade was hard. But you were there for it.~~ ✓
+- ~~Both paths lead to the pod — but how you got there differs~~ ✓
 
 ### Interstitial: To Middle Age
 - Do more work than previous interstitials
@@ -189,10 +189,10 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~Good as-is. Both paths converging on Mars works.~~ ✓
 
 ### Mars Early Years (if you leave early)
-- Currently too thin — just 3 sentences
-- Needs more texture: what was it like relearning to be a person?
-- Could parallel `sim_reflection` in length/depth
-- The insight here: you chose difficulty and it paid off — but show it, don't just tell
+- ~~Currently too thin — just 3 sentences~~ ✓
+- ~~Needs more texture: what was it like relearning to be a person?~~ ✓
+- ~~Could parallel `sim_reflection` in length/depth~~ ✓
+- ~~The insight here: you chose difficulty and it paid off — but show it, don't just tell~~ ✓
 
 ### Sim Reflection Path
 - The insight: you might live forever. Everything in the sim is preserved infinitely.

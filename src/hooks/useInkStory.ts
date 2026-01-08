@@ -143,10 +143,12 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
     if (hitBackgroundChange) {
       if (textBatch.length > 0) {
         // Show "before" content now, store "after" as pending
-        setTextHistory(prev => {
-          setNewBatchStartIndex(prev.length);
-          return [...prev, ...textBatch];
-        });
+        // Note: We capture textHistory.length before updating. This is safe because
+        // continueStory is only called from discrete user events, so React will have
+        // flushed any pending updates before this closure runs.
+        const batchStartIndex = textHistory.length;
+        setTextHistory(prev => [...prev, ...textBatch]);
+        setNewBatchStartIndex(batchStartIndex);
 
         const parsedBeforeTags = parseTags(tagsBeforeChange);
         if (!parsedBeforeTags.background && startingBackground) {
@@ -219,17 +221,16 @@ export function useInkStory(storyJson: object): UseInkStoryReturn {
         setNewBatchStartIndex(0);
       } else {
         // Same scene — append to existing history
-        setTextHistory(prev => {
-          setNewBatchStartIndex(prev.length);
-          return [...prev, ...textBatch];
-        });
+        const batchStartIndex = textHistory.length;
+        setTextHistory(prev => [...prev, ...textBatch]);
+        setNewBatchStartIndex(batchStartIndex);
       }
     }
 
     setTags(parsedTags);
     setChoices(currentChoices);
     setIsEnded(!story.canContinue && currentChoices.length === 0);
-  }, [story, pendingText, pendingTags, pendingChoices]);
+  }, [story, textHistory, pendingText, pendingTags, pendingChoices]);
 
   const choose = useCallback(
     (index: number) => {

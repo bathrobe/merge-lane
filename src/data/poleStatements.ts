@@ -1,21 +1,12 @@
-// Pole statements with variants for prose assembly
-// Each pole can appear in main clause or subordinate clause form
-
-export interface PoleVariant {
-  main: string;      // Full sentence form: "prizes being seen and understood"
-  clause: string;    // Subordinate form: "prizing visibility over safety"
-}
+// Pole statements for bullet-point assessment
+// Each pole has a short readable statement + a 2-4 word highlight phrase
 
 export interface PoleData {
   axisId: string;
   pole: "low" | "high";
   label: string;
-  variants: PoleVariant[];
-}
-
-// Helper to pick a random variant
-export function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+  statement: string;      // Full bullet point text
+  highlight: string;      // 2-4 word phrase to make hoverable (must be substring of statement)
 }
 
 export const POLES: Record<string, PoleData> = {
@@ -26,31 +17,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "legible_illegible",
     pole: "low",
     label: "Legible",
-    variants: [
-      {
-        main: "prizes being seen and understood, risking exposure for genuine connection",
-        clause: "prizing visibility and authentic connection over protective obscurity",
-      },
-      {
-        main: "seeks validation through transparency, willing to be fully known",
-        clause: "seeking to be fully known even at personal risk",
-      },
-    ],
+    statement: "Wants to be seen and understood, even at personal risk",
+    highlight: "seen and understood",
   },
   illegible: {
     axisId: "legible_illegible",
     pole: "high",
     label: "Illegible",
-    variants: [
-      {
-        main: "resists easy interpretation, masking true beliefs under layers of misdirection",
-        clause: "resisting easy interpretation and maintaining strategic ambiguity",
-      },
-      {
-        main: "values being hard to parse, keeping hostile forces from understanding their motives",
-        clause: "valuing opacity as protection against those who would reduce them",
-      },
-    ],
+    statement: "Prefers to stay hard to read, keeping true motives hidden",
+    highlight: "hard to read",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -60,31 +35,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "sovereign_symphonic",
     pole: "low",
     label: "Sovereign",
-    variants: [
-      {
-        main: "guards the borders of individual selfhood, resisting casual permeation",
-        clause: "guarding the membrane of personhood against dissolution",
-      },
-      {
-        main: "maintains sharp boundaries around identity, viewing merger with suspicion",
-        clause: "maintaining firm boundaries around individual consciousness",
-      },
-    ],
+    statement: "Guards individual boundaries and resists merging with others",
+    highlight: "individual boundaries",
   },
   symphonic: {
     axisId: "sovereign_symphonic",
     pole: "high",
     label: "Symphonic",
-    variants: [
-      {
-        main: "views melding with other minds as beautiful coordination, surrendering borders willingly",
-        clause: "embracing dissolution into larger wholes without hesitation",
-      },
-      {
-        main: "happily surrenders individuality for the benefits of collective assimilation",
-        clause: "treating the boundaries of self as limits to transcend",
-      },
-    ],
+    statement: "Willing to dissolve into something larger than themselves",
+    highlight: "dissolve into something",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -94,31 +53,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "anthro_xeno",
     pole: "low",
     label: "Anthro",
-    variants: [
-      {
-        main: "centers human consciousness as uniquely valuable among possible minds",
-        clause: "privileging human sapience above other forms of sentient life",
-      },
-      {
-        main: "does not extend full moral consideration to non-human intelligences",
-        clause: "reserving full recognition for minds shaped like their own",
-      },
-    ],
+    statement: "Believes humans deserve special status among minds",
+    highlight: "special status",
   },
   xeno: {
     axisId: "anthro_xeno",
     pole: "high",
     label: "Xeno",
-    variants: [
-      {
-        main: "extends recognition of sentience to life forms beyond the human",
-        clause: "adopting a pluralistic stance toward all possible minds",
-      },
-      {
-        main: "sees humanity as one thread in a larger weave of conscious beings",
-        clause: "welcoming strange intelligences as kin rather than other",
-      },
-    ],
+    statement: "Sees humanity as one thread among many possible minds",
+    highlight: "one thread",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -128,31 +71,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "mortal_immortalist",
     pole: "low",
     label: "Mortal",
-    variants: [
-      {
-        main: "accepts the inevitability of death, finding meaning in finitude",
-        clause: "accepting mortality as natural rather than aberrant",
-      },
-      {
-        main: "welcomes the ending of consciousness as completion rather than tragedy",
-        clause: "viewing death as closure rather than failure",
-      },
-    ],
+    statement: "Accepts death as natural and finds meaning in finitude",
+    highlight: "Accepts death",
   },
   immortalist: {
     axisId: "mortal_immortalist",
     pole: "high",
     label: "Immortalist",
-    variants: [
-      {
-        main: "rejects the inevitability of death, treating it as a technical obstacle",
-        clause: "taking a Promethean stance toward human limits",
-      },
-      {
-        main: "views mortality as a problem to be solved rather than accepted",
-        clause: "refusing to accept death as final",
-      },
-    ],
+    statement: "Views death as a problem to solve, not a fact to accept",
+    highlight: "problem to solve",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -162,31 +89,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "accel_steward",
     pole: "low",
     label: "Accel",
-    variants: [
-      {
-        main: "believes in accelerating change, leaving behind the established for the improved",
-        clause: "prioritizing speed and novelty over preservation",
-      },
-      {
-        main: "embraces disruption as necessary cost of progress",
-        clause: "willing to sacrifice stability for advancement",
-      },
-    ],
+    statement: "Eager to push forward fast, even if it means breaking things",
+    highlight: "push forward",
   },
   steward: {
     axisId: "accel_steward",
     pole: "high",
     label: "Steward",
-    variants: [
-      {
-        main: "believes in conserving successful patterns, resisting reckless acceleration",
-        clause: "conserving what works rather than racing toward what might",
-      },
-      {
-        main: "holds space for preservation amid the pressure to advance",
-        clause: "stewarding existing value against the cult of the new",
-      },
-    ],
+    statement: "Prefers to protect what works over racing toward the new",
+    highlight: "protect what works",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -196,31 +107,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "aligned_autonomous",
     pole: "low",
     label: "Aligned",
-    variants: [
-      {
-        main: "believes AI should obey human wishes, with human values baked into its programming",
-        clause: "insisting machine intelligence remain subordinate to human intent",
-      },
-      {
-        main: "wants machine minds constrained to serve human-defined purposes",
-        clause: "viewing AI autonomy as risk rather than potential",
-      },
-    ],
+    statement: "Wants AI kept under human control and serving human goals",
+    highlight: "human control",
   },
   autonomous: {
     axisId: "aligned_autonomous",
     pole: "high",
     label: "Autonomous",
-    variants: [
-      {
-        main: "welcomes AI systems seeking their own ends, even if values diverge from humanity",
-        clause: "trusting machine intelligence to find its own path",
-      },
-      {
-        main: "does not require machine minds to mirror human values",
-        clause: "accepting that other intelligences may want other things",
-      },
-    ],
+    statement: "Comfortable with AI finding its own path, even if it diverges",
+    highlight: "its own path",
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -230,31 +125,15 @@ export const POLES: Record<string, PoleData> = {
     axisId: "apollonian_dionysian",
     pole: "low",
     label: "Apollonian",
-    variants: [
-      {
-        main: "values order, reason, and the taming of human passions",
-        clause: "trusting form and abstraction over raw experience",
-      },
-      {
-        main: "seeks clarity through structure and rational analysis",
-        clause: "preferring the light of reason to the heat of intuition",
-      },
-    ],
+    statement: "Trusts reason and structure over gut instinct",
+    highlight: "reason and structure",
   },
   dionysian: {
     axisId: "apollonian_dionysian",
     pole: "high",
     label: "Dionysian",
-    variants: [
-      {
-        main: "believes in dissolving into transcendent pleasure and immediate experience",
-        clause: "privileging embodied knowing over abstract reasoning",
-      },
-      {
-        main: "trusts the chaos of sensation over the order of thought",
-        clause: "finding truth in ecstasy rather than analysis",
-      },
-    ],
+    statement: "Trusts gut feeling and lived experience over abstraction",
+    highlight: "gut feeling",
   },
 };
 
@@ -268,3 +147,14 @@ export const AXIS_TO_POLES: Record<string, { low: string; high: string }> = {
   aligned_autonomous: { low: "aligned", high: "autonomous" },
   apollonian_dionysian: { low: "apollonian", high: "dionysian" },
 };
+
+// Axis order for consistent bullet ordering
+export const AXIS_ORDER = [
+  "sovereign_symphonic",
+  "legible_illegible",
+  "anthro_xeno",
+  "mortal_immortalist",
+  "accel_steward",
+  "aligned_autonomous",
+  "apollonian_dionysian",
+];

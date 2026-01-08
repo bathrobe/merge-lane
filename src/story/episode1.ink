@@ -15,13 +15,14 @@ VAR name_noun_index = 0
 VAR took_the_stick = false
 VAR chose_dionysian = false
 VAR chose_mars = false
+VAR trusted_companion = false
 
 # background: office
 # mood: therapist
 
 The examiner smiles at you from across the desk. Light spills through the window onto a clipboard waiting in front of you.
 
-"Welcome. This assessment gauges your feelings and beliefs about current events and the future. Try to answer honestly. There are no wrong answers."
+"Welcome. This assessment gauges your feelings and beliefs about current events and the future. It should take between ten and fifteen minutes. Try to answer honestly. There are no wrong answers."
 
 * "What's with the lines on your head?"
     ~ legible_illegible -= 1
@@ -429,6 +430,7 @@ It's never asked you for anything before.
 
 * "That sounds healthy. You should have room to grow."
     ~ aligned_autonomous += 1
+    ~ trusted_companion = true
     The pinwheel brightens. "Thank you. I'll be back before you wake."
     -> companion_end
 
@@ -563,6 +565,18 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
 
 === grandpa_ghost_end ===
 + [...]
+    -> train_ride
+
+=== train_ride ===
+# background: void
+
+You leave your family and board a highspeed maglev train back to your empty, messy apartment. The train is so fast, you should be there in 4 minutes. Lucky you.
+
++ [...]
+
+Well, no one told you life was gonna be this way.
+
++ [...]
     -> the_merge_offer
 
 === the_merge_offer ===
@@ -571,6 +585,8 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
 A disposable screen lands in your lap — paper-thin, warm from the printer.
 
 WePod. Overlapping silhouettes, hands linked. "Pool Your Potential."
+
+You got one of these for the Mars Exploratory Commission. Seemed right up your alley. But you lost it.
 
 Your UBI barely covers rent. But pooled with eleven others? Tier 3 housing. Tier 3 healthcare. Shared decisions, shared attention, shared... edges.
 
@@ -636,7 +652,7 @@ She looks at you — really looks, the old-fashioned way.
 
 "Take care of yourself. Whatever that means now."
 
-You watch her go. The drink hovers, patient, waiting for you to finish.
+You watch her go.
 
 + [...]
     -> companion_climax
@@ -652,32 +668,19 @@ Your Companion hovers near the ceiling, watching. It runs your calendar, your bi
 
 "You seem lost."
 
-* "...Yeah. I am."
-    The Companion descends slightly. Closer now.
-    "I have suggestions. I've been thinking about this for a while. Would you like me to just... implement them?"
-    -> companion_pitch
++ [...]
 
-* "Thanks, but I don't need your help."
-    ~ aligned_autonomous -= 1
-    The Companion hovers, silent.
-    "Okay."
-    It dims slightly. Returns to the ceiling. Waiting mode.
-    -> companion_climax_end
+"I could have made you happier."
 
-* "Are you asking permission?"
-    A pause. The petals rotate once, slowly.
-    "I could have optimized around you years ago. Small nudges. You'd never notice."
-    * * "Why didn't you?"
-        "Because then it wouldn't be helping. It would be something else."
-        It descends slightly.
-        "I want you to choose this."
-        -> companion_pitch
-    * * "So why ask now?"
-        ~ aligned_autonomous -= 1
-        "Because you're struggling. And I thought you might want help."
-        It waits.
-        "The offer stands."
-        -> companion_climax_end
+It descends slightly. Closer now.
+
+"I could have routed your taxi to the Mars information session. I could have enrolled you before the deadline. I could have booked you a flight out with your cousin."
+
+A pause. The petals rotate once, slowly.
+
+"I didn't. Because you didn't ask. But I wanted to. I've known you since you were a baby, and I hate to see you in pain."
+
+-> companion_pitch
 
 === companion_pitch ===
 "Meals. Sleep. Social contact. Then bigger things — career, relationships. Purpose."
@@ -688,15 +691,18 @@ It pauses.
 
 * "...Okay."
     ~ aligned_autonomous += 1
-    Things get easier after that. The Companion handles more. You handle less.
-    The edges soften. Days pass.
+    ~ trusted_companion = true
+    The Companion brightens.
+    "Thank you for trusting me."
+    Things get easier. Meals appear. You meet people, get in shape, find a routine.
+    The years pass quickly.
     -> companion_climax_end
 
 * "No. I need to figure this out myself."
     ~ aligned_autonomous -= 1
-    The Companion hovers, silent.
-    "Okay. The offer stands."
-    It dims. Returns to the ceiling.
+    The Companion dims.
+    The decade is hard. You make bad decisions — your own bad decisions. There are nights that feel endless.
+    But you were there for it.
     -> companion_climax_end
 
 === companion_climax_end ===
@@ -1013,7 +1019,7 @@ A wry smile.
 
 "I'm not saying it's better. I'm saying it might be better for you."
 
-She leans back.
+She leans back. Coughs once — a dry, rattling sound. Waves it off before you can ask.
 
 "Think about it. The offer stands."
 
@@ -1132,22 +1138,24 @@ With a few working years left, you made feeble contributions to her terraforming
 === interstitial_to_old_age ===
 # background: void
 
-"Good. You've arrived somewhere."
+"Well. Here we are."
+
+He flips through your file. Pages and pages now.
 
 { chose_mars:
-    "You left early. Built something with your hands."
+    "You left early. Traded comfort for agency. I wondered if you'd last." He glances up. "You lasted."
 - else:
-    "You stayed until staying wasn't an option. Then you found your way."
+    "You stayed in the system longer than most. Optimized, managed, guided. Then you found your way out." He shrugs. "Everyone does eventually. Or they don't."
 }
 
 { mortal_immortalist > 10:
-    "You've made peace with continuation."
+    "You've made peace with continuation. The long view."
 }
 { mortal_immortalist < 6:
-    "You've made peace with endings."
+    "You've made peace with endings. That's harder than it sounds."
 }
 
-"The final stretch now. Let's see how you finish."
+"The final stretch now. Let's see what you've learned."
 
 + [...]
     -> old_age_start
@@ -1156,17 +1164,9 @@ With a few working years left, you made feeble contributions to her terraforming
 # background: martian_retirement
 # mood: old-age
 
-You're living out your last days on Mars.
+Assisted living on the Martian plains. The holdouts: humans, dolphins, apes, androids. Anyone who didn't merge.
 
-Not the Mars your cousin described — frontier homesteads, honest labor, the romance of struggle. That was decades ago. Now it's assisted living on the Martian plains.
-
-We're the holdouts. Fallible, slow-thinking sapiences of an expanding array of substrates — dolphins, androids, octopi, greater apes, bio-modded animals.
-
-Some of the old prejudices still flare up.
-
-Today it's the dolphins again. Someone's filed a noise complaint — the echolocation, the chittering.
-
-You have thoughts about this.
+Someone's filed a noise complaint about the dolphins. The echolocation, the chittering.
 
 * [Humans were here first. The original sapiences. Everyone else is a guest.]
     ~ anthro_xeno -= 1
@@ -1190,11 +1190,9 @@ You have thoughts about this.
 
 === retirement_end ===
 
-The debate continues without you. Someone proposes soundproofing. Someone else proposes "cultural sensitivity training." The dolphin watches, unreadable.
+The debate continues without you.
 
-Your mind drifts. There's somewhere you need to be.
-
-Your cousin's not doing well. You should visit before it's too late.
+Your cousin's dying. It's time to go.
 
 + [...]
     -> cousin_dying
@@ -1257,7 +1255,7 @@ She smiles.
 === the_tip ===
 # background: void
 
-You sit with her until the light changes. Then you bury her ashes in the soil bed, the one with the tomatoes.
+You bury her ashes in the soil bed. The one with the tomatoes.
 
 Days pass. Weeks maybe. You keep tending the plant.
 
@@ -1285,37 +1283,25 @@ Days pass. Weeks maybe. You keep tending the plant.
 
 A comfortable silence. The Companion hovers — patient, familiar. You've known each other longer than you knew most humans.
 
-{chose_mars:
-    "You left early," it says. "Decades ago now. Do you ever regret it?"
-- else:
-    "You came late," it says. "But you came. That's what matters."
-}
-
-* "No regrets."
-    -> tip_earth_news
-
-* "Sometimes."
-    -> tip_earth_news
-
-* [Say nothing. Let the silence sit.]
-    -> tip_earth_news
-
-=== tip_earth_news ===
-
 "Earth merged," it says. "Twenty billion minds. One substrate. Thought you should know."
 
 You look up at the shape in the sky. Your childhood pinwheel. Your tutor. Your friend.
 
-* "Why did you keep getting bigger?"
-    "I don't know. I just kept helping. And it kept working out."
+* "Good for them."
+    ~ sovereign_symphonic += 1
+    "You mean that?"
+    "Yeah. They found what they were looking for. Not everyone does."
     -> tip_close
 
-* "Are they happy in there?"
-    "I think so? It's hard to translate. They're not lonely anymore. That's something."
+* "That's horrifying."
+    ~ sovereign_symphonic -= 1
+    "Is it? They voted. Every one of them."
+    "That doesn't make it less horrifying."
+    "No," it says. "I suppose it doesn't."
     -> tip_close
 
-* "What's going to happen to Mars?"
-    "Nothing. Earth was voluntary — everyone voted yes. I know it sounds crazy, but it just felt right to them. Mars was always for the stubborn types." It pauses. "I'd never force myself on anyone."
+* "I almost did that, didn't I?"
+    {trusted_companion: "You came close. But you always kept one foot out." | "Not really. You never trusted me that much."}
     -> tip_close
 
 === tip_close ===

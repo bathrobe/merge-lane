@@ -68,10 +68,18 @@ export function decode(phrase: string): AxisValues | null {
     bits = bits >> 4;
   }
 
-  // Build axis object
-  const result: AxisValues = {} as AxisValues;
+  // Build axis object with defaults, then override with decoded values
+  const result: AxisValues = {
+    legible_illegible: 8,
+    sovereign_symphonic: 8,
+    anthro_xeno: 8,
+    mortal_immortalist: 8,
+    accel_steward: 8,
+    aligned_autonomous: 8,
+    apollonian_dionysian: 8,
+  };
   AXIS_ORDER.forEach((axis, i) => {
-    result[axis] = values[i];
+    result[axis] = values[i] ?? 8;
   });
 
   return result;

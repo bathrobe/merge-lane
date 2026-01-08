@@ -15,10 +15,6 @@ export function AssessmentDemo() {
     apollonian_dionysian: 13,
   });
 
-  // Regenerate with same scores (picks new random variants/template)
-  const [key, setKey] = useState(0);
-  const regenerate = () => setKey((k) => k + 1);
-
   return (
     <div
       style={{
@@ -79,23 +75,6 @@ export function AssessmentDemo() {
         ))}
       </div>
 
-      {/* Regenerate button */}
-      <button
-        onClick={regenerate}
-        style={{
-          padding: "8px 16px",
-          backgroundColor: PALETTE.institutionalTeal,
-          color: PALETTE.cream,
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: 600,
-        }}
-      >
-        Regenerate (same scores, new variants)
-      </button>
-
       {/* The assessment prose */}
       <div
         style={{
@@ -120,7 +99,7 @@ export function AssessmentDemo() {
           Subject Assessment
         </div>
 
-        <AssessmentProse key={key} scores={scores} />
+        <AssessmentProse scores={scores} />
       </div>
     </div>
   );

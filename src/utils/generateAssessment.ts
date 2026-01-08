@@ -1,20 +1,18 @@
 import { AXIS_DEFINITIONS } from "../data/axisDefinitions";
-import { POLES, AXIS_TO_POLES, pickRandom } from "../data/poleStatements";
-import { pickRandomTemplate } from "../data/assessmentTemplates";
+import { POLES, AXIS_TO_POLES, AXIS_ORDER } from "../data/poleStatements";
 
-// A segment is either plain text or a hoverable axis phrase
-export interface AssessmentSegment {
-  type: "text" | "axis";
-  content: string;
-  // Only present for axis segments
-  axisId?: string;
-  score?: number;
+// A bullet item with the statement split into segments
+export interface AssessmentBullet {
+  axisId: string;
+  score: number;
+  // The statement split into: [before highlight, highlight, after highlight]
+  beforeHighlight: string;
+  highlight: string;
+  afterHighlight: string;
 }
 
 export interface GeneratedAssessment {
-  segments: AssessmentSegment[];
-  // For debugging/display
-  activePoles: Record<string, string>;
+  bullets: AssessmentBullet[];
 }
 
 // Threshold for determining low vs high pole (scores typically 0-15)
@@ -23,74 +21,42 @@ const MIDPOINT = 8;
 export function generateAssessment(
   scores: Record<string, number>
 ): GeneratedAssessment {
-  // 1. Determine which pole is active for each axis
-  const activePoles: Record<string, string> = {};
+  const bullets: AssessmentBullet[] = [];
 
-  for (const axisId of Object.keys(AXIS_TO_POLES)) {
+  for (const axisId of AXIS_ORDER) {
     const score = scores[axisId] ?? MIDPOINT;
     const poles = AXIS_TO_POLES[axisId];
-    activePoles[axisId] = score < MIDPOINT ? poles.low : poles.high;
-  }
+    const poleKey = score < MIDPOINT ? poles.low : poles.high;
+    const pole = POLES[poleKey];
 
-  // 2. Pick a template
-  const template = pickRandomTemplate();
+    if (!pole) continue;
 
-  // 3. Parse and fill template
-  const segments: AssessmentSegment[] = [];
-  const slotRegex = /\{(\w+):(\w+)\}/g;
+    // Split statement around the highlight phrase
+    const highlightIndex = pole.statement.indexOf(pole.highlight);
 
-  let lastIndex = 0;
-  let match;
+    let beforeHighlight = "";
+    let highlight = pole.highlight;
+    let afterHighlight = "";
 
-  while ((match = slotRegex.exec(template)) !== null) {
-    // Add text before this slot
-    if (match.index > lastIndex) {
-      const textBefore = template.slice(lastIndex, match.index);
-      if (textBefore) {
-        segments.push({ type: "text", content: textBefore });
-      }
-    }
-
-    const axisId = match[1];
-    const form = match[2] as "main" | "clause";
-
-    // Get the active pole for this axis
-    const poleKey = activePoles[axisId];
-    const poleData = POLES[poleKey];
-
-    if (poleData) {
-      // Pick a random variant
-      const variant = pickRandom(poleData.variants);
-      const phraseText = variant[form];
-
-      // The whole phrase is the hoverable segment
-      segments.push({
-        type: "axis",
-        content: phraseText,
-        axisId: axisId,
-        score: scores[axisId] ?? MIDPOINT,
-      });
+    if (highlightIndex >= 0) {
+      beforeHighlight = pole.statement.slice(0, highlightIndex);
+      afterHighlight = pole.statement.slice(highlightIndex + pole.highlight.length);
     } else {
-      // Fallback if pole not found
-      segments.push({ type: "text", content: `[${axisId}]` });
+      // Fallback if highlight not found
+      beforeHighlight = pole.statement;
+      highlight = "";
     }
 
-    lastIndex = match.index + match[0].length;
+    bullets.push({
+      axisId,
+      score,
+      beforeHighlight,
+      highlight,
+      afterHighlight,
+    });
   }
 
-  // Add any remaining text after last slot
-  if (lastIndex < template.length) {
-    segments.push({ type: "text", content: template.slice(lastIndex) });
-  }
-
-  // 4. Capitalize first letter of first segment if needed
-  if (segments.length > 0 && segments[0].content) {
-    segments[0].content =
-      segments[0].content.charAt(0).toUpperCase() +
-      segments[0].content.slice(1);
-  }
-
-  return { segments, activePoles };
+  return { bullets };
 }
 
 // Helper to get tooltip data for an axis
@@ -102,7 +68,7 @@ export function getAxisTooltipData(axisId: string, score: number) {
     name: axis.name,
     description: axis.description,
     score,
-    maxScore: 15, // Typical max
+    maxScore: 15,
     lowPole: axis.lowPole,
     highPole: axis.highPole,
   };

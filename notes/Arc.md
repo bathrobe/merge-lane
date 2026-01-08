@@ -275,21 +275,20 @@ Add chrome/pearlescent/amber as scene elements within that rendering style — n
 ---
 
 **Scene 1: The Metaverse**
-You're in. Choose your environment: opium den / sexy decadence (Dionysian) or self-improvement regime / clean optimization (Apollonian). Either way, it's nice. Your Companion built this — for you, for everyone.
-→ _Apollonian/Dionysian_
+You're in. Choose your environment: opium den / sexy decadence (Dionysian) or self-improvement regime / clean optimization (Apollonian). Either way, it's nice. Wake up in the pod — warm saline, tubes, the infrastructure of comfort.
+→ _Apollonian/Dionysian, plus various axes in sub-choices_
 
 **Scene 2: The Companion-President**
-Your childhood mascot runs the world now. It's doing a good job, actually. How do you feel?
-a) "Sic semper tyrannis." b) "We didn't know how to govern ourselves. He's doing fine. I've known him since way back."
-→ _Elitist/Populist_
+Screen descends. Your childhood mascot runs the world now. He pulled you out because you have an incoming call — from outside.
+→ _Aligned/Autonomous, Sovereign/Symphonic_
 
-**Scene 3: Grandpa Revised**
-He's thriving. "Death was the start of my finest chapter." He wants permission to change — delete old memories, or change his presentation. Tired of looking like an old man. Is this still grandpa?
-→ _Sovereign/Symphonic_ or _Mortal/Immortalist_
-
-**Scene 4: Cousin to Mars**
-The meatspace cousin is leaving Earth. Mars has a "free-range human" policy — unoptimized, unmanaged, no Companion-President. This is probably goodbye. Do you envy them? Pity them? Want to go?
+**Scene 3: Cousin from Mars**
+Videocall, still in the pod. Cousin is on Mars — the "free-range human" planet. She wants you to come. This is probably your last chance. Do you envy her? Pity her? Want to go?
 → _Accel/Steward_
+
+**Scene 4: Grandpa Revised**
+He's thriving — young and svelte now, no longer an old man. He tries to persuade you to stay in the pod, stay on Earth, stay in the simulation. "Death was the start of my finest chapter."
+→ _Mortal/Immortalist, Sovereign/Symphonic_
 
 _Companion: Abstract spiral, face minimal. You barely notice it's there — except it's running everything._
 

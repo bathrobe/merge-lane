@@ -34,13 +34,13 @@ Progress through Arc.md scenes. One checkbox per scene.
 - [x] Therapist beat
 
 ## Middle Age (2060s-70s)
-- [ ] The Metaverse
-- [ ] The Companion-President
-- [ ] Grandpa Revised
-- [ ] Cousin to Mars
+- [x] The Metaverse
+- [x] The Companion-President
+- [x] Cousin from Mars (videocall, still in pod)
+- [x] Grandpa Revised (young/svelte, persuades you to stay)
 
 ## Interstitial: Middle Age → Old Age
-- [ ] Therapist beat
+- [x] Therapist beat
 
 ## Old Age (2080s+)
 - [ ] Martian Retirement Home

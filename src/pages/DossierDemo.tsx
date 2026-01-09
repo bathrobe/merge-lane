@@ -60,6 +60,30 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
     error: "Failed",
   }[copyStatus];
 
+  // Mobile: no frame, full width. Desktop: cloudy bg + teal frame
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: PALETTE.cream,
+          padding: "16px",
+        }}
+      >
+        <MobileDossierContent
+          scores={scores}
+          isDemoMode={isDemoMode}
+          onReroll={handleReroll}
+          onReset={onReset}
+          cardRef={cardRef}
+          copyStatus={copyStatus}
+          onCopyImage={handleCopyImage}
+          copyButtonLabel={copyButtonLabel}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -547,6 +571,309 @@ function CopyButton({
     >
       {children}
     </button>
+  );
+}
+
+// Substack subscribe URL
+const SUBSTACK_URL = "https://winedark.ink";
+
+interface MobileDossierContentProps {
+  scores: AxisValues;
+  isDemoMode: boolean;
+  onReroll: () => void;
+  onReset?: () => void;
+  cardRef: React.RefObject<HTMLDivElement | null>;
+  copyStatus: "idle" | "copying" | "copied" | "error";
+  onCopyImage: () => void;
+  copyButtonLabel: string;
+}
+
+function MobileDossierContent({
+  scores,
+  isDemoMode,
+  onReroll,
+  onReset,
+  cardRef,
+  onCopyImage,
+  copyButtonLabel,
+}: MobileDossierContentProps) {
+  return (
+    <>
+      {/* Banner */}
+      <img
+        src="/backgrounds/masthead-riff-1-short.jpg"
+        alt="Institute Banner"
+        style={{
+          width: "100%",
+          height: "auto",
+          borderRadius: "6px",
+          marginBottom: "20px",
+          border: `2px solid ${PALETTE.institutionalTeal}`,
+        }}
+      />
+
+      {/* Masthead - stacked on mobile */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "16px",
+          marginBottom: "28px",
+          textAlign: "center",
+        }}
+      >
+        <img
+          src="/backgrounds/seal_pinwheel_flat.jpg"
+          alt="Institute Seal"
+          style={{
+            width: "120px",
+            height: "120px",
+            borderRadius: "50%",
+            border: `3px solid ${PALETTE.institutionalTeal}`,
+            boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+          }}
+        />
+        <div>
+          <h1
+            style={{
+              fontFamily: "'Libre Baskerville', serif",
+              fontSize: "1.4rem",
+              fontWeight: 700,
+              color: PALETTE.deepNavy,
+              marginBottom: "4px",
+              lineHeight: 1.2,
+            }}
+          >
+            Psychological Profile
+          </h1>
+          <p
+            style={{
+              fontFamily: "'Libre Baskerville', serif",
+              fontStyle: "italic",
+              fontSize: "0.8rem",
+              color: PALETTE.warmBrown,
+              marginBottom: "10px",
+            }}
+          >
+            On the Merge and Machine Relations
+          </p>
+          <div
+            style={{
+              display: "inline-block",
+              fontFamily: "monospace",
+              fontSize: "9px",
+              color: PALETTE.cream,
+              background: PALETTE.institutionalTeal,
+              padding: "4px 10px",
+              borderRadius: "3px",
+              letterSpacing: "1px",
+            }}
+          >
+            CLASSIFICATION: CONFIDENTIAL
+          </div>
+        </div>
+      </div>
+
+      {/* Assessment */}
+      <div style={{ marginBottom: "24px" }}>
+        <AssessmentProse scores={scores} />
+      </div>
+
+      {/* Profile Card - full-width image on mobile */}
+      <div ref={cardRef}>
+        <DossierCard>
+          {/* Full-width archetype image */}
+          <img
+            src={getArchetypeImagePath(scoresToBinaryKey(scores))}
+            alt="Your archetype"
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: "8px",
+              border: `2px solid ${PALETTE.institutionalTeal}`,
+              objectFit: "cover",
+              marginBottom: "16px",
+            }}
+          />
+
+          {/* Title + sentence */}
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                color: PALETTE.institutionalTeal,
+                marginBottom: "4px",
+              }}
+            >
+              Your Archetype
+            </div>
+            <h2
+              style={{
+                fontFamily: "'Libre Baskerville', serif",
+                fontSize: "1.3rem",
+                fontWeight: 700,
+                color: PALETTE.deepNavy,
+                margin: 0,
+                marginBottom: "10px",
+                lineHeight: 1.2,
+              }}
+            >
+              {getComboProfile(scores).title}
+            </h2>
+            <p
+              style={{
+                fontFamily: "'Libre Baskerville', serif",
+                fontStyle: "italic",
+                fontSize: "16px",
+                color: PALETTE.warmBrown,
+                lineHeight: 1.5,
+                margin: 0,
+              }}
+            >
+              {getComboProfile(scores).sentence}
+            </p>
+          </div>
+
+          {/* Flourish */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "12px",
+              margin: "16px 0",
+            }}
+          >
+            <span style={{ flex: 1, height: "1px", background: PALETTE.softBeige }} />
+            <span style={{ color: PALETTE.institutionalTeal, fontSize: "14px", opacity: 0.6 }}>✦</span>
+            <span style={{ flex: 1, height: "1px", background: PALETTE.softBeige }} />
+          </div>
+
+          {/* Axis readout */}
+          <div
+            style={{
+              paddingBottom: "14px",
+              borderBottom: `1px solid ${PALETTE.softBeige}`,
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "6px 14px",
+              fontSize: "10px",
+              fontFamily: "'Nunito', sans-serif",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+            }}
+          >
+            <PoleReadout scores={scores} />
+          </div>
+
+          {/* Seed phrase */}
+          <div style={{ marginTop: "14px", textAlign: "center" }}>
+            <div
+              style={{
+                fontFamily: "'Courier New', Courier, monospace",
+                fontSize: "12px",
+                color: PALETTE.deepNavy,
+                letterSpacing: "2px",
+              }}
+            >
+              {encodeSeedPhrase(scores).split(" ").join("-")}
+            </div>
+          </div>
+
+          {/* URL watermark */}
+          <div
+            style={{
+              marginTop: "12px",
+              textAlign: "center",
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: "11px",
+              color: PALETTE.softBeige,
+              letterSpacing: "1px",
+            }}
+          >
+            merge.winedark.ink
+          </div>
+        </DossierCard>
+      </div>
+
+      {/* Action buttons */}
+      <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "12px" }}>
+        <CopyButton onClick={onCopyImage}>{copyButtonLabel}</CopyButton>
+        {isDemoMode && <CopyButton onClick={onReroll}>Reroll</CopyButton>}
+        {onReset && <CopyButton onClick={onReset}>Return to Menu</CopyButton>}
+      </div>
+
+      {/* Seed Section */}
+      <SectionHeader>Your Seed Phrase</SectionHeader>
+      <DossierCard>
+        <div
+          style={{
+            fontFamily: "'Courier New', Courier, monospace",
+            fontSize: "1.2rem",
+            color: PALETTE.deepNavy,
+            fontWeight: "bold",
+            marginBottom: "16px",
+            letterSpacing: "2px",
+            textAlign: "center",
+            padding: "16px 12px",
+            borderBottom: `1px solid ${PALETTE.softBeige}`,
+          }}
+        >
+          {encodeSeedPhrase(scores).split(" ").join("-")}
+        </div>
+        <p
+          style={{
+            fontFamily: "'Nunito', sans-serif",
+            fontSize: "13px",
+            color: PALETTE.warmBrown,
+            lineHeight: 1.5,
+            margin: 0,
+            textAlign: "center",
+            padding: "4px 8px",
+          }}
+        >
+          This seed phrase contains all you need to load this personality profile into future simulations.
+        </p>
+      </DossierCard>
+
+      {/* Subscribe Button (not iframe on mobile) */}
+      <div style={{ marginTop: "28px" }}>
+        <SectionHeader>Subscribe to Updates</SectionHeader>
+        <a
+          href={SUBSTACK_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            width: "100%",
+            textAlign: "center",
+            fontFamily: "'Nunito', sans-serif",
+            fontWeight: 700,
+            padding: "14px 24px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: `linear-gradient(180deg, ${PALETTE.institutionalTeal} 0%, #4A7A7A 100%)`,
+            color: PALETTE.cream,
+            border: "3px solid",
+            borderColor: "#7BA3A3 #3D6B6B #3D6B6B #7BA3A3",
+            boxShadow: `
+              inset 2px 2px 0 rgba(255,255,255,0.2),
+              inset -2px -2px 0 rgba(0,0,0,0.1),
+              4px 4px 0 rgba(0,0,0,0.25)
+            `,
+            textDecoration: "none",
+          }}
+        >
+          Subscribe for Episode 2
+        </a>
+      </div>
+    </>
   );
 }
 

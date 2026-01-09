@@ -306,7 +306,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
             </p>
           </DossierCard>
 
-          {/* Substack Section */}
+          {/* Substack Embed Section */}
           <div style={{ marginTop: "28px" }}>
             <SectionHeader>Subscribe to Updates</SectionHeader>
             <DossierCard>
@@ -323,13 +323,16 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               >
                 You've been approved to advance to the next stage of your examination. Sign up to be notified when applications open.
               </p>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <CopyButton
-                  onClick={() => window.open("https://winedark.ink/subscribe", "_blank")}
-                >
-                  Subscribe
-                </CopyButton>
-              </div>
+              <iframe
+                src="https://winedark.ink/embed"
+                width="100%"
+                height="150"
+                style={{
+                  border: "none",
+                  background: "transparent",
+                }}
+                frameBorder={0}
+              />
             </DossierCard>
           </div>
         </div>

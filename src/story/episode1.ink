@@ -488,7 +488,9 @@ There aren't many jobs left. Most of your friends are just drifting.
 
 But this tradition from old America stays: get together for a big meal.
 
-You're at your parents' house. Your unmodified cousin flew in from somewhere rural. What's left of Grandpa shimmers at the head of the table.
+You're at your parents' house. Your cousin's here too — no mods, no Companion, lives on some homestead out west. She's been talking about Mars lately. Everyone thinks she's crazy.
+
+What's left of Grandpa shimmers at the head of the table.
 
 "Good call bringing everyone together," he says. "This casserole isn't just delicious — it's a font of nostalgia."
 
@@ -708,6 +710,12 @@ It pauses.
 # background: void
 
 "Good. You're in the middle now."
+
+{ trusted_companion:
+    "You let it steer. The decade passed smoothly. You don't remember much of it."
+- else:
+    "You kept the wheel. The decade was hard. But you remember all of it."
+}
 
 { aligned_autonomous > 10:
     "You've learned to trust. Or to delegate. Hard to tell the difference."

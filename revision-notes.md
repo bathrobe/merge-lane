@@ -96,7 +96,7 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - Length is earned — big talky scene
 - Clanky grandpa dialogue intentional
 - Flatten politics branch — force 2-3 sequential choices, not deep nesting
-- Add exposition line on cousin early (who she is, unmodified, where she lives)
+- ~~Add exposition line on cousin early (who she is, unmodified, where she lives)~~ ✓
 - ~~**END with regret beat**: you deflected, didn't have real conversation with ghost. Now on train, too late.~~ (cut — too emo, Friends joke carries it)
 
 ### The Merge Offer
@@ -134,10 +134,10 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~Both paths lead to the pod — but how you got there differs~~ ✓
 
 ### Interstitial: To Middle Age
-- Do more work than previous interstitials
-- Acknowledge companion decision (YES vs NO)
-- Bridge the gap to pod life
-- Could acknowledge regrets: "You had chances. You didn't take them."
+- ~~Do more work than previous interstitials~~ ✓
+- ~~Acknowledge companion decision (YES vs NO)~~ ✓ ("You let it steer..." / "You kept the wheel...")
+- ~~Bridge the gap to pod life~~ ✓
+- ~~Could acknowledge regrets: "You had chances. You didn't take them."~~ (cut — companion already called this out)
 
 ---
 

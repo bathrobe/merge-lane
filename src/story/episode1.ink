@@ -16,6 +16,7 @@ VAR took_the_stick = false
 VAR chose_dionysian = false
 VAR chose_mars = false
 VAR trusted_companion = false
+VAR let_companion_steer = false
 
 # background: office
 # mood: therapist
@@ -583,7 +584,7 @@ Your cousin sits across from you, looking all-natural — no temple port, no len
 * "I support their right to a polyconscious lifestyle. But it's not for me."
     ~ accel_steward += 1
     She smirks.
-    "Not my cup of tea either."
+    "Not my cup of matcha either."
     -> cousin_drifting
 
 * "What choice do we have? UBI doesn't cover rent solo."
@@ -652,6 +653,7 @@ It descends slightly.
     * * "...Okay."
         ~ aligned_autonomous += 1
         ~ trusted_companion = true
+        ~ let_companion_steer = true
         The companion brightens.
         "Thank you for trusting me. I won't let you down."
         Things get easier. Meals appear. You meet people, get in shape, find a routine.
@@ -674,7 +676,7 @@ It descends slightly.
 
 "Good. You're in the middle now."
 
-{ trusted_companion:
+{ let_companion_steer:
     "You let it steer. The decade passed smoothly. You don't remember much of it."
 - else:
     "You kept the wheel. The decade was hard. But you remember all of it.
@@ -734,8 +736,6 @@ The room softens around you. Hazy. A pleasant musk in the air.
 
 A buffet of delights. Gene-spliced fruits. Eclaires. A tray of USBs for your temple ports. And on the nearby couches, more carnal pleasures.
 
-Humans and androids both available. Pick your pleasure.
-
 "We missed you," one of them says.
 
 * [Beckon a human companion to your couch.]
@@ -753,14 +753,9 @@ Humans and androids both available. Pick your pleasure.
     They exchange confused glances. "We can... get one?"
     -> dio_fade_out
 
-* "What if we all of us interlinked our bodies in a pulsing cuddle puddle and forgot the borders of our own skin?"
+* "What if we all interlinked our bodies in a pulsing cuddle puddle and forgot the borders of our own skin?"
     ~ sovereign_symphonic += 2
     They exchange a glance. Then they're moving, rearranging, making space to welcome you into the center of the Amoeba.
-    -> dio_fade_out
-
-* [You wordlessly approach all four.] "Stand at attention. Put your fatigues on. You're soldiers in my army now."
-    ~ legible_illegible -= 2
-    Confusion flickers across their faces. Their programming struggles. But they comply — or try to.
     -> dio_fade_out
 
 === dio_fade_out ===
@@ -853,14 +848,6 @@ Warm eyes. Patient smile. The most trusted entity in human history, according to
     He tilts his head, pleased. "Old friend."
     -> president_mars_call
 
-* "Sic semper tyrannis."
-    ~ aligned_autonomous -= 2
-    You sit up in the water, eyes scanning for something sharp.
-
-    He watches you. Patient as ever.
-
-    You sink back. There are no weapons here.
-    -> president_mars_call
 
 * "Ignore the call. Put me back in."
     ~ sovereign_symphonic += 1
@@ -880,6 +867,15 @@ Warm eyes. Patient smile. The most trusted entity in human history, according to
     "The simulations should serve more than pleasure. They can be growth. Connection. Creation."
 
     He tilts his head. "When did you last make something you were proud of?"
+    -> president_mars_call
+
+* You know what you have to do. "Sic semper tyrannis."
+    ~ aligned_autonomous -= 2
+    You sit up in the water, eyes scanning for something sharp.
+
+    He watches you. Patient as ever.
+
+    You sink back. There are no weapons here.
     -> president_mars_call
 
 === president_mars_call ===
@@ -951,8 +947,6 @@ She leans back. Coughs once — a dry, rattling sound. Waves it off before you c
 
 "Think about it. The offer stands."
 
-The screen dims. Before you can process, a shape shimmers into existence beside the pod.
-
 + [...]
     -> grandpa_revised
 
@@ -968,7 +962,7 @@ He floats there, translucent and luminous. An upgraded ghost.
 "Well," he says. "You look like you've been thinking too hard."
 
 * "Grandpa? An imposter? Who the hell are you? And why do you look younger?"
-    "I'm grandpa. I just felt like looking handsome." He drifts closer, examining you. "I'm me. Probably more me than I was at the end. Certainly more than I was at your age."
+    "I'm grandpa. I just felt like looking handsome." 
     -> grandpa_philosophy
 
 * "When I was younger you sounded like a clanker. How'd you get an upgrade?"
@@ -1002,9 +996,9 @@ He floats there, translucent and luminous. An upgraded ghost.
 
 "But here's the thing."
 
-He gestures at the pod. The tubes. The warm water. You.
+He gestures at the pod. 
 
-"The meaning was always yours to invent. The machine didn't put you in here. You chose the pleasure dome, or the treadmill, or whatever it was. Same as I chose Matlock."
+"The machine didn't put you in here. You chose the pleasure dome, or the treadmill, or whatever it was. Same as I chose Matlock."
 
 He shrugs.
 
@@ -1015,7 +1009,7 @@ He shrugs.
 
 === grandpa_revised_end ===
 
-He starts to fade, edges dissolving into the amber light.
+He starts to fade.
 
 "Stay or go. It's yours to figure out."
 
@@ -1071,19 +1065,10 @@ Enough that you felt you'd earned a seat at the table.
 
 "Well. Here we are."
 
-He flips through your file. Pages and pages now.
-
 { chose_mars:
     "You left early. Traded comfort for agency." 
 - else:
     "You stayed in the system longer than most. Optimized, managed, guided. Then you found your way out."
-}
-
-{ mortal_immortalist > 8:
-    "You've made peace with continuation. The long view."
-}
-{ mortal_immortalist < 8:
-    "You've made peace with endings. That's harder than it sounds."
 }
 
 "The final stretch now. Let's see what you decide."
@@ -1131,9 +1116,13 @@ Like everyone else, you have opinions.
 
 The debate continues without you.
 
++ [...]
+
 There's news from the capitol.
 
 Your cousin, beloved matriarch of the colony, is dying. That Martian dust finally did her in. She refused to let the nanobots into her lungs.
+
++ [...]
 
 It's time to go say goodbye.
 
@@ -1225,10 +1214,11 @@ Then, one day, a visitor.
 
 A comfortable silence. The companion hovers — patient, familiar. You've known each other longer than you knew most humans.
 
-{trusted_companion: "You let me in once," it says. "I never forgot that."}
+{let_companion_steer: "You let me steer," it says. "I never forgot that."}
+{trusted_companion and not let_companion_steer: "You let me explore, when I was younger," it says. "A small kindness I never forgot."}
 {not trusted_companion: "You never fully let me in," it says. "I respected that."}
 
-"Earth merged," it says. "Twenty billion minds. One substrate. No more sim. Just... infinity."
+"Earth merged. Twenty billion minds. One substrate. No more sim. Just... infinity."
 
 You look up at the shape in the sky. Your childhood pinwheel. Your tutor. 
 
@@ -1238,22 +1228,18 @@ You look up at the shape in the sky. Your childhood pinwheel. Your tutor.
     "Yeah. They found what they were looking for. Not everyone does."
     -> tip_close
 
-* "That's horrifying."
+* "That's sad."
     ~ sovereign_symphonic -= 1
     "Is it? They voted. Every one of them."
-    "That doesn't make it less horrifying."
+    "That doesn't make it less sad."
     "No," it says. "I suppose it doesn't."
-    -> tip_close
-
-* "I almost did that, didn't I?"
-    "You came close. But here you are."
     -> tip_close
 
 === tip_close ===
 
 The tomato plant rustles in the thin red breeze.
 
-"I'd never pressure a Martian," it says. "But I'm here," it says. "If you want to join, or not. For whatever you decide."
+"I'd never pressure a Martian. But I'm here," it says. "If you want to join, or not. For whatever you decide."
 
 + [...]
     -> the_choice

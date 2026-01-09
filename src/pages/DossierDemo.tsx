@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { AssessmentProse } from "../components/AssessmentProse";
 import { PALETTE } from "../styles/palette";
-import { getArchetypeFromScores } from "../data/epigrams";
 import { encode as encodeSeedPhrase, type AxisValues } from "../lib/seedPhrase";
+import { getComboProfile } from "../lib/comboSentences";
+import { scoresToBinaryKey, getArchetypeImagePath } from "../data/epigrams";
 
 // Generate random scores (0-15 for each axis, matching Ink story range)
 function randomScores(): AxisValues {
@@ -32,9 +33,6 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
 
   // Use passed values if available, otherwise use demo scores
   const scores = values ?? demoScores;
-
-  // Derive archetype from current scores
-  const archetype = getArchetypeFromScores(scores);
 
   const handleReroll = () => {
     setDemoScores(randomScores());
@@ -184,87 +182,84 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
             <AssessmentProse scores={scores} />
           </div>
 
-          {/* Oracle Section - THE VERDICT */}
-          <SectionHeader>Your Archetype</SectionHeader>
-
-          {/* Copyable Oracle Card - image left, text right, axes full width bottom */}
+          {/* Profile Card - title + image + sentence */}
           <DossierCard>
-            <div style={{ display: "flex", gap: "20px", marginBottom: "14px" }}>
-              {/* Left column - Archetype Image */}
+            <div style={{ display: "flex", gap: "20px", marginBottom: "16px" }}>
+              {/* Archetype Image */}
               <img
-                src={archetype.imagePath}
-                alt={archetype.title}
+                src={getArchetypeImagePath(scoresToBinaryKey(scores))}
+                alt="Your archetype"
                 style={{
-                  width: "180px",
-                  height: "180px",
+                  width: "140px",
+                  height: "140px",
                   borderRadius: "8px",
                   border: `2px solid ${PALETTE.institutionalTeal}`,
                   objectFit: "cover",
                   flexShrink: 0,
                 }}
               />
-              {/* Right column - title, epigram, seed phrase - vertically centered */}
-              <div style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}>
+              {/* Title + sentence */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
                 <h2
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
-                    fontSize: "1.5rem",
+                    fontSize: "1.4rem",
                     fontWeight: 700,
                     color: PALETTE.deepNavy,
-                    marginBottom: "12px",
+                    margin: 0,
+                    marginBottom: "10px",
                     lineHeight: 1.2,
                   }}
                 >
-                  {archetype.title}
+                  {getComboProfile(scores).title}
                 </h2>
                 <p
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
                     fontStyle: "italic",
-                    color: PALETTE.warmBrown,
-                    lineHeight: 1.6,
                     fontSize: "15px",
-                    margin: 0,
-                    marginBottom: "16px",
-                  }}
-                >
-                  {archetype.epigram}
-                </p>
-                {/* Seed phrase - subtle but readable */}
-                <div
-                  style={{
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontSize: "12px",
                     color: PALETTE.warmBrown,
-                    opacity: 0.65,
-                    letterSpacing: "1px",
+                    lineHeight: 1.5,
+                    margin: 0,
                   }}
                 >
-                  {encodeSeedPhrase(scores).split(" ").join("-")}
-                </div>
+                  {getComboProfile(scores).sentence}
+                </p>
               </div>
             </div>
-            {/* Axis readout - full width bottom */}
+
+            {/* Axis readout */}
             <div
               style={{
-                paddingTop: "12px",
+                paddingTop: "14px",
+                paddingBottom: "14px",
                 borderTop: `1px solid ${PALETTE.softBeige}`,
+                borderBottom: `1px solid ${PALETTE.softBeige}`,
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "center",
                 gap: "6px 14px",
-                fontSize: "9px",
+                fontSize: "10px",
                 fontFamily: "'Nunito', sans-serif",
                 textTransform: "uppercase",
                 letterSpacing: "1px",
               }}
             >
               <PoleReadout scores={scores} />
+            </div>
+
+            {/* Seed phrase */}
+            <div style={{ marginTop: "14px", textAlign: "center" }}>
+              <div
+                style={{
+                  fontFamily: "'Courier New', Courier, monospace",
+                  fontSize: "13px",
+                  color: PALETTE.deepNavy,
+                  letterSpacing: "2px",
+                }}
+              >
+                {encodeSeedPhrase(scores).split(" ").join("-")}
+              </div>
             </div>
           </DossierCard>
           <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>
@@ -310,19 +305,6 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
           <div style={{ marginTop: "28px" }}>
             <SectionHeader>Subscribe to Updates</SectionHeader>
             <DossierCard>
-              <p
-                style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: "13px",
-                  color: PALETTE.warmBrown,
-                  lineHeight: 1.5,
-                  margin: 0,
-                  marginBottom: "14px",
-                  textAlign: "center",
-                }}
-              >
-                You've been approved to advance to the next stage of your examination. Sign up to be notified when applications open.
-              </p>
               <iframe
                 src="https://winedark.ink/embed"
                 width="100%"

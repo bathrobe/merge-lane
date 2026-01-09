@@ -34,9 +34,12 @@ export interface UseAudioReturn {
   toggleMute: () => void;
 }
 
+const SFX_POOL_SIZE = 4; // Rotate through pool to avoid iOS audio reuse issues
+
 export function useAudio(): UseAudioReturn {
   const musicRefs = useRef<Map<MusicTrack, HTMLAudioElement>>(new Map());
-  const sfxRefs = useRef<Map<SfxTrack, HTMLAudioElement>>(new Map());
+  const sfxPoolRefs = useRef<Map<SfxTrack, HTMLAudioElement[]>>(new Map());
+  const sfxPoolIndex = useRef<Map<SfxTrack, number>>(new Map());
   const currentTrackRef = useRef<MusicTrack | null>(null);
   const fadeIntervalRef = useRef<number | null>(null);
   const [isMuted, setIsMuted] = useState(false);
@@ -54,13 +57,24 @@ export function useAudio(): UseAudioReturn {
     return audio;
   }, []);
 
-  const getOrCreateSfx = useCallback((name: SfxTrack): HTMLAudioElement => {
-    let audio = sfxRefs.current.get(name);
-    if (!audio) {
-      audio = new Audio(SFX_TRACKS[name]);
-      audio.volume = name === "phase-transition" ? JINGLE_VOLUME : SFX_VOLUME;
-      sfxRefs.current.set(name, audio);
+  // Get next audio element from pool (round-robin)
+  const getNextSfxFromPool = useCallback((name: SfxTrack): HTMLAudioElement => {
+    let pool = sfxPoolRefs.current.get(name);
+    if (!pool) {
+      // Create pool of audio elements
+      pool = Array.from({ length: SFX_POOL_SIZE }, () => {
+        const audio = new Audio(SFX_TRACKS[name]);
+        audio.volume = name === "phase-transition" ? JINGLE_VOLUME : SFX_VOLUME;
+        return audio;
+      });
+      sfxPoolRefs.current.set(name, pool);
+      sfxPoolIndex.current.set(name, 0);
     }
+
+    // Round-robin through pool
+    const currentIndex = sfxPoolIndex.current.get(name) ?? 0;
+    const audio = pool[currentIndex];
+    sfxPoolIndex.current.set(name, (currentIndex + 1) % SFX_POOL_SIZE);
     return audio;
   }, []);
 
@@ -69,10 +83,11 @@ export function useAudio(): UseAudioReturn {
     Object.keys(MUSIC_TRACKS).forEach((track) => {
       getOrCreateMusic(track as MusicTrack);
     });
+    // Preload SFX pools
     Object.keys(SFX_TRACKS).forEach((name) => {
-      getOrCreateSfx(name as SfxTrack);
+      getNextSfxFromPool(name as SfxTrack);
     });
-  }, [getOrCreateMusic, getOrCreateSfx]);
+  }, [getOrCreateMusic, getNextSfxFromPool]);
 
   // Fade out current music (returns promise that resolves when fade complete)
   const fadeOutMusic = useCallback((): Promise<void> => {
@@ -192,7 +207,7 @@ export function useAudio(): UseAudioReturn {
 
   const playSfx = useCallback((name: SfxTrack): Promise<void> => {
     if (isMutedRef.current) return Promise.resolve();
-    const audio = getOrCreateSfx(name);
+    const audio = getNextSfxFromPool(name);
     audio.currentTime = 0;
 
     return new Promise((resolve) => {
@@ -207,7 +222,7 @@ export function useAudio(): UseAudioReturn {
         resolve();
       });
     });
-  }, [getOrCreateSfx]);
+  }, [getNextSfxFromPool]);
 
   const toggleMute = useCallback(() => {
     const newMuted = !isMutedRef.current;

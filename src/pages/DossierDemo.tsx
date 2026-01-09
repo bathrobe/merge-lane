@@ -5,6 +5,7 @@ import { encode as encodeSeedPhrase, type AxisValues } from "../lib/seedPhrase";
 import { getComboProfile } from "../lib/comboSentences";
 import { scoresToBinaryKey, getArchetypeImagePath } from "../data/epigrams";
 import { copyElementAsImage } from "../lib/copyCard";
+import { useIsMobile } from "../hooks/useMediaQuery";
 
 // Generate random scores (0-15 for each axis, matching Ink story range)
 function randomScores(): AxisValues {
@@ -33,6 +34,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
   const [demoScores, setDemoScores] = useState<AxisValues>(randomScores);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copying" | "copied" | "error">("idle");
   const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   // Use passed values if available, otherwise use demo scores
   const scores = values ?? demoScores;
@@ -132,14 +134,16 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
             }}
           />
 
-          {/* Masthead - Seal left, text right */}
+          {/* Masthead - Seal left, text right (stacks on mobile) */}
           <div
             style={{
               display: "flex",
+              flexDirection: isMobile ? "column" : "row",
               alignItems: "center",
-              gap: "20px",
+              gap: isMobile ? "16px" : "20px",
               marginBottom: "28px",
-              paddingLeft: "8px",
+              paddingLeft: isMobile ? 0 : "8px",
+              textAlign: isMobile ? "center" : "left",
             }}
           >
             {/* Institute Seal */}
@@ -156,7 +160,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               }}
             />
             {/* Text content */}
-            <div style={{ flex: 1, paddingLeft: "12px" }}>
+            <div style={{ flex: 1, paddingLeft: isMobile ? 0 : "12px" }}>
               <h1
                 style={{
                   fontFamily: "'Libre Baskerville', serif",
@@ -205,7 +209,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
           {/* Profile Card - title + image + sentence */}
           <div ref={cardRef}>
           <DossierCard>
-            <div style={{ display: "flex", gap: "20px", marginBottom: "16px" }}>
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "flex-start", gap: isMobile ? "16px" : "20px", marginBottom: "16px" }}>
               {/* Archetype Image */}
               <img
                 src={getArchetypeImagePath(scoresToBinaryKey(scores))}
@@ -220,7 +224,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
                 }}
               />
               {/* Title + sentence */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: isMobile ? "center" : "left" }}>
                 <div
                   style={{
                     fontFamily: "'Nunito', sans-serif",

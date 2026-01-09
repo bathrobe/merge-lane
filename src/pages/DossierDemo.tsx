@@ -26,7 +26,6 @@ interface DossierDemoProps {
 
 // Dossier prototype page - matches the HTML mockup but in React
 export function DossierDemo({ values, onReset }: DossierDemoProps) {
-  const [email, setEmail] = useState("");
   // Demo mode: allow rerolling. Production mode: use passed values.
   const isDemoMode = values === undefined;
   const [demoScores, setDemoScores] = useState<AxisValues>(randomScores);
@@ -324,32 +323,13 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               >
                 You've been approved to advance to the next stage of your examination. Sign up to be notified when applications open.
               </p>
-            <div style={{ display: "flex", gap: "8px" }}>
-              <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={{
-                  flex: 1,
-                  padding: "10px 14px",
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: "13px",
-                  border: `1px solid ${PALETTE.softBeige}`,
-                  borderRadius: "6px",
-                  background: "white",
-                  color: PALETTE.deepNavy,
-                }}
-              />
-              <CopyButton
-                onClick={() => {
-                  const url = `https://winedark.ink/subscribe?email=${encodeURIComponent(email)}`;
-                  window.open(url, "_blank");
-                }}
-              >
-                Subscribe
-              </CopyButton>
-            </div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <CopyButton
+                  onClick={() => window.open("https://winedark.ink/subscribe", "_blank")}
+                >
+                  Subscribe
+                </CopyButton>
+              </div>
             </DossierCard>
           </div>
         </div>

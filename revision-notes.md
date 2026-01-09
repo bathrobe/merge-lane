@@ -195,10 +195,10 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~The insight here: you chose difficulty and it paid off — but show it, don't just tell~~ ✓
 
 ### Sim Reflection Path
-- The insight: you might live forever. Everything in the sim is preserved infinitely.
-- The only thing still bound by time is your cousin and the mortals on Mars.
-- So you go to Mars not to escape, but because that's the one thing that won't wait.
-- This gives the sim path a different flavor — you're not fleeing, you're recognizing what's actually scarce.
+- ~~The insight: you might live forever. Everything in the sim is preserved infinitely.~~ ✓ (fine as-is)
+- ~~The only thing still bound by time is your cousin and the mortals on Mars.~~ ✓
+- ~~So you go to Mars not to escape, but because that's the one thing that won't wait.~~ ✓
+- ~~This gives the sim path a different flavor — you're not fleeing, you're recognizing what's actually scarce.~~ ✓
 
 ### Interstitial: To Old Age
 - ~~Fine as-is~~ ✓

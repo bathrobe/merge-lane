@@ -357,41 +357,7 @@ A little death passes over your body. A brief glimpse into total dissolution int
 
 {not took_the_stick: Your phone buzzes. Family group chat. "Come to the hospital. It's Grandpa." Thank god you didn't plug that ClearStream.}
 
-Your parents huddle by the window, talking about a new procedure. Uploading him. So you can talk to a version of him in the sim.
-
-Grandpa's eyes are closed. You don't know if he's asleep or just done listening.
-
-* [This is good news. He doesn't have to die.]
-    ~ mortal_immortalist += 1
-    Death is optional now. That's the whole point of progress, isn't it? Keep the people you love.
-    -> adolescence_grandpa_end
-
-* [This is horrifying. Let him go.]
-    ~ mortal_immortalist -= 1
-    A copy isn't him. It's a recording. A very convincing voicemail. Let the man rest.
-    -> adolescence_grandpa_end
-
-* "What does *he* want?"
-    Nobody's asking him. He's right there.
-    * * [If he wants to stay, I'd want that too.]
-        ~ mortal_immortalist += 1
-        His choice. But if he wants to stick around — in any form — you'd take it.
-        -> adolescence_grandpa_end
-    * * [If he wants to go, I'd let him go.]
-        ~ mortal_immortalist -= 1
-        His choice. And if that choice is to end, you'd respect it. Even if it hurts.
-        -> adolescence_grandpa_end
-    * * [It's his call. I just want him to have one.]
-        ~ sovereign_symphonic -= 1
-        Not your decision. Not your parents' decision. His.
-        -> adolescence_grandpa_end
-
-* {took_the_stick} [You're too high to process this right now.]
-    ~ apollonian_dionysian += 1
-    Your brain is soup. You sit down. You breathe. You try not to think about mortality while your neurons are doing whatever they're doing.
-    -> adolescence_grandpa_end
-
-=== adolescence_grandpa_end ===
++ [...]
 
 {took_the_stick:
     Your family's eyes find you as you enter. "Where have you been? He was asking for you."
@@ -400,6 +366,42 @@ Grandpa's eyes are closed. You don't know if he's asleep or just done listening.
 {not took_the_stick:
     You enter with a clear head. You're glad you said no. You're here for this.
 }
+
+Your parents huddle by the window, talking about a new procedure. Uploading him. So you can talk to a version of him in the sim.
+
+Grandpa's eyes are closed. You don't know if he's asleep or just done listening.
+
+* * [This is good news. He doesn't have to die.]
+        ~ mortal_immortalist += 1
+        Death is optional now. That's the whole point of progress, isn't it? Keep the people you love.
+        -> adolescence_grandpa_end
+
+    * * [This is horrifying. Let him go.]
+        ~ mortal_immortalist -= 1
+        A copy isn't him. It's a recording. A very convincing voicemail. Let the man rest.
+        -> adolescence_grandpa_end
+
+    * * "What does *he* want?"
+        Nobody's asking him. He's right there.
+        * * * [If he wants to stay, I'd want that too.]
+            ~ mortal_immortalist += 1
+            His choice. But if he wants to stick around — in any form — you'd take it.
+            -> adolescence_grandpa_end
+        * * * [If he wants to go, I'd let him go.]
+            ~ mortal_immortalist -= 1
+            His choice. And if that choice is to end, you'd respect it. Even if it hurts.
+            -> adolescence_grandpa_end
+        * * * [It's his call. I just want him to have one.]
+            ~ sovereign_symphonic -= 1
+            Not your decision. Not your parents' decision. His.
+            -> adolescence_grandpa_end
+
+    * * {took_the_stick} [You're too high to process this right now.]
+        ~ apollonian_dionysian += 1
+        Your brain is soup. You sit down. You breathe. You try not to think about mortality while your neurons are doing whatever they're doing.
+        -> adolescence_grandpa_end
+
+=== adolescence_grandpa_end ===
 
 The adults keep talking. The machine hums. Grandpa doesn't open his eyes.
 
@@ -496,15 +498,13 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
         ~ anthro_xeno += 1
         He smiles — or the projection of a smile. "It is. You should visit sometime."
         The meal winds down. Dishes clear themselves. You hug shapes goodbye — some warm, some flickering.
-        Later, on the train home, your feed pings with something new.
-        -> grandpa_ghost_end
+                -> grandpa_ghost_end
     * * "Do you know you're dead?"
         ~ anthro_xeno -= 1
         The table goes quiet. Grandpa's expression doesn't change — it can't, really.
         "I know what I am," he says. "Does it matter?"
         Dinner doesn't recover. You leave early, your cousin's eyes on your back.
-        On the train home, your feed pings.
-        -> grandpa_ghost_end
+                -> grandpa_ghost_end
 
 * [Catch your cousin's eye. Share a look.]
     She catches it. Holds it. The faintest eye-roll toward the shimmering hologram.
@@ -512,14 +512,12 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
         ~ anthro_xeno -= 1
         She snorts quietly. For a second, you're the only real people in the room.
         The meal dissolves into small talk. You help clear dishes that don't need clearing.
-        On the train home, your feed pings.
-        -> grandpa_ghost_end
+                -> grandpa_ghost_end
     * * [Shrug. It's weird, but what isn't?]
         ~ anthro_xeno += 1
         She looks away, maybe disappointed. You've made your peace with the shimmer.
         The meal winds down. You say goodbye to everyone, dead and alive.
-        On the train home, your feed pings.
-        -> grandpa_ghost_end
+                -> grandpa_ghost_end
 
 * "Let's talk politics. What could go wrong?"
     The table braces.
@@ -528,8 +526,7 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
         Your mother's fork stops mid-air. "He wanted this."
         "Did he? Or did you?"
         Nobody finishes dessert. You leave with the argument still hanging in the air.
-        On the train home, your feed pings.
-        -> grandpa_ghost_end
+                -> grandpa_ghost_end
     * * "Did you hear about the neighbors? Self-rapture."
         The word hangs there. Your father clears his throat.
         * * * "Government banned it. I think that's wrong."
@@ -537,15 +534,13 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
             Your father sighs. "Not at the table."
             But you said it. People should be allowed to dissolve if they want to.
             The dinner limps to a close. Hugs are brief.
-            On the train home, your feed pings.
-            -> grandpa_ghost_end
+                        -> grandpa_ghost_end
         * * * "Good riddance, honestly."
             ~ sovereign_symphonic -= 1
             Your cousin nods. "Finally, someone said it."
             The table splits — half offended, half relieved someone broke the silence.
             Dinner ends in fragments. You and your cousin walk out together.
-            On the train home, your feed pings.
-            -> grandpa_ghost_end
+                        -> grandpa_ghost_end
     * * "You're really going to Mars, cousin?"
         She sets down her fork. "Thinking about it."
         * * * "Take me with you. I've had it with the modern world."
@@ -553,15 +548,13 @@ You're at your parents' house. Your unmodified cousin flew in from somewhere rur
             She laughs. "You wouldn't last a week without your feed."
             Maybe. But the thought stays with you through dessert.
             You hug her goodbye longer than usual.
-            On the train home, your feed pings.
-            -> grandpa_ghost_end
+                        -> grandpa_ghost_end
         * * * "I don't think I could do that. I like living in the future."
             ~ accel_steward -= 1
             She nods, unsurprised. "Most people do."
             Is that pity in her voice? Or just observation?
             The dinner ends warmly enough. You hug her goodbye, already forgetting the weight of it.
-            On the train home, your feed pings.
-            -> grandpa_ghost_end
+                        -> grandpa_ghost_end
 
 === grandpa_ghost_end ===
 + [...]

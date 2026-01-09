@@ -166,7 +166,7 @@ Look for opportunities to add illegible options throughout. "Illegible" in the p
 - ~~Balance out existential dread with acceptance~~ ✓
 
 ### Companion President
-- **Image:** fix clipping — show full face and torso at lectern
+- ~~**Image:** fix clipping — show full face and torso at lectern~~ ✓ (regenerated: Clyde on floating screen in pod)
 - ~~Cut "not that anyone polls anymore" — unnecessary~~ ✓
 - Make choices more expressive — show player's feeling, not just dialogue:
   - Warm: "A fond nostalgia for learning math... you've got friends in high places. 'Hello, old friend.'"

@@ -56,7 +56,7 @@ function BottomHardwareContent() {
         className="font-mono text-[9px] uppercase tracking-wider"
         style={{ color: "#9DBDBD" }}
       >
-        © 2026 Seph News
+        © 2026 Wine Dark, Inc
       </span>
       <span style={{ color: "#4D7A7A" }}>•</span>
       <span

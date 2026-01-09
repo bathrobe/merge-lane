@@ -25,28 +25,30 @@ const AXIS_ORDER: (keyof AxisValues)[] = [
 
 /**
  * Encode 7 axis values (4 bits each) into a 3-word seed phrase.
+ * Uses BigInt to avoid 32-bit overflow (we need 33 bits).
  */
 export function encode(axes: AxisValues): string {
   // Pack 7 × 4-bit values into 28 bits
-  let bits = 0;
+  let bits = 0n;
   for (const axis of AXIS_ORDER) {
     const value = Math.max(0, Math.min(15, axes[axis])); // clamp to 0-15
-    bits = (bits << 4) | value;
+    bits = (bits << 4n) | BigInt(value);
   }
 
   // Add 5 bits padding to make 33 bits (divisible into 3 × 11)
-  bits = bits << 5;
+  bits = bits << 5n;
 
   // Extract three 11-bit indices
-  const word3Index = bits & 0x7ff;
-  const word2Index = (bits >> 11) & 0x7ff;
-  const word1Index = (bits >> 22) & 0x7ff;
+  const word3Index = Number(bits & 0x7ffn);
+  const word2Index = Number((bits >> 11n) & 0x7ffn);
+  const word1Index = Number((bits >> 22n) & 0x7ffn);
 
   return `${seedWords[word1Index]} ${seedWords[word2Index]} ${seedWords[word3Index]}`;
 }
 
 /**
  * Decode a 3-word seed phrase back into axis values.
+ * Uses BigInt to avoid 32-bit overflow (we need 33 bits).
  */
 export function decode(phrase: string): AxisValues | null {
   const words = phrase.toLowerCase().trim().split(/\s+/);
@@ -56,31 +58,28 @@ export function decode(phrase: string): AxisValues | null {
   if (indices.some((i) => i === -1)) return null;
 
   // Reconstruct 33 bits from three 11-bit indices
-  let bits = (indices[0] << 22) | (indices[1] << 11) | indices[2];
+  let bits = (BigInt(indices[0]) << 22n) | (BigInt(indices[1]) << 11n) | BigInt(indices[2]);
 
   // Remove 5-bit padding
-  bits = bits >> 5;
+  bits = bits >> 5n;
 
   // Extract 7 × 4-bit values (in reverse order)
   const values: number[] = [];
   for (let i = 0; i < 7; i++) {
-    values.unshift(bits & 0xf);
-    bits = bits >> 4;
+    values.unshift(Number(bits & 0xfn));
+    bits = bits >> 4n;
   }
 
-  // Build axis object with defaults, then override with decoded values
+  // Build axis object
   const result: AxisValues = {
-    legible_illegible: 8,
-    sovereign_symphonic: 8,
-    anthro_xeno: 8,
-    mortal_immortalist: 8,
-    accel_steward: 8,
-    aligned_autonomous: 8,
-    apollonian_dionysian: 8,
+    legible_illegible: values[0],
+    sovereign_symphonic: values[1],
+    anthro_xeno: values[2],
+    mortal_immortalist: values[3],
+    accel_steward: values[4],
+    aligned_autonomous: values[5],
+    apollonian_dionysian: values[6],
   };
-  AXIS_ORDER.forEach((axis, i) => {
-    result[axis] = values[i] ?? 8;
-  });
 
   return result;
 }

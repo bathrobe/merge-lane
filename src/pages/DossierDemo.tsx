@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { AssessmentProse } from "../components/AssessmentProse";
 import { PALETTE } from "../styles/palette";
 import { encode as encodeSeedPhrase, type AxisValues } from "../lib/seedPhrase";
 import { getComboProfile } from "../lib/comboSentences";
 import { scoresToBinaryKey, getArchetypeImagePath } from "../data/epigrams";
+import { copyElementAsImage } from "../lib/copyCard";
 
 // Generate random scores (0-15 for each axis, matching Ink story range)
 function randomScores(): AxisValues {
@@ -30,6 +31,8 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
   // Demo mode: allow rerolling. Production mode: use passed values.
   const isDemoMode = values === undefined;
   const [demoScores, setDemoScores] = useState<AxisValues>(randomScores);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copying" | "copied" | "error">("idle");
+  const cardRef = useRef<HTMLDivElement>(null);
 
   // Use passed values if available, otherwise use demo scores
   const scores = values ?? demoScores;
@@ -37,6 +40,23 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
   const handleReroll = () => {
     setDemoScores(randomScores());
   };
+
+  const handleCopyImage = async () => {
+    if (!cardRef.current) return;
+    setCopyStatus("copying");
+    const success = await copyElementAsImage(cardRef.current);
+    setCopyStatus(success ? "copied" : "error");
+    if (success) {
+      setTimeout(() => setCopyStatus("idle"), 2000);
+    }
+  };
+
+  const copyButtonLabel = {
+    idle: "Copy Image",
+    copying: "Copying...",
+    copied: "Copied!",
+    error: "Failed",
+  }[copyStatus];
 
   return (
     <div
@@ -124,7 +144,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
           >
             {/* Institute Seal */}
             <img
-              src="/backgrounds/masthead-riff-2.jpg"
+              src="/backgrounds/seal_pinwheel_flat.jpg"
               alt="Institute Seal"
               style={{
                 width: "140px",
@@ -183,6 +203,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
           </div>
 
           {/* Profile Card - title + image + sentence */}
+          <div ref={cardRef}>
           <DossierCard>
             <div style={{ display: "flex", gap: "20px", marginBottom: "16px" }}>
               {/* Archetype Image */}
@@ -200,6 +221,19 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               />
               {/* Title + sentence */}
               <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <div
+                  style={{
+                    fontFamily: "'Nunito', sans-serif",
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                    color: PALETTE.institutionalTeal,
+                    marginBottom: "4px",
+                  }}
+                >
+                  Your Archetype
+                </div>
                 <h2
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
@@ -217,7 +251,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
                   style={{
                     fontFamily: "'Libre Baskerville', serif",
                     fontStyle: "italic",
-                    fontSize: "15px",
+                    fontSize: "17px",
                     color: PALETTE.warmBrown,
                     lineHeight: 1.5,
                     margin: 0,
@@ -228,12 +262,33 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               </div>
             </div>
 
+            {/* Decorative flourish */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                margin: "16px 0",
+              }}
+            >
+              <span style={{ flex: 1, height: "1px", background: PALETTE.softBeige }} />
+              <span
+                style={{
+                  color: PALETTE.institutionalTeal,
+                  fontSize: "14px",
+                  opacity: 0.6,
+                }}
+              >
+                ✦
+              </span>
+              <span style={{ flex: 1, height: "1px", background: PALETTE.softBeige }} />
+            </div>
+
             {/* Axis readout */}
             <div
               style={{
-                paddingTop: "14px",
                 paddingBottom: "14px",
-                borderTop: `1px solid ${PALETTE.softBeige}`,
                 borderBottom: `1px solid ${PALETTE.softBeige}`,
                 display: "flex",
                 flexWrap: "wrap",
@@ -262,8 +317,9 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
               </div>
             </div>
           </DossierCard>
+          </div>
           <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>
-            <CopyButton>Copy Image</CopyButton>
+            <CopyButton onClick={handleCopyImage}>{copyButtonLabel}</CopyButton>
             {isDemoMode && <CopyButton onClick={handleReroll}>Reroll</CopyButton>}
             {onReset && <CopyButton onClick={onReset}>Return to Menu</CopyButton>}
           </div>
@@ -391,26 +447,14 @@ function PoleReadout({ scores }: { scores: Record<string, number> }) {
     <>
       {Object.entries(AXIS_POLES).map(([key, [lowPole, highPole]]) => {
         const score = scores[key] ?? 8;
-        const isHighPole = score >= 8;
-        const poleName = isHighPole ? highPole : lowPole;
-
-        // Distance from center (8) determines strength
-        const distance = Math.abs(score - 8);
-        // 0-2 = weak, 3-5 = medium, 6-8 = strong
-        const strength = distance <= 2 ? "weak" : distance <= 5 ? "medium" : "strong";
-
-        const styleMap = {
-          weak: { fontWeight: 400, opacity: 0.4 },
-          medium: { fontWeight: 600, opacity: 0.65 },
-          strong: { fontWeight: 700, opacity: 1 },
-        };
+        const poleName = score >= 8 ? highPole : lowPole;
 
         return (
           <span
             key={key}
             style={{
               color: PALETTE.warmBrown,
-              ...styleMap[strength],
+              fontWeight: 600,
             }}
           >
             {poleName}

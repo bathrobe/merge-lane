@@ -158,7 +158,7 @@ function TitleScreen({ onNewGame, onContinue, hasSave }: TitleScreenProps) {
           <div className="p-8 text-center">
             {/* Institute Seal */}
             <img
-              src="/backgrounds/masthead-riff-2.jpg"
+              src="/backgrounds/seal_pinwheel_flat.jpg"
               alt="Institute Seal"
               className="mx-auto mb-6"
               style={{

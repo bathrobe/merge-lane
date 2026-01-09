@@ -1,8 +1,11 @@
 import { domToPng } from "modern-screenshot";
 
 const SCREENSHOT_CONFIG = {
-  backgroundColor: "#111827", // gray-900
+  backgroundColor: "#F5F0E6", // cream - matches the dossier viewport background
   scale: 2,
+  font: {
+    preferredFormat: "woff2" as const,
+  },
 };
 
 /**

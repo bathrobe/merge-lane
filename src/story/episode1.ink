@@ -1117,13 +1117,13 @@ Like everyone else, you have opinions.
 The debate continues without you.
 
 + [...]
-
+-
 There's news from the capitol.
 
 Your cousin, beloved matriarch of the colony, is dying. That Martian dust finally did her in. She refused to let the nanobots into her lungs.
 
 + [...]
-
+-
 It's time to go say goodbye.
 
 + [...]

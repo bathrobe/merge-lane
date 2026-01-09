@@ -316,6 +316,20 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
                 {encodeSeedPhrase(scores).split(" ").join("-")}
               </div>
             </div>
+
+            {/* URL watermark */}
+            <div
+              style={{
+                marginTop: "12px",
+                textAlign: "center",
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "11px",
+                color: PALETTE.softBeige,
+                letterSpacing: "1px",
+              }}
+            >
+              merge.winedark.ink
+            </div>
           </DossierCard>
           </div>
           <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>

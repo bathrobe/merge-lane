@@ -230,8 +230,6 @@ Ah, there he is. The ancient one. He's nicer than the others, and around more. H
 === interstitial_to_adolescence ===
 # background: void
 
-Examiner:
-
 { sovereign_symphonic < 8:
     "You hold yourself apart."
 }
@@ -427,8 +425,6 @@ You close your eyes. Tomorrow there's school — no, wait. They tore it down.
 
 === interstitial_to_young_adult ===
 # background: void
-
-Examiner:
 
 "Good. You're older now. The edges are forming."
 
@@ -677,8 +673,6 @@ It descends slightly.
 
 === interstitial_to_middle_age ===
 # background: void
-
-Examiner:
 
 "Good. You're in the middle now."
 
@@ -1068,8 +1062,6 @@ Enough that you felt you'd earned a seat at the table.
 
 === interstitial_to_old_age ===
 # background: void
-
-Examiner:
 
 "Well. Here we are."
 

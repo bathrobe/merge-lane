@@ -208,6 +208,9 @@ export function useAudio(): UseAudioReturn {
   const playSfx = useCallback((name: SfxTrack): Promise<void> => {
     if (isMutedRef.current) return Promise.resolve();
     const audio = getNextSfxFromPool(name);
+
+    // iOS Safari: must pause + reset before replay to avoid silent failures
+    audio.pause();
     audio.currentTime = 0;
 
     return new Promise((resolve) => {

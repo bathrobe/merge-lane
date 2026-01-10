@@ -175,7 +175,7 @@ function TitleScreen({ onNewGame, onContinue, hasSave }: TitleScreenProps) {
               className="font-baskerville text-3xl mb-8"
               style={{ color: PALETTE.deepNavy }}
             >
-              Merge Screening
+              Merge Lane
             </h1>
 
             {/* Buttons */}

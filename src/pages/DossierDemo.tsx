@@ -404,7 +404,7 @@ export function DossierDemo({ values, onReset }: DossierDemoProps) {
             <SectionHeader>Subscribe to Updates</SectionHeader>
             <DossierCard>
               <iframe
-                src="https://winedark.ink/embed"
+                src={`${SUBSTACK_URL}/embed`}
                 width="100%"
                 height="150"
                 style={{
@@ -575,7 +575,7 @@ function CopyButton({
 }
 
 // Substack subscribe URL
-const SUBSTACK_URL = "https://winedark.ink";
+const SUBSTACK_URL = "https://sephnews.substack.com";
 
 interface MobileDossierContentProps {
   scores: AxisValues;

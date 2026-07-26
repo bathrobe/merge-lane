@@ -1,10 +1,8 @@
 /**
- * Placeholder Substack signup embed.
- * TODO: Replace SUBSTACK_URL with actual publication URL once decided.
+ * Substack signup embed.
  */
 
-// Placeholder - replace with actual Substack publication URL
-const SUBSTACK_URL = "https://yourpublication.substack.com";
+const SUBSTACK_URL = "https://sephnews.substack.com";
 
 function SubstackSignup() {
   return (
